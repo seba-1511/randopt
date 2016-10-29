@@ -4,7 +4,7 @@ Random search optimization and experiment logging. Support async, fancy visualiz
 ## Example
 Here's a 
 
-```
+```python
 #!/usr/bin/env python
 
 import randopt as ro
