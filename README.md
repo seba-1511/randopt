@@ -2,7 +2,7 @@
 Random search optimization and experiment logging. Support async, fancy visualization, distributed execution. 
 
 ## Example
-Here's a 
+Here's a short example on how to use `randopt`.
 
 ```python
 #!/usr/bin/env python
