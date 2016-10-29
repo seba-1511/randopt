@@ -8,8 +8,12 @@ def loss(x):
 if __name__ == '__main__':
 
     e = ro.Experiment('myexp', {
-            'alpha': ro.Normal(low=-1.0, high=1.0, dtype='float'),
+            # 'alpha': ro.Normal(low=-1.0, high=1.0, dtype='float'),
+            'alpha': ro.Gaussian(mean=0.0, std=1.0, dtype='float'),
+            # 'alpha': ro.Choice([0.01, 0.05, 0.1, 0.5, 0.7, 0.9], sampler=ro.Uniform()),
         })
+
+    # e.seed(1234)
 
     for i in xrange(100):
         alpha = e.sample_alpha()
