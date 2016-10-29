@@ -3,12 +3,18 @@
 import os
 import json
 import random
+import cPickle as pk
 
 from time import time
 from collections import namedtuple
 
 """
 This file implements the Experiment class.
+
+TODO: 
+    * Add option to check if experiment was already ran. (search through json)
+    * Add option to run Bayesian opti, based on previous exp.
+    * Unit tests
 """
 
 leq = lambda x, y: x <= y
@@ -83,8 +89,16 @@ class Experiment(object):
 
     def save_state(self, path):
         """Saves the random state of the variables into a file"""
-        pass
+        states = dict()
+        for key in self.params:
+            states[key] = self.params[key].get_state()
+        with open(path, 'wb') as f:
+            pk.dump(states, f, protocol=-1)
 
     def set_state(self, path):
         """Sets the random state of variables from a file"""
-        pass
+        with open(path, 'rb') as f:
+            states = pk.load(f)
+            for key in self.params:
+                if key in states:
+                    self.params[key].set_state(states[key])

@@ -9,6 +9,7 @@ TODO:
     * Add support for sampling over lists of values. 
       Eg: ro.Uniform([1, 2, 4, 8]) uniformly samples over the list.
     * Add support for more sampling schemes. (Loguniform, Poisson, etc...)
+    * Unit tests
 """
 
 class Sampler(object):
@@ -17,10 +18,16 @@ class Sampler(object):
         self.rng = random.Random()
 
     def sample(self):
-        raise('Class not instantiable')
+        raise('Sampler should not be instantiated')
 
     def seed(self, seed_val):
         self.rng.seed(seed_val)
+
+    def get_state(self):
+        self.rng.getstate()
+
+    def set_state(self, state):
+        self.rng.setstate(state)
 
 
 class Uniform(Sampler):
