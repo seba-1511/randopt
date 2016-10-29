@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+import os
+import json
+import random
+from time import time
+
 """
 This file implements the Experiment class.
 """
@@ -11,7 +16,15 @@ class Experiment(object):
         self.params = params
         for key in params:
             setattr(self, 'sample_' + key, self._sample(key))
+            setattr(self, 'set_' + key, self._set(key))
             setattr(self, key, None)
+        cwd = os.getcwd()
+        randopt_folder = os.path.join(cwd, 'randopt_results')
+        if not os.path.exists(randopt_folder):
+            os.mkdir(randopt_folder)
+        self.experiment_path = os.path.join(randopt_folder, self.name)
+        if not os.path.exists(self.experiment_path):
+            os.mkdir(self.experiment_path)
 
     @property
     def opt_value(self):
@@ -28,12 +41,25 @@ class Experiment(object):
             return value
         return fn
 
+    def _set(self, key):
+        def fn(value):
+            setattr(self, key, value)
+            return value
+        return fn
+
     def seed(self, seed):
         for key in self.params:
             self.params[key].seed(seed)
 
-    def add_result(self, result, additional_data=None):
-        pass
+    def add_result(self, result, data=None):
+        """Data is a dict containing additional data about the experiment"""
+        res = {'result': result}
+        for key in self.params:
+            res[key] = getattr(self, key)
+        fname = str(time()) + '_' + str(random.random()) + '.json'
+        fpath = os.path.join(self.experiment_path, fname)
+        with open(fpath, 'w') as f:
+            json.dump(res, f)
 
     def save_state(self, path):
         """Saves the random state of the variables into a file"""
