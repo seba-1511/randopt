@@ -13,13 +13,21 @@ if __name__ == '__main__':
             # 'alpha': ro.Choice([0.01, 0.05, 0.1, 0.5, 0.7, 0.9], sampler=ro.Uniform()),
         })
 
+    # Seeding will make all of your searches reproducible. (Usually not wanted) 
     # e.seed(1234)
 
+    # Randomly sampling parameters
     for i in xrange(100):
         alpha = e.sample_alpha()
         res = loss(e.alpha)
         print 'Result: ', res
         e.add_result(res)
 
+    # Manually setting parameters
+    e.alpha = 0.00001
+    res = loss(e.alpha)
+    e.add_result(res)
+
+    # Search over all experiments results, including ones from previous runs
     opt = e.minimum()
     print 'Best result: ', opt.value, ' with params: ', opt.params
