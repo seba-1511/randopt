@@ -11,7 +11,6 @@ if __name__ == '__main__':
             'alpha': ro.Uniform(low=-1.0, high=1.0, dtype='float'),
         })
 
-    e.seed(1234)
     for i in xrange(100):
         alpha = e.sample_alpha()
         res = loss(e.alpha)

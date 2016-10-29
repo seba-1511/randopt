@@ -20,6 +20,8 @@ TODO:
 leq = lambda x, y: x <= y
 geq = lambda x, y: x >= y
 
+OptResult = namedtuple('OptResult', ['value', 'params'])
+
 
 class Experiment(object):
 
@@ -52,10 +54,7 @@ class Experiment(object):
         return fn
 
     def _search(self, fn=leq):
-        opt = namedtuple('OptResult', ['value', 'params'])
-        opt.value = None
-        opt.params = None
-
+        opt = OptResult(value=None, params=None)
         for fname in os.listdir(self.experiment_path):
             base, ext = os.path.splitext(fname)
             if 'json' in ext:
