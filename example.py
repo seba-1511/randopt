@@ -18,4 +18,5 @@ if __name__ == '__main__':
         print 'Result: ', res
         e.add_result(res)
 
-    print 'Best result: ', e.opt_value, ' with params: ', e.opt_params
+    opt = e.minimum()
+    print 'Best result: ', opt.value, ' with params: ', opt.params

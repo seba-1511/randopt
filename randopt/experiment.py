@@ -3,11 +3,17 @@
 import os
 import json
 import random
+
 from time import time
+from collections import namedtuple
 
 """
 This file implements the Experiment class.
 """
+
+leq = lambda x, y: x <= y
+geq = lambda x, y: x >= y
+
 
 class Experiment(object):
 
@@ -26,14 +32,6 @@ class Experiment(object):
         if not os.path.exists(self.experiment_path):
             os.mkdir(self.experiment_path)
 
-    @property
-    def opt_value(self):
-        return 1.1
-
-    @property
-    def opt_params(self):
-        return 0.0
-
     def _sample(self, key):
         def fn():
             value = self.params[key].sample()
@@ -46,6 +44,28 @@ class Experiment(object):
             setattr(self, key, value)
             return value
         return fn
+
+    def _search(self, fn=leq):
+        opt = namedtuple('OptResult', ['value', 'params'])
+        opt.value = None
+        opt.params = None
+
+        for fname in os.listdir(self.experiment_path):
+            base, ext = os.path.splitext(fname)
+            if 'json' in ext:
+                fpath = os.path.join(self.experiment_path, fname)
+                with open(fpath, 'r') as f:
+                    res = json.load(f)
+                    if opt.value is None or fn(res['result'], opt.value):
+                        opt.value = res['result']
+                        opt.params = res
+        return opt
+
+    def maximum(self):
+        return self._search(geq)
+
+    def minimum(self):
+        return self._search(leq)
 
     def seed(self, seed):
         for key in self.params:
