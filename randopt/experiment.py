@@ -54,17 +54,17 @@ class Experiment(object):
         return fn
 
     def _search(self, fn=leq):
-        opt = OptResult(value=None, params=None)
+        value, params = None, None
         for fname in os.listdir(self.experiment_path):
             base, ext = os.path.splitext(fname)
             if 'json' in ext:
                 fpath = os.path.join(self.experiment_path, fname)
                 with open(fpath, 'r') as f:
                     res = json.load(f)
-                    if opt.value is None or fn(res['result'], opt.value):
-                        opt.value = res['result']
-                        opt.params = res
-        return opt
+                    if value is None or fn(res['result'], value):
+                        value = res['result']
+                        params = res
+        return OptResult(value, params)
 
     def maximum(self):
         return self._search(geq)

@@ -8,7 +8,7 @@ def loss(x):
 if __name__ == '__main__':
 
     e = ro.Experiment('myexp', {
-            'alpha': ro.Uniform(low=-1.0, high=1.0, dtype='float'),
+            'alpha': ro.Normal(low=-1.0, high=1.0, dtype='float'),
         })
 
     for i in xrange(100):
