@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os
-import json
+import json as json
 import random
 import cPickle as pk
 
@@ -11,7 +11,7 @@ from collections import namedtuple
 """
 This file implements the Experiment class.
 
-TODO: 
+TODO:
     * Add option to check if experiment was already ran. (search through json)
     * Add option to run Bayesian opti, based on previous exp.
     * Unit tests
@@ -42,16 +42,20 @@ class Experiment(object):
 
     def _sample(self, key):
         def fn():
-            value = self.params[key].sample()
-            setattr(self, key, value)
-            return value
+            self.sample(key)
         return fn
 
     def _set(self, key):
         def fn(value):
-            setattr(self, key, value)
-            return value
+            self.set(key, value)
         return fn
+
+    @property
+    def current(self):
+        res = {}
+        for key in self.params:
+            res[key] = getattr(self, key)
+        return res
 
     def _search(self, fn=leq):
         value, params = None, None
@@ -76,11 +80,28 @@ class Experiment(object):
         for key in self.params:
             self.params[key].seed(seed)
 
+    def set(self, key, value):
+        setattr(self, key, value)
+        return value
+
+    def sample(self, key):
+        value = self.params[key].sample()
+        setattr(self, key, value)
+        return value
+
+    def sample_all_params(self):
+        for key in self.params:
+            self.sample(key)
+        return self.current
+
     def add_result(self, result, data=None):
         """Data is a dict containing additional data about the experiment"""
-        res = {'result': result}
+        res = {'result': str(result)}
         for key in self.params:
-            res[key] = getattr(self, key)
+            res[key] = str(getattr(self, key))
+        if data is not None:
+            for key in data:
+                res[key] = str(data[key])
         fname = str(time()) + '_' + str(random.random()) + '.json'
         fpath = os.path.join(self.experiment_path, fname)
         with open(fpath, 'w') as f:
