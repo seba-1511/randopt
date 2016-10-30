@@ -1,5 +1,5 @@
 # rand_opt
-Random search optimization and experiment logging. Support async, fancy visualization, distributed execution. 
+Random search optimization and experiment logging. Support async, fancy visualization, distributed execution.
 
 ## Example
 Here's a short example on how to use `randopt`.
@@ -20,7 +20,7 @@ if __name__ == '__main__':
             # 'alpha': ro.Choice([0.01, 0.05, 0.1, 0.5, 0.7, 0.9], sampler=ro.Uniform()),
         })
 
-    # Seeding will make all of your searches reproducible. (Usually not wanted) 
+    # Seeding will make all of your searches reproducible. (Usually not wanted)
     # e.seed(1234)
 
     # Randomly sampling parameters
@@ -40,12 +40,20 @@ if __name__ == '__main__':
     print 'Best result: ', opt.value, ' with params: ', opt.params
 ```
 
+## Visualization
+`randopt` also supports basic HTML visualization. After running an experiment, and using the `add_result` function, the following code can create a table containing the results. The `roviz.py` script will automatically launch the webpage. However, if you wish to view the HTML file for whatever reason, it's saved as `randopt_results/expName/viz.html`.
+
+`python randopt/roviz.py -e expName`
+
+By default, the visualizer sorts in order of ascending result. If you wish to visualize the data in a descending order, use the following command line argument.
+
+`python randopt/roviz.py -e expName -s max`
+
 ## TODO
 
 Check each python file or grep `TODO:` for a complete list of todos. Here's an overview.
 
 * Unit Tests
 * Documentation
-* HTML Vizualization from JSON files
 * Implement more samplers
 * Bayesian optimizaiton on previously ran experiments ?
