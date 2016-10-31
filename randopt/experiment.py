@@ -42,7 +42,7 @@ class Experiment(object):
 
     def _sample(self, key):
         def fn():
-            self.sample(key)
+            return self.sample(key)
         return fn
 
     def _set(self, key):
