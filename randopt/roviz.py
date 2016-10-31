@@ -7,18 +7,19 @@ import argparse
 vizHeader = '''<!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../../lib/jquery.tablesorter.min.js"></script>
   <title>{self._experimentName} Visualization</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 
 <div class="container">
   <h2>Experiment "{self._experimentName}" Data Visualization</h2>
-  <table class="table table-hover">
+  <table id="dataTable" class="table table-hover">
     <thead>
         <tr>'''
 
@@ -28,7 +29,16 @@ vizFooter = '''
 </div>
 
 </body>
-</html>'''
+</html>
+
+<script>
+    $(document).ready(function()
+        {{
+            $("#dataTable").tablesorter();
+        }}
+    );
+</script>
+'''
 
 class Visualizer:
     def __init__(self, experimentName, sortStyle = 'min'):
@@ -85,7 +95,7 @@ class Visualizer:
         #sort the data
         #only reverse it if the sort style is max
         data = sorted(data, key=lambda k: k['result'], reverse = self._sortStyle == 'max')
-        vizPath = experiment_path + '\\viz.html'
+        vizPath = os.path.join(experiment_path, 'viz.html')
         self.WriteData(data, vizPath)
         webbrowser.open("file:///" + os.path.abspath(vizPath))
 
@@ -98,7 +108,7 @@ def main():
                         default='min', help='sort style')
 
     args = parser.parse_args()
-    viz = Visualizer(args.expname)
+    viz = Visualizer(args.expname, args.sort)
     viz.CreateVisualization()
 
 main()
