@@ -14,11 +14,13 @@ vizHeader = '''<!DOCTYPE html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/css/theme.default.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/css/theme.dark.min.css">
 </head>
 <body>
 
 <div class="container">
-  <h2>Experiment "{self._experimentName}" Data Visualization</h2>
+  <h2 class="text-center">{self._experimentName}</h2>
   <table id="dataTable" class="table table-hover table-striped">
     <thead>
         <tr>'''
@@ -44,16 +46,23 @@ class Visualizer:
     def __init__(self, experimentName, sortStyle = 'min'):
         self._experimentName = experimentName
         self._sortStyle = sortStyle
+        self.counter = 1
 
     def WriteRow(self, res):
         self._outputWriter.write('<tr>')
+        self._outputWriter.write('<td>' + str(self.counter) + '</td>')
         self._outputWriter.write('<td>' + str(res['result']) + '</td>')
         for key in res.keys():
             if key != 'result':
-                self._outputWriter.write('<td>' + str(res[key]) + '</td>')
+                text = str(res[key])
+                if len(text) > 20:
+                    text = text[:47] + '...'
+                self._outputWriter.write('<td>' + text + '</td>')
         self._outputWriter.write('</tr>')
+        self.counter += 1
 
     def WriteHeader(self, res):
+        self._outputWriter.write("<th>#</th>")
         self._outputWriter.write("<th>Result</th>")
         for key in res.keys():
             if key != 'result':
@@ -94,7 +103,7 @@ class Visualizer:
 
         #sort the data
         #only reverse it if the sort style is max
-        data = sorted(data, key=lambda k: k['result'], reverse = self._sortStyle == 'max')
+        data = sorted(data, key=lambda k: float(k['result']), reverse = self._sortStyle == 'max')
         vizPath = os.path.join(experiment_path, 'viz.html')
         self.WriteData(data, vizPath)
         webbrowser.open("file:///" + os.path.abspath(vizPath))
@@ -102,6 +111,8 @@ class Visualizer:
 
 def main():
     parser = argparse.ArgumentParser(description='Visualize the results of RandOpt')
+    # parser.add_argument('expname', metavar='name', type=str,
+                        # help='the name of the experiment to visualize')
     parser.add_argument('--expname', '-e', dest='expname', metavar='e', type=str, required=True,
                         help='the name of the experiment to visualize')
     parser.add_argument('--sort', '-s', dest='sort', type=str, choices=['min', 'max'],

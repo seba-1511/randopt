@@ -65,8 +65,8 @@ class Experiment(object):
                 fpath = os.path.join(self.experiment_path, fname)
                 with open(fpath, 'r') as f:
                     res = json.load(f)
-                    if value is None or fn(res['result'], value):
-                        value = res['result']
+                    if value is None or fn(float(res['result']), value):
+                        value = float(res['result'])
                         params = res
         return OptResult(value, params)
 

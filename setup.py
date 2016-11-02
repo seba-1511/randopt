@@ -9,13 +9,6 @@ from setuptools import (
 
 VERSION = '0.0.2'
 
-# setup(
-    # name='randopt',
-      # scripts=[
-          # 'bin/roviz.py'
-      # ]
-# )
-
 install(
     name='randopt',
     version=VERSION,
