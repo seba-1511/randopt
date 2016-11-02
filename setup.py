@@ -7,11 +7,15 @@ from setuptools import (
     find_packages,
 )
 
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 
-setup(
-      name='randopt',
-)
+# setup(
+    # name='randopt',
+      # scripts=[
+          # 'bin/roviz.py'
+      # ]
+# )
+
 install(
     name='randopt',
     version=VERSION,
@@ -23,5 +27,8 @@ install(
     packages=find_packages(exclude=["tests"]),
     classifiers=[
         'Tools',
-        ]
+    ],
+    scripts=[
+        'bin/roviz.py'
+      ]
 )
