@@ -93,12 +93,10 @@ class Logspace(Sampler):
         self.num = num
         self.base = base
         self.dtype = dtype
+        self.resArr = numpy.logspace(self.start, self.stop, num=self.num, endpoint=True, base=self.base, dtype=self.dtype)
 
     def sample(self):
-        #res = self.rng.uniform(self.stop, self.start)
-        resArr = numpy.logspace(self.stop, self.start, num=self.num, endpoint=True, base=self.base, dtype=self.dtype)
-        res = resArr[int(math.floor(self.rng.uniform(0,1)*self.num))]
-
+        res = self.resArr[int(math.floor(self.rng.uniform(0,1)*self.num))]
         if 'fl' in self.dtype:
             return res
         return int(res)
