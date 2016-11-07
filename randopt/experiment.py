@@ -68,6 +68,7 @@ class Experiment(object):
                     if value is None or fn(float(res['result']), value):
                         value = float(res['result'])
                         params = res
+
         return OptResult(value, params)
 
     def maximum(self):

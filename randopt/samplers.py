@@ -2,11 +2,12 @@
 
 import random
 import math
+import numpy
 
 """
 Here we implement the sampling strategies.
 
-TODO: 
+TODO:
     * Add support for more sampling schemes. (Loguniform, Poisson, etc...)
     * Unit tests
 """
@@ -47,7 +48,7 @@ class Choice(Sampler):
 
 
 class Uniform(Sampler):
-    
+
     def __init__(self, low=0.0, high=1.0, dtype='float'):
         super(Uniform, self).__init__()
         self.low = low
@@ -78,3 +79,26 @@ class Gaussian(Sampler):
 
 class Normal(Gaussian):
     pass
+
+class Logspace(Sampler):
+    '''
+    import numpy as np
+    a = np.logspace(0,100, num=10, endpoint=True, base=10.0,dtype=None)
+    a[math.floor(random.Random().uniform(0,1)*len(a))]
+    '''
+    def __init__(self, start=0.0, stop=1, num=100, base=10, dtype='float'):
+        super(Logspace, self).__init__()
+        self.start = start
+        self.stop = stop
+        self.num = num
+        self.base = base
+        self.dtype = dtype
+
+    def sample(self):
+        #res = self.rng.uniform(self.stop, self.start)
+        resArr = numpy.logspace(self.stop, self.start, num=self.num, endpoint=True, base=self.base, dtype=self.dtype)
+        res = resArr[int(math.floor(self.rng.uniform(0,1)*self.num))]
+
+        if 'fl' in self.dtype:
+            return res
+        return int(res)
