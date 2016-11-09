@@ -12,7 +12,9 @@ if __name__ == '__main__':
             #'alpha': ro.Gaussian(mean=0.0, std=1.0, dtype='float'),
             # 'alpha': ro.Choice([0.01, 0.05, 0.1, 0.5, 0.7, 0.9], sampler=ro.Uniform()),
             #'alpha' : ro.Choice([0, 1, 2, 3, 4], sampler=ro.Uniform()),
-            'alpha' : ro.Logspace(start = 0, stop = 2, num = 10, base=10, dtype='float'),
+            #'alpha' : ro.Lognormal(mean=0.0, std=1.0, dtype='float'),
+            'alpha' : ro.Poisson(lam=1.0, k=1.0, dtype='float'),
+
         })
 
     # Seeding will make all of your searches reproducible. (Usually not wanted)

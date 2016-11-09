@@ -2,7 +2,6 @@
 
 import random
 import math
-import numpy
 
 """
 Here we implement the sampling strategies.
@@ -80,23 +79,34 @@ class Gaussian(Sampler):
 class Normal(Gaussian):
     pass
 
-class Logspace(Sampler):
-    '''
-    import numpy as np
-    a = np.logspace(0,100, num=10, endpoint=True, base=10.0,dtype=None)
-    a[math.floor(random.Random().uniform(0,1)*len(a))]
-    '''
-    def __init__(self, start=0.0, stop=1, num=100, base=10, dtype='float'):
-        super(Logspace, self).__init__()
-        self.start = start
-        self.stop = stop
-        self.num = num
-        self.base = base
+class Lognormal(Sampler):
+
+    def __init__(self, mean=0.0, std=1.0, dtype='float'):
+        super(Lognormal, self).__init__()
+        self.mean = mean
+        self.std = std
         self.dtype = dtype
-        self.resArr = numpy.logspace(self.start, self.stop, num=self.num, endpoint=True, base=self.base, dtype=self.dtype)
 
     def sample(self):
-        res = self.resArr[int(math.floor(self.rng.uniform(0,1)*self.num))]
+        res = self.rng.lognormvariate(self.mean, self.std)
+        if 'fl' in self.dtype:
+            return res
+        return int(res)
+
+class Poisson(Sampler):
+    '''
+    lambda = event rate / average number of events per interval
+    k = 0,1,2,3... (events in interval)
+
+    '''
+    def __init__(self, lam=1.0, k=1.0, dtype='float'):
+        super(Poisson, self).__init__()
+        self.lam = lam
+        self.k = k
+        self.dtype = dtype
+
+    def sample(self):
+        res = (self.lam**self.k)*math.exp(-self.lam)/math.factorial(self.k)
         if 'fl' in self.dtype:
             return res
         return int(res)
