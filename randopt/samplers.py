@@ -79,10 +79,11 @@ class Gaussian(Sampler):
 class Normal(Gaussian):
     pass
 
-class Lognormal(Sampler):
+
+class LognormVariate(Sampler):
 
     def __init__(self, mean=0.0, std=1.0, dtype='float'):
-        super(Lognormal, self).__init__()
+        super(LognormVariate, self).__init__()
         self.mean = mean
         self.std = std
         self.dtype = dtype
@@ -108,6 +109,64 @@ class Poisson(Sampler):
     def sample(self):
         k = self.rng.uniform(0.0, self.max_k)
         res = (self.lam**k)*math.exp(-self.lam)/math.factorial(k)
+        if 'fl' in self.dtype:
+            return res
+        return int(res)
+
+
+class BetaVariate(Sampler):
+
+    def __init__(self, alpha, beta, dtype='float'):
+        super(BetaVariate, self).__init__()
+        self.alpha = alpha
+        self.beta = beta
+        self.dtype = dtype
+
+    def sample(self):
+        res = self.rng.betavariate(self.alpha, self.beta)
+        if 'fl' in self.dtype:
+            return res
+        return int(res)
+
+
+class ExpoVariate(Sampler):
+
+    def __init__(self, lam, dtype='float'):
+        super(ExpoVariate, self).__init__()
+        self.lam = lam
+        self.dtype = dtype
+
+    def sample(self):
+        res = self.rng.expovariate(self.lam)
+        if 'fl' in self.dtype:
+            return res
+        return int(res)
+
+
+class WeibullVariate(Sampler):
+
+    def __init__(self, alpha, beta, dtype='float'):
+        super(WeibullVariate, self).__init__()
+        self.alpha = alpha
+        self.beta = beta
+        self.dtype = dtype
+
+    def sample(self):
+        res = self.rng.weibullvariate(self.alpha, self.beta)
+        if 'fl' in self.dtype:
+            return res
+        return int(res)
+
+
+class ParetoVariate(Sampler):
+
+    def __init__(self, alpha, dtype='float'):
+        super(ParetoVariate, self).__init__()
+        self.alpha = alpha
+        self.dtype = dtype
+
+    def sample(self):
+        res = self.rng.paretovariate(self.alpha)
         if 'fl' in self.dtype:
             return res
         return int(res)
