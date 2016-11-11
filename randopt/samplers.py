@@ -99,14 +99,15 @@ class Poisson(Sampler):
     k = 0,1,2,3... (events in interval)
 
     '''
-    def __init__(self, lam=1.0, k=1.0, dtype='float'):
+    def __init__(self, lam=1.0, max_k=4, dtype='float'):
         super(Poisson, self).__init__()
         self.lam = lam
-        self.k = k
+        self.max_k = max_k
         self.dtype = dtype
 
     def sample(self):
-        res = (self.lam**self.k)*math.exp(-self.lam)/math.factorial(self.k)
+        k = self.rng.uniform(0.0, self.max_k)
+        res = (self.lam**k)*math.exp(-self.lam)/math.factorial(k)
         if 'fl' in self.dtype:
             return res
         return int(res)
