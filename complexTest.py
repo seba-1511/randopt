@@ -18,7 +18,7 @@ if __name__ == '__main__':
     # e.seed(1234)
 
     # Randomly sampling parameters
-    for i in xrange(10000):
+    for i in xrange(1000):
         g = e.sample('gaussian')
         c = e.sample('choice')
         n = e.sample('normal')

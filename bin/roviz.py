@@ -4,13 +4,13 @@ import sys
 import json as json
 import argparse
 
-vizHeader = '''<!DOCTYPE html>
+viz_header = '''<!DOCTYPE html>
 <html lang="en">
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/js/jquery.tablesorter.min.js"></script>
-  <title>{self._experimentName} Visualization</title>
+  <title>{self._experiment_name} Visualization</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -20,12 +20,12 @@ vizHeader = '''<!DOCTYPE html>
 <body>
 
 <div class="container">
-  <h2 class="text-center">{self._experimentName}</h2>
+  <h2 class="text-center">{self._experiment_name}</h2>
   <table id="dataTable" class="table table-hover table-striped">
     <thead>
         <tr>'''
 
-vizFooter = '''
+viz_footer = '''
     </tbody>
   </table>
 </div>
@@ -43,52 +43,52 @@ vizFooter = '''
 '''
 
 class Visualizer:
-    def __init__(self, experimentName, sortStyle = 'min'):
-        self._experimentName = experimentName
-        self._sortStyle = sortStyle
+    def __init__(self, experiment_name, sort_style = 'min'):
+        self._experiment_name = experiment_name
+        self._sort_style = sort_style
         self.counter = 1
 
-    def WriteRow(self, res):
-        self._outputWriter.write('<tr>')
-        self._outputWriter.write('<td>' + str(self.counter) + '</td>')
-        self._outputWriter.write('<td>' + str(res['result']) + '</td>')
+    def write_row(self, res):
+        self._output_writer.write('<tr>')
+        self._output_writer.write('<td>' + str(self.counter) + '</td>')
+        self._output_writer.write('<td>' + str(res['result']) + '</td>')
         for key in res.keys():
             if key != 'result':
                 text = str(res[key])
                 if len(text) > 20:
                     text = text[:47] + '...'
-                self._outputWriter.write('<td>' + text + '</td>')
-        self._outputWriter.write('</tr>')
+                self._output_writer.write('<td>' + text + '</td>')
+        self._output_writer.write('</tr>')
         self.counter += 1
 
-    def WriteHeader(self, res):
-        self._outputWriter.write("<th>#</th>")
-        self._outputWriter.write("<th>Result</th>")
+    def write_header(self, res):
+        self._output_writer.write("<th>#</th>")
+        self._output_writer.write("<th>Result</th>")
         for key in res.keys():
             if key != 'result':
-                self._outputWriter.write('<th>' + key.title() + '</th>')
-        self._outputWriter.write('</tr></thead><tbody>')
+                self._output_writer.write('<th>' + key.title() + '</th>')
+        self._output_writer.write('</tr></thead><tbody>')
 
-    def WriteData(self, data, outputPath):
-        self._outputWriter = open(outputPath, "w")
-        self._outputWriter.write(vizHeader.format(**locals()))
+    def write_data(self, data, output_path):
+        self._output_writer = open(output_path, "w")
+        self._output_writer.write(viz_header.format(**locals()))
 
         if(len(data) > 0):
-            self.WriteHeader(data[0])
+            self.write_header(data[0])
             for datum in data:
-                self.WriteRow(datum)
+                self.write_row(datum)
 
-        self._outputWriter.write(vizFooter)
-        self._outputWriter.close()
+        self._output_writer.write(viz_footer)
+        self._output_writer.close()
 
-    def CreateVisualization(self):
+    def create_visualization(self):
         cwd = os.getcwd()
         randopt_folder = os.path.join(cwd, 'randopt_results')
         if not os.path.exists(randopt_folder):
             os.mkdir(randopt_folder)
-        experiment_path = os.path.join(randopt_folder, self._experimentName)
+        experiment_path = os.path.join(randopt_folder, self._experiment_name)
         if not os.path.exists(experiment_path):
-            print "Experiment \"%s\" does not exist" % self._experimentName
+            print "Experiment \"%s\" does not exist" % self._experiment_name
             return
 
         #The folder exists, so load in the data
@@ -103,14 +103,14 @@ class Visualizer:
 
         #sort the data
         #only reverse it if the sort style is max
-        data = sorted(data, key=lambda k: float(k['result']), reverse = self._sortStyle == 'max')
-        vizPath = os.path.join(experiment_path, 'viz.html')
-        self.WriteData(data, vizPath)
-        webbrowser.open("file:///" + os.path.abspath(vizPath))
+        data = sorted(data, key=lambda k: float(k['result']), reverse = self._sort_style == 'max')
+        viz_path = os.path.join(experiment_path, 'viz.html')
+        self.write_data(data, viz_path)
+        webbrowser.open("file:///" + os.path.abspath(viz_path))
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Visualize the results of RandOpt')
+    parser = argparse.ArgumentParser(description='Visualize the results of randopt')
     # parser.add_argument('expname', metavar='name', type=str,
                         # help='the name of the experiment to visualize')
     parser.add_argument('--expname', '-e', dest='expname', metavar='e', type=str, required=True,
@@ -120,6 +120,6 @@ def main():
 
     args = parser.parse_args()
     viz = Visualizer(args.expname, args.sort)
-    viz.CreateVisualization()
+    viz.create_visualization()
 
 main()
