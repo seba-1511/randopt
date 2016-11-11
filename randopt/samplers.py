@@ -130,7 +130,7 @@ class Poisson(Sampler):
         self.dtype = dtype
 
     def sample(self):
-        k = self.rng.uniform(0.0, self.max_k)
+        k = self.rng.randint(0.0, self.max_k)
         res = (self.lam**k)*math.exp(-self.lam)/math.factorial(k)
         if 'fl' in self.dtype:
             return res
