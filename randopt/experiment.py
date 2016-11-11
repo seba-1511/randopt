@@ -29,8 +29,6 @@ class Experiment(object):
         self.name = name
         self.params = params
         for key in params:
-            setattr(self, 'sample_' + key, self._sample(key))
-            setattr(self, 'set_' + key, self._set(key))
             setattr(self, key, None)
         cwd = os.getcwd()
         randopt_folder = os.path.join(cwd, 'randopt_results')
@@ -39,16 +37,6 @@ class Experiment(object):
         self.experiment_path = os.path.join(randopt_folder, self.name)
         if not os.path.exists(self.experiment_path):
             os.mkdir(self.experiment_path)
-
-    def _sample(self, key):
-        def fn():
-            return self.sample(key)
-        return fn
-
-    def _set(self, key):
-        def fn(value):
-            self.set(key, value)
-        return fn
 
     @property
     def current(self):
@@ -68,7 +56,6 @@ class Experiment(object):
                     if value is None or fn(float(res['result']), value):
                         value = float(res['result'])
                         params = res
-
         return OptResult(value, params)
 
     def maximum(self):

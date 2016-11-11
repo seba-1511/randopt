@@ -13,7 +13,7 @@ if __name__ == '__main__':
             # 'alpha': ro.Choice([0.01, 0.05, 0.1, 0.5, 0.7, 0.9], sampler=ro.Uniform()),
             #'alpha' : ro.Choice([0, 1, 2, 3, 4], sampler=ro.Uniform()),
             #'alpha' : ro.Lognormal(mean=0.0, std=1.0, dtype='float'),
-            'alpha' : ro.Poisson(lam=1.0, k=1.0, dtype='float'),
+            'alpha' : ro.Poisson(lam=1.0, max_k=10.0, dtype='float'),
 
         })
 
@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     # Randomly sampling parameters
     for i in xrange(100):
-        alpha = e.sample_alpha()
+        alpha = e.sample('alpha')
         res = loss(e.alpha)
         print 'Result: ', res
         e.add_result(res)

@@ -19,10 +19,10 @@ if __name__ == '__main__':
 
     # Randomly sampling parameters
     for i in xrange(10000):
-        g = e.sample_gaussian()
-        c = e.sample_choice()
-        n = e.sample_normal()
-        u = e.sample_uniform()
+        g = e.sample('gaussian')
+        c = e.sample('choice')
+        n = e.sample('normal')
+        u = e.sample('uniform')
         res = loss(e.gaussian, e.choice, e.uniform, e.normal)
         print 'Result: ', res
         e.add_result(res)
