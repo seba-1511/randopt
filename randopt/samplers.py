@@ -46,6 +46,29 @@ class Choice(Sampler):
         return self.items[i]
 
 
+class Truncated(Sampler):
+    """
+    Given a sampler, truncates the distribution between low and high.
+    If None, not truncated.
+    """
+
+    def __init__(self, sampler=None, low=None, high=None):
+        if sampler is None:
+            sampler = Uniform()
+        self.sampler = sampler
+        self.min = low
+        self.max = high
+        self.rng = self.sampler.rng
+
+    def sample(self):
+        val = self.sampler.sample()
+        if self.min is not None and val < self.min:
+            val = self.min
+        if self.max is not None and val > self.max:
+            val = self.max
+        return val
+
+
 class Uniform(Sampler):
 
     def __init__(self, low=0.0, high=1.0, dtype='float'):
