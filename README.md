@@ -56,4 +56,5 @@ Check each python file or grep `TODO:` for a complete list of todos. Here's an o
 * Unit Tests
 * Documentation
 * Implement more samplers
+* [Hyperband](http://www.argmin.net/2016/06/23/hyperband/) as Experiment
 * Bayesian optimizaiton on previously ran experiments ?
