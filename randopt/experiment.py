@@ -58,6 +58,37 @@ class Experiment(object):
                         params = res
         return OptResult(value, params)
 
+    def top(self, count, fn=leq):
+        top_n_experiments = []
+        for fname in os.listdir(self.experiment_path):
+            base, ext = os.path.splitext(fname)
+            if 'json' in ext:
+                fpath = os.path.join(self.experiment_path, fname)
+                with open(fpath, 'r') as f:
+                    res = json.load(f)
+
+                    #save the result
+                    result_value = float(res['result'])
+                    #delete it from the dict
+                    del res['result']
+
+                    if len(top_n_experiments) < count:
+                        top_n_experiments.append((result_value, res))
+                    else:
+                        #iterate over each item in the list
+                        for i in xrange(count):
+                            if fn(result_value, top_n_experiments[i][0]):
+                                #place the experiment in place
+                                top_n_experiments.insert(i, (result_value, res))
+                                #remove the next worst element
+                                top_n_experiments.pop()
+                                break
+
+        #sort the past experiments and then unzip to drop the result value
+        results, dict_of_params = zip(*top_n_experiments)
+
+        return dict_of_params
+
     def maximum(self):
         return self._search(geq)
 
