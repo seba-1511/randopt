@@ -34,11 +34,9 @@ viz_footer = '''
 </html>
 
 <script>
-    $(document).ready(function()
-        {{
+    $(document).ready(function() {
             $("#dataTable").tablesorter();
-        }}
-    );
+        });
 </script>
 '''
 
@@ -47,25 +45,29 @@ class Visualizer:
         self._experiment_name = experiment_name
         self._sort_style = sort_style
         self.counter = 1
+        self.exp_metadata = ['__filename__']
 
     def write_row(self, res):
         self._output_writer.write('<tr>')
         self._output_writer.write('<td>' + str(self.counter) + '</td>')
         self._output_writer.write('<td>' + str(res['result']) + '</td>')
+        specials = ['result'] + self.exp_metadata
         for key in res.keys():
-            if key != 'result':
+            if key not in specials:
                 text = str(res[key])
                 if len(text) > 20:
                     text = text[:47] + '...'
                 self._output_writer.write('<td>' + text + '</td>')
+        self._output_writer.write('<td><a target="_blank" href="file://' + res['__filename__'] + '" class="btn btn-primary btn-xs">Download</a></td>')
         self._output_writer.write('</tr>')
         self.counter += 1
 
     def write_header(self, res):
         self._output_writer.write("<th>#</th>")
         self._output_writer.write("<th>Result</th>")
+        specials = ['result'] + self.exp_metadata
         for key in res.keys():
-            if key != 'result':
+            if key not in specials:
                 self._output_writer.write('<th>' + key.title() + '</th>')
         self._output_writer.write('</tr></thead><tbody>')
 
@@ -99,6 +101,7 @@ class Visualizer:
                 fpath = os.path.join(experiment_path, fname)
                 with open(fpath, 'r') as f:
                     res = json.load(f)
+                    res['__filename__'] = fpath
                     data.append(res)
 
         #sort the data
