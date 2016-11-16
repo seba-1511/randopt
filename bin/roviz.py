@@ -23,7 +23,7 @@ viz_header = '''<!DOCTYPE html>
   <h2 class="text-center">{self._experiment_name}</h2>
   <div id="plotter-container" class="text-center" style="display:none;">
     <h3>Parameter Plotting</h3>
-    <div id="plotter" style="margin:auto;width:600px;height:350px;"></div>
+    <div id="plotter" style="margin:auto;height:450px;"></div>
   </div>
   <hr />
   <table id="dataTable" class="table table-hover table-striped">
@@ -54,6 +54,7 @@ viz_end = '''
             x: x,
             y: y,
             type: 'scatter',
+            mode: 'markers',
         }];
         var layout = {
             margin: {t: 0},
