@@ -28,9 +28,11 @@ class Sampler(object):
     def set_state(self, state):
         self.rng.setstate(state)
 
+
 class Constant(Sampler):
 
-    def __init(self, value):
+    def __init__(self, value):
+        super(Constant, self).__init__()
         self.value = value
 
     def sample(self):
