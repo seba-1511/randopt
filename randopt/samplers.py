@@ -7,9 +7,9 @@ import math
 Here we implement the sampling strategies.
 
 TODO:
-    * Add support for more sampling schemes. (Loguniform, Poisson, etc...)
     * Unit tests
 """
+
 
 class Sampler(object):
 
@@ -27,6 +27,14 @@ class Sampler(object):
 
     def set_state(self, state):
         self.rng.setstate(state)
+
+class Constant(Sampler):
+
+    def __init(self, value):
+        self.value = value
+
+    def sample(self):
+        return self.value
 
 
 class Choice(Sampler):
@@ -113,25 +121,6 @@ class LognormVariate(Sampler):
 
     def sample(self):
         res = self.rng.lognormvariate(self.mean, self.std)
-        if 'fl' in self.dtype:
-            return res
-        return int(res)
-
-class Poisson(Sampler):
-    '''
-    lambda = event rate / average number of events per interval
-    k = 0,1,2,3... (events in interval)
-
-    '''
-    def __init__(self, lam=1.0, max_k=4, dtype='float'):
-        super(Poisson, self).__init__()
-        self.lam = lam
-        self.max_k = max_k
-        self.dtype = dtype
-
-    def sample(self):
-        k = self.rng.randint(0.0, self.max_k)
-        res = (self.lam**k)*math.exp(-self.lam)/math.factorial(k)
         if 'fl' in self.dtype:
             return res
         return int(res)
