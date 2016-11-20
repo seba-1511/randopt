@@ -6,6 +6,7 @@ import random
 import cPickle as pk
 
 from time import time
+from math import log, ceil
 from collections import namedtuple
 
 from samplers import Uniform
@@ -153,8 +154,8 @@ class HyperBand(Experiment):
     """
 
     def __init__(self, name, params, num_iter, eta=None, comparator=None,
-            s_sampler=None):
-        super(Experiment, self).__init__(name, params)
+                 s_sampler=None):
+        super(HyperBand, self).__init__(name, params)
         if eta is None:
             eta = 2.718281828
         self.eta = eta
@@ -172,7 +173,7 @@ class HyperBand(Experiment):
             s_sampler = Uniform(low=1, high=self.s_max)
         self.s_sampler = s_sampler
         self.s = self._get_s_value()
-        self.n = int(ceil(B / self.num_iter / (s + 1) * (self.eta**self.s)))
+        self.n = int(ceil(B / self.num_iter / (self.s + 1) * (self.eta**self.s)))
         self.r = self.num_iter * (self.eta**(-self.s))
         self.curr_iter = 0
         self.i = 0
@@ -216,7 +217,7 @@ class HyperBand(Experiment):
             f.seed(0)
             json.dump(res, f)
 
-    def _get_hb_best(self, curr_iter, nb_config):
+    def _continue(self, curr_iter, nb_config, score):
         num_seen = 0
         bound = None
         for fname in os.listdir(self.hyperband_path):
@@ -228,15 +229,19 @@ class HyperBand(Experiment):
                             num_seen < nb_config or self.comparator(res['results'][curr_iter], bound)):
                         bound = res['results'][curr_iter]
                         num_seen += 1
-        return bound
+        if num_seen < 1:
+            return True
+        if score < bound:
+            return True
+        return False
         
 
     def stop(self, validation_result):
         self.curr_iter += 1
         stop = False
         if self.curr_iter % self.next_update == 0:
-            cutoff = self._get_hb_best(self.curr_iter, self.self.curr_nconfig)
-            stop = not self.comparator(validation, cutoff)
+            stop = not self._continue(self.curr_iter, self.curr_nconfig,
+                                      validation_result)
             self.i += 1
             self.next_update = int(self.r * self.eta**(self.i))
             self.curr_nconfig = int(self.n * self.eta**(-self.i) / self.eta)
