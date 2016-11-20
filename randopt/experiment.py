@@ -182,7 +182,15 @@ class HyperBand(Experiment):
         self.hb_file = os.path.join(self.hyperband_path, fname)
 
     def _find_run(self, s=None):
-        return [None, ]
+        res_list = []
+        for fname in os.listdir(self.hyperband_path):
+            base, ext = os.path.splitext(fname)
+            if 'json' in ext:
+                with open(fname, 'r') as f:
+                    res = json.load(f)
+                    if res['s'] == s:
+                        res_list.append(res)
+        return res_list
 
     def _get_s_value(self):
         for s in reversed(range(self.s_max + 1)):
