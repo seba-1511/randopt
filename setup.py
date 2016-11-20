@@ -9,6 +9,7 @@ VERSION = '0.1.0'
 
 install(
         name='randopt',
+        packages=['randopt'],
         version=VERSION,
         description='Random search optimization and experiment logging. Support async, fancy visualization, distributed execution.',
         long_description=open('README.md').read(),
@@ -17,10 +18,7 @@ install(
         url = 'https://github.com/seba-1511/randopt',
         download_url = 'https://github.com/seba-1511/randopt/archive/0.1.0.zip',
         license='License :: OSI Approved :: Apache Software License',
-        packages=['randopt'],
-        classifiers=[
-            'Tools',
-            ],
+        classifiers=[],
         scripts=[
             'bin/roviz.py',
             ]
