@@ -1,18 +1,20 @@
 
 
-all: hb
+all: example
 
 example:
-	python example.py
+	python examples/simple.py
+	roviz.py -e simple_example
 
-complex:
-	python complexTest.py
+advanced:
+	python examples/multi_params.py
+	roviz.py -e multi_params_example
+
+clean: 
+	rm -rf randopt_results
 
 hb:
 	python hb_example.py
-
-viz:
-	roviz.py -e myexp
 
 dev:
 	python setup.py develop
