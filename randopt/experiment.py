@@ -78,8 +78,17 @@ class Experiment(object):
                     #delete it from the dict
                     del res['result']
 
+                    # TODO: refactor this insert function to be cleaner
                     if len(top_n_experiments) < count:
-                        top_n_experiments.append((result_value, res))
+                        inserted = False
+                        for i in range(len(top_n_experiments)):
+                            if fn(result_value, top_n_experiments[i][0]):
+                                #place the experiment in place
+                                top_n_experiments.insert(i, (result_value, res))
+                                inserted = True
+                                break
+                        if not inserted:
+                            top_n_experiments.append((result_value, res))
                     else:
                         #iterate over each item in the list
                         for i in range(count):
@@ -224,7 +233,7 @@ class HyperBand(Experiment):
             json.dump(res, f)
 
     def _continue(self, curr_iter, nb_config, score):
-        # TODO: That is slow. 
+        # TODO: That is slow.
         # FIX: Load in memory, check update time of folder.
         num_seen = 0
         bound = None
@@ -243,13 +252,13 @@ class HyperBand(Experiment):
         if self.comparator(score, bound):
             return True
         return False
-        
+
 
     def stop(self, validation_result):
         """
-        Current problem: The first few runs are compared against empty ones, 
-                         and so will have to run until the end. 
-                         Think of a good fix. 
+        Current problem: The first few runs are compared against empty ones,
+                         and so will have to run until the end.
+                         Think of a good fix.
         """
         self.curr_iter += 1
         stop = False
