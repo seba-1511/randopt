@@ -30,8 +30,25 @@ OptResult = namedtuple('OptResult', ['value', 'params'])
 
 
 class Experiment(object):
-
     def __init__(self, name, params):
+        '''
+        Description:
+            Initializes experiment
+
+        Parameters:
+            name - name of experiment
+            params - dicitionary of parameter names to their random sampling functions
+
+        Return type:
+            n/a
+
+        Example:
+            e = ro.Experiment('neuralnet_ftp', {
+            'batch_size' : ro.Uniform(low=5.0, high=150.0, dtype='int'),
+            'iterations': ro.Normal(mean=1000.0, std=150.0, dtype='int'),
+            'learning_rate' : ro.Uniform(low=0.0001, high=0.01, dtype='float'),
+        })
+        '''
         self.name = name
         self.params = params
         for key in params:
@@ -110,11 +127,38 @@ class Experiment(object):
         return value
 
     def sample(self, key):
+        '''
+        Description:
+            Generates a randomly sampled value for given parameter
+
+        Parameters:
+            key - name of randomly sampled parameter
+
+        Return type:
+            Value of randomly generated value for specified sampler
+
+        Example:
+            e.sample('iterations')
+
+        '''
         value = self.params[key].sample()
         setattr(self, key, value)
         return value
 
     def sample_all_params(self):
+        '''
+        Description:
+            Generates a randomly sampled value for all specified parameters
+
+        Parameters:
+            n/a
+
+        Return type:
+            self.current
+
+        Example:
+            e.sample_all_params()
+        '''
         for key in self.params:
             self.sample(key)
         return self.current
@@ -224,7 +268,7 @@ class HyperBand(Experiment):
             json.dump(res, f)
 
     def _continue(self, curr_iter, nb_config, score):
-        # TODO: That is slow. 
+        # TODO: That is slow.
         # FIX: Load in memory, check update time of folder.
         num_seen = 0
         bound = None
@@ -243,13 +287,13 @@ class HyperBand(Experiment):
         if self.comparator(score, bound):
             return True
         return False
-        
+
 
     def stop(self, validation_result):
         """
-        Current problem: The first few runs are compared against empty ones, 
-                         and so will have to run until the end. 
-                         Think of a good fix. 
+        Current problem: The first few runs are compared against empty ones,
+                         and so will have to run until the end.
+                         Think of a good fix.
         """
         self.curr_iter += 1
         stop = False

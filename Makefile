@@ -1,5 +1,5 @@
-
-
+.PHONY: doc
+	
 all: hb
 
 example:
@@ -16,3 +16,11 @@ viz:
 
 dev:
 	python setup.py develop
+
+doc:
+	rm -rf doc
+	mkdir -p doc
+	pydoc -w randopt
+	pydoc -w randopt.experiment
+	pydoc -w randopt.samplers
+	mv *.html doc
