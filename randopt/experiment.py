@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
 import os
-import json
+try:
+    import ujson as json
+except ImportError:
+    import json
 import random
 import cPickle as pk
 
@@ -153,8 +156,7 @@ class HyperBand(Experiment):
     http://people.eecs.berkeley.edu/~kjamieson/hyperband.html
     """
 
-    def __init__(self, name, params, num_iter, eta=None, comparator=None,
-                 s_sampler=None):
+    def __init__(self, name, params, num_iter, eta=None, comparator=None):
         super(HyperBand, self).__init__(name, params)
         if eta is None:
             eta = 2.718281828
@@ -169,9 +171,6 @@ class HyperBand(Experiment):
         self.logeta = lambda x: log(x) / log(self.eta)
         self.s_max = int(self.logeta(self.num_iter))
         B = (self.s_max + 1) * self.num_iter
-        if s_sampler is None:
-            s_sampler = Uniform(low=1, high=self.s_max)
-        self.s_sampler = s_sampler
         self.s = self._get_s_value()
         self.n = int(ceil(B / self.num_iter / (self.s + 1) * (self.eta**self.s)))
         self.r = self.num_iter * (self.eta**(-self.s))
@@ -187,6 +186,7 @@ class HyperBand(Experiment):
         for fname in os.listdir(self.hyperband_path):
             base, ext = os.path.splitext(fname)
             if 'json' in ext:
+                fname = os.path.join(self.hyperband_path, fname)
                 with open(fname, 'r') as f:
                     res = json.load(f)
                     if res['s'] == s:
@@ -194,12 +194,16 @@ class HyperBand(Experiment):
         return res_list
 
     def _get_s_value(self):
-        for s in reversed(range(self.s_max + 1)):
-            if len(self._find_run(s=s)) < s + 1:
-                return s
-        return self.s_sampler.sample()
+        i = 1
+        while True:
+            for s in reversed(range(self.s_max + 1)):
+                if len(self._find_run(s=s)) < (s + 1) * i:
+                    return s
+            i += 1
 
     def _update_hyperband_result(self, score):
+        if not os.path.exists(self.hb_file):
+            open(self.hb_file, 'a').close()
         with open(self.hb_file, 'r+') as f:
             if self.curr_iter == 1:
                 res = {
@@ -214,7 +218,7 @@ class HyperBand(Experiment):
             else:
                 res = json.load(f)
                 res['results'].append(score)
-            f.seed(0)
+            f.seek(0)
             json.dump(res, f)
 
     def _continue(self, curr_iter, nb_config, score):
@@ -223,15 +227,16 @@ class HyperBand(Experiment):
         for fname in os.listdir(self.hyperband_path):
             base, ext = os.path.splitext(fname)
             if 'json' in ext:
+                fname = os.path.join(self.hyperband_path, fname)
                 with open(fname, 'r') as f:
                     res = json.load(f)
                     if len(res['results']) >= curr_iter and (
-                            num_seen < nb_config or self.comparator(res['results'][curr_iter], bound)):
-                        bound = res['results'][curr_iter]
+                            num_seen < nb_config or self.comparator(res['results'][curr_iter-1], bound)):
+                        bound = res['results'][curr_iter-1]
                         num_seen += 1
         if num_seen < 1:
             return True
-        if score < bound:
+        if self.comparator(score, bound):
             return True
         return False
         
