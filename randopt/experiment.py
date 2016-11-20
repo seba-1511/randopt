@@ -197,6 +197,8 @@ class HyperBand(Experiment):
         i = 1
         while True:
             for s in reversed(range(self.s_max + 1)):
+            # TOOD: Decide whether to use the following or .
+            # for s in range(self.s_max + 1):
                 if len(self._find_run(s=s)) < (s + 1) * i:
                     return s
             i += 1

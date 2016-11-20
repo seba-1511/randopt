@@ -12,7 +12,7 @@ install(
     version=VERSION,
     description="Random Search Optimization",
     long_description=open('README.md').read(),
-    author='Seb Arnold, Noel Trivedi, Cyrus Jia',
+    author='Seb Arnold',
     author_email='smr.arnold@gmail.com',
     license='License :: OSI Approved :: Apache Software License',
     packages=find_packages(exclude=["tests"]),
@@ -20,6 +20,6 @@ install(
         'Tools',
     ],
     scripts=[
-        'bin/roviz.py'
+        'bin/roviz.py',
     ]
 )
