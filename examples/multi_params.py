@@ -25,8 +25,8 @@ if __name__ == '__main__':
         e.add_result(res)
 
     # Save/load the state of the random number generators
-    # e.save_state('./multi_params_state.pk')
-    # e.set_state('./multi_params_state.pk')
+    e.save_state('./multi_params_state.pk')
+    e.set_state('./multi_params_state.pk')
 
     # Search over all experiments results, including ones from previous runs
     opt = e.minimum()

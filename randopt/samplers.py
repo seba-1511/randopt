@@ -23,7 +23,7 @@ class Sampler(object):
         self.rng.seed(seed_val)
 
     def get_state(self):
-        self.rng.getstate()
+        return self.rng.getstate()
 
     def set_state(self, state):
         self.rng.setstate(state)
