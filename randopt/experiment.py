@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
 import os
-import json as json
+import json
 import random
 import cPickle as pk
 
 from time import time
 from collections import namedtuple
+
+from samplers import Uniform
 
 """
 This file implements the Experiment class.
@@ -76,7 +78,7 @@ class Experiment(object):
                         top_n_experiments.append((result_value, res))
                     else:
                         #iterate over each item in the list
-                        for i in xrange(count):
+                        for i in range(count):
                             if fn(result_value, top_n_experiments[i][0]):
                                 #place the experiment in place
                                 top_n_experiments.insert(i, (result_value, res))
@@ -141,3 +143,94 @@ class Experiment(object):
             for key in self.params:
                 if key in states:
                     self.params[key].set_state(states[key])
+
+
+class HyperBand(Experiment):
+
+    """
+    HyperBand implementation, based on
+    http://people.eecs.berkeley.edu/~kjamieson/hyperband.html
+    """
+
+    def __init__(self, name, params, num_iter, eta=None, comparator=None,
+            s_sampler=None):
+        super(Experiment, self).__init__(name, params)
+        if eta is None:
+            eta = 2.718281828
+        self.eta = eta
+        if comparator is None:
+            comparator = leq
+        self.comparator = comparator
+        self.num_iter = num_iter
+        self.hyperband_path = os.path.join(self.experiment_path, 'hyperband')
+        if not os.path.exists(self.hyperband_path):
+            os.mkdir(self.hyperband_path)
+        self.logeta = lambda x: log(x) / log(self.eta)
+        self.s_max = int(self.logeta(self.num_iter))
+        B = (self.s_max + 1) * self.num_iter
+        if s_sampler is None:
+            s_sampler = Uniform(low=1, high=self.s_max)
+        self.s_sampler = s_sampler
+        self.s = self._get_s_value()
+        self.n = int(ceil(B / self.num_iter / (s + 1) * (self.eta**self.s)))
+        self.r = self.num_iter * (self.eta**(-self.s))
+        self.curr_iter = 0
+        self.i = 0
+        self.curr_nconfig = int(self.n * self.eta**(self.i) / self.eta)
+        self.next_update = int(self.r * self.eta**(self.i))
+        fname = str(time()) + '_' + str(random.random()) + '.json'
+        self.hb_file = os.path.join(self.hyperband_path, fname)
+
+    def _find_run(self, s=None):
+        return [None, ]
+
+    def _get_s_value(self):
+        for s in reversed(range(self.s_max + 1)):
+            if len(self._find_run(s=s)) < s + 1:
+                return s
+        return self.s_sampler.sample()
+
+    def _update_hyperband_result(self, score):
+        with open(self.hb_file, 'r+') as f:
+            if self.curr_iter == 1:
+                res = {
+                        's': self.s,
+                        'n': self.n,
+                        'r': self.r,
+                        'num_iter': self.num_iter,
+                        'i': self.i,
+                        'results': [score, ],
+                        }
+                res.update(self.current)
+            else:
+                res = json.load(f)
+                res['results'].append(score)
+            f.seed(0)
+            json.dump(res, f)
+
+    def _get_hb_best(self, curr_iter, nb_config):
+        num_seen = 0
+        bound = None
+        for fname in os.listdir(self.hyperband_path):
+            base, ext = os.path.splitext(fname)
+            if 'json' in ext:
+                with open(fname, 'r') as f:
+                    res = json.load(f)
+                    if len(res['results']) >= curr_iter and (
+                            num_seen < nb_config or self.comparator(res['results'][curr_iter], bound)):
+                        bound = res['results'][curr_iter]
+                        num_seen += 1
+        return bound
+        
+
+    def stop(self, validation_result):
+        self.curr_iter += 1
+        stop = False
+        if self.curr_iter % self.next_update == 0:
+            cutoff = self._get_hb_best(self.curr_iter, self.self.curr_nconfig)
+            stop = not self.comparator(validation, cutoff)
+            self.i += 1
+            self.next_update = int(self.r * self.eta**(self.i))
+            self.curr_nconfig = int(self.n * self.eta**(-self.i) / self.eta)
+        self._update_hyperband_result(validation_result)
+        return stop
