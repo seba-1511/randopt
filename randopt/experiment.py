@@ -35,7 +35,10 @@ class Experiment(object):
         self.name = name
         self.params = params
         for key in params:
-            setattr(self, key, None)
+            if key is not 'result':
+                setattr(self, key, None)
+            else:
+                raise ValueError('Param cannot be named \'result\'')
         cwd = os.getcwd()
         randopt_folder = os.path.join(cwd, 'randopt_results')
         if not os.path.exists(randopt_folder):
