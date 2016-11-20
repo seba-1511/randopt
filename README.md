@@ -15,17 +15,12 @@ def loss(x):
 if __name__ == '__main__':
 
     e = ro.Experiment('myexp', {
-            # 'alpha': ro.Normal(low=-1.0, high=1.0, dtype='float'),
             'alpha': ro.Gaussian(mean=0.0, std=1.0, dtype='float'),
-            # 'alpha': ro.Choice([0.01, 0.05, 0.1, 0.5, 0.7, 0.9], sampler=ro.Uniform()),
         })
 
-    # Seeding will make all of your searches reproducible. (Usually not wanted)
-    # e.seed(1234)
-
-    # Randomly sampling parameters
+    # Sampling parameters
     for i in xrange(100):
-        alpha = e.sample_alpha()
+        e.sample('alpha')
         res = loss(e.alpha)
         print 'Result: ', res
         e.add_result(res)
@@ -55,6 +50,5 @@ Check each python file or grep `TODO:` for a complete list of todos. Here's an o
 
 * Unit Tests
 * Documentation
-* Implement more samplers
-* [Hyperband](http://www.argmin.net/2016/06/23/hyperband/) as Experiment
+* Improve HyperBand implementation
 * Bayesian optimizaiton on previously ran experiments ?

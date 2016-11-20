@@ -82,6 +82,20 @@ class Experiment(object):
         return OptResult(value, params)
 
     def top(self, count, fn=leq):
+        '''
+        Description:
+            Returns the top count best results. By default, minimum
+
+        Parameters:
+            count - integer
+            fn=leq,geq - optional, set to geq for maximal values
+
+        Return type:
+            dictionary of parameters
+
+        Example:
+            e.top(3)
+        '''
         top_n_experiments = []
         for fname in os.listdir(self.experiment_path):
             base, ext = os.path.splitext(fname)
@@ -113,12 +127,51 @@ class Experiment(object):
         return dict_of_params
 
     def maximum(self):
+        '''
+        Description:
+            Returns the maximum result after experimentation
+
+        Parameters:
+            n/a
+
+        Return type:
+            Maximum result
+
+        Example:
+            e.maximum()
+        '''
         return self._search(geq)
 
     def minimum(self):
+        '''
+        Description:
+            Returns the minimum result after experimentation
+
+        Parameters:
+            n/a
+
+        Return type:
+            Minimum result
+
+        Example:
+            e.minimum()
+        '''
         return self._search(leq)
 
     def seed(self, seed):
+        '''
+        Description:
+            Manually set a seed value
+
+        Parameters:
+            seed : integer
+
+        Return type:
+            n/a
+
+        Example:
+            e.seed(1234)
+        '''
         for key in self.params:
             self.params[key].seed(seed)
 
@@ -164,7 +217,20 @@ class Experiment(object):
         return self.current
 
     def add_result(self, result, data=None):
-        """Data is a dict containing additional data about the experiment"""
+        '''
+        Description:
+            Generates a randomly sampled value for all specified parameters
+
+        Parameters:
+            result - resultant value
+            data - dict of {result_name, value}
+
+        Return type:
+            n/a
+
+        Example:
+            e.add_result(loss)
+        '''
         res = {'result': str(result)}
         for key in self.params:
             res[key] = str(getattr(self, key))
@@ -177,7 +243,19 @@ class Experiment(object):
             json.dump(res, f)
 
     def save_state(self, path):
-        """Saves the random state of the variables into a file"""
+        '''
+        Description:
+            Saves the state of the random variables into a file
+
+        Parameters:
+            path - target filepath
+
+        Return type:
+            n/a
+
+        Example:
+            e.save_state(states/curr_state.pk)
+        '''
         states = dict()
         for key in self.params:
             states[key] = self.params[key].get_state()
@@ -185,7 +263,19 @@ class Experiment(object):
             pk.dump(states, f, protocol=-1)
 
     def set_state(self, path):
-        """Sets the random state of variables from a file"""
+        '''
+        Description:
+            Sets the state of random variables from a file
+
+        Parameters:
+            path - target filepath
+
+        Return type:
+            n/a
+
+        Example:
+            e.set_state(states/curr_state.pk)
+        '''
         with open(path, 'rb') as f:
             states = pk.load(f)
             for key in self.params:
