@@ -222,6 +222,8 @@ class HyperBand(Experiment):
             json.dump(res, f)
 
     def _continue(self, curr_iter, nb_config, score):
+        # TODO: That is slow. 
+        # FIX: Load in memory, check update time of folder.
         num_seen = 0
         bound = None
         for fname in os.listdir(self.hyperband_path):
@@ -242,6 +244,11 @@ class HyperBand(Experiment):
         
 
     def stop(self, validation_result):
+        """
+        Current problem: The first few runs are compared against empty ones, 
+                         and so will have to run until the end. 
+                         Think of a good fix. 
+        """
         self.curr_iter += 1
         stop = False
         if self.curr_iter % self.next_update == 0:

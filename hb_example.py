@@ -32,3 +32,16 @@ if __name__ == '__main__':
         e = run_exp()
 
     print 'optimal value: ', e.minimum()
+
+    import os
+    import json
+    max_lr = 0.0
+    for fname in os.listdir(e.hyperband_path):
+        base, ext = os.path.splitext(fname)
+        if 'json' in ext:
+            fname = os.path.join(e.hyperband_path, fname)
+            with open(fname, 'r') as f:
+                res = json.load(f)
+                if res['alpha'] > max_lr:
+                    max_lr = res['alpha']
+    print 'Max LR tried: ', max_lr
