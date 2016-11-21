@@ -105,7 +105,7 @@ Of course, you can easily access each experiment run individually through its JS
 
 ### What's next
 
-* Read the [doc]()
+* Read the [doc](./doc/randopt.html)
 * Check out [more](https://github.com/seba-1511/randopt/blob/master/examples/hb_example.py) [complex](https://github.com/seba-1511/randopt/blob/master/examples/hb_vs_random.py) [examples](https://github.com/seba-1511/randopt/blob/master/examples/multi_params.py)
 * Contribute !
 
