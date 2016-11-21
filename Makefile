@@ -29,3 +29,7 @@ doc:
 
 test:
 	python -m unittest discover -s 'test' -p '*_tests.py'
+
+web: doc
+	cp ./doc/* ./web/
+
