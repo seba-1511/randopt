@@ -26,3 +26,6 @@ doc:
 	pydoc -w randopt.experiment
 	pydoc -w randopt.samplers
 	mv *.html doc
+
+test:
+	python -m unittest discover -s 'randopt/test' -p '*_tests.py'
