@@ -45,9 +45,9 @@ if __name__ == '__main__':
 ## Visualization
 `randopt` also supports HTML visualization. After running an experiment, and using the `add_result` function, the following code can create a table containing the results. The `roviz.py` script will automatically launch the webpage. However, if you wish to view the HTML file for whatever reason, it's saved as `randopt_results/experiment_name/viz.html`.
 
-`python roviz.py -e experiment_name`
+`roviz.py -e experiment_name`
 
 By default, the visualizer sorts in order of ascending result. If you wish to visualize the data in a descending order, use the following command line argument.
 
-`python roviz.py -e experiment_name -s max`
+`roviz.py -e experiment_name -s max`
 
