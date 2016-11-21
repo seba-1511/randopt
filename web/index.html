@@ -137,7 +137,13 @@
                 <h4 class="text-sm text-muted text-center">  <span style="font-weight:normal;"><i>November 20, 2016</i></span></h4>
                             </div>
 
-                        <h1 id="introduction">Introduction</h1>
+                        <div style="text-align:center;">
+            <div class="figure">
+            <img src="./figs/randopt.png" />
+            
+            </div>
+            </div>
+            <h1 id="introduction">Introduction</h1>
             <p><code>randopt</code> is a python package that will help you manage and run experiments. On top of that, it provides functionalities for <a href="http://www.argmin.net/2016/06/20/hypertuning/">hyper-parameter search</a>. It's still in its early days, and we are working on adding more features while keeping the current streamlined workflow.</p>
             <h1 id="installation">Installation</h1>
             <p>No dependencies. To install <code>randopt</code> execute</p>
@@ -179,7 +185,7 @@
                 experiment.add_result(result)</code></pre></div>
             <p>Here we decided to run our experiment a 100 times. As noted in the comment we could have used <code>experiment.sample_all_params()</code> instead of <code>experiment.sample('alpha')</code>. This is particularly useful when dealing with a large number of hyper-parameters.</p>
             <p>The crucial line is the call to <code>experiment.add_result(result)</code>. It will save a JSON file with with the current hyper-parameters and the obtained result. You can also choose to add more information in the JSON dump by passing a dictionary as the second parameter to <code>add_result</code>. For example, you could pass the list of validation errors of your iterative training algorithm.</p>
-            <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">experiment.add_result(loss, data<span class="op">=</span>{<span class="st">&#39;convergence&#39;</span>. [<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="fl">0.1</span>]})</code></pre></div>
+            <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">experiment.add_result(loss, data<span class="op">=</span>{<span class="st">&#39;convergence&#39;</span>: [<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="fl">0.1</span>]})</code></pre></div>
             <h3 id="retrieving-results">Retrieving Results</h3>
             <p>There are two <em>preferred</em> ways to retrieve results from randopt. The first one is using <code>roviz.py</code>, which will generate a web-page with a summary of all results.</p>
             <pre><code>roviz.py -e simple_example</code></pre>

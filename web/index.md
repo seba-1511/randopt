@@ -2,6 +2,10 @@
 % 
 % November 20, 2016
 
+<div style="text-align:center;">
+![](./figs/randopt.png)
+</div>
+
 # Introduction
 
 `randopt` is a python package that will help you manage and run experiments. On top of that, it provides functionalities for [hyper-parameter search](http://www.argmin.net/2016/06/20/hypertuning/). It's still in its early days, and we are working on adding more features while keeping the current streamlined workflow.

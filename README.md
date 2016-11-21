@@ -1,5 +1,5 @@
 # randopt
-Random search optimization and experiment logging. Supports parallel runs, fancy visualization, distributed execution.
+![](./web/figs/randopt.png)
 
 ## Install
 
