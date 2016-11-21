@@ -35,5 +35,6 @@ web: doc
 
 publish:
 	#http://peterdowns.com/posts/first-time-with-pypi.html
+	# TODO: Version bump (2x setup.py) + GH Tag release
 	python setup.py register -r pypi
 	python setup.py sdist upload -r pypi
