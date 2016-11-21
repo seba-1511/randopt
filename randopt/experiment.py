@@ -30,25 +30,25 @@ OptResult = namedtuple('OptResult', ['value', 'params'])
 
 
 class Experiment(object):
+    '''
+    Description:
+        Initializes experiment
+
+    Parameters:
+        name - name of experiment
+        params - dicitionary of parameter names to their random sampling functions
+
+    Return type:
+        n/a
+
+    Example:
+        e = ro.Experiment('neuralnet_ftp', {
+        'batch_size' : ro.Uniform(low=5.0, high=150.0, dtype='int'),
+        'iterations': ro.Normal(mean=1000.0, std=150.0, dtype='int'),
+        'learning_rate' : ro.Uniform(low=0.0001, high=0.01, dtype='float'),
+    })
+    '''
     def __init__(self, name, params):
-        '''
-        Description:
-            Initializes experiment
-
-        Parameters:
-            name - name of experiment
-            params - dicitionary of parameter names to their random sampling functions
-
-        Return type:
-            n/a
-
-        Example:
-            e = ro.Experiment('neuralnet_ftp', {
-            'batch_size' : ro.Uniform(low=5.0, high=150.0, dtype='int'),
-            'iterations': ro.Normal(mean=1000.0, std=150.0, dtype='int'),
-            'learning_rate' : ro.Uniform(low=0.0001, high=0.01, dtype='float'),
-        })
-        '''
         self.name = name
         self.params = params
         for key in params:

@@ -54,9 +54,8 @@
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#000000" face="helvetica, arial"><a name="Experiment">class <strong>Experiment</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
     
-<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%">Methods defined here:<br>
-<dl><dt><a name="Experiment-__init__"><strong>__init__</strong></a>(self, name, params)</dt><dd><tt>Description:<br>
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Description:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Initializes&nbsp;experiment<br>
 &nbsp;<br>
 Parameters:<br>
@@ -71,13 +70,47 @@ Example:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;'batch_size'&nbsp;:&nbsp;ro.Uniform(low=5.0,&nbsp;high=150.0,&nbsp;dtype='int'),<br>
 &nbsp;&nbsp;&nbsp;&nbsp;'iterations':&nbsp;ro.Normal(mean=1000.0,&nbsp;std=150.0,&nbsp;dtype='int'),<br>
 &nbsp;&nbsp;&nbsp;&nbsp;'learning_rate'&nbsp;:&nbsp;ro.Uniform(low=0.0001,&nbsp;high=0.01,&nbsp;dtype='float'),<br>
-})</tt></dd></dl>
+})<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Experiment-__init__"><strong>__init__</strong></a>(self, name, params)</dt></dl>
 
-<dl><dt><a name="Experiment-add_result"><strong>add_result</strong></a>(self, result, data<font color="#909090">=None</font>)</dt><dd><tt>Data&nbsp;is&nbsp;a&nbsp;dict&nbsp;containing&nbsp;additional&nbsp;data&nbsp;about&nbsp;the&nbsp;experiment</tt></dd></dl>
+<dl><dt><a name="Experiment-add_result"><strong>add_result</strong></a>(self, result, data<font color="#909090">=None</font>)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Generates&nbsp;a&nbsp;randomly&nbsp;sampled&nbsp;value&nbsp;for&nbsp;all&nbsp;specified&nbsp;parameters<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;-&nbsp;resultant&nbsp;value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;-&nbsp;dict&nbsp;of&nbsp;{result_name,&nbsp;value}<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#Experiment-add_result">add_result</a>(loss)</tt></dd></dl>
 
-<dl><dt><a name="Experiment-maximum"><strong>maximum</strong></a>(self)</dt></dl>
+<dl><dt><a name="Experiment-maximum"><strong>maximum</strong></a>(self)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;the&nbsp;maximum&nbsp;result&nbsp;after&nbsp;experimentation<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Maximum&nbsp;result<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#Experiment-maximum">maximum</a>()</tt></dd></dl>
 
-<dl><dt><a name="Experiment-minimum"><strong>minimum</strong></a>(self)</dt></dl>
+<dl><dt><a name="Experiment-minimum"><strong>minimum</strong></a>(self)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;the&nbsp;minimum&nbsp;result&nbsp;after&nbsp;experimentation<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Minimum&nbsp;result<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#Experiment-minimum">minimum</a>()</tt></dd></dl>
 
 <dl><dt><a name="Experiment-sample"><strong>sample</strong></a>(self, key)</dt><dd><tt>Description:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Generates&nbsp;a&nbsp;randomly&nbsp;sampled&nbsp;value&nbsp;for&nbsp;given&nbsp;parameter<br>
@@ -103,15 +136,56 @@ Return&nbsp;type:<br>
 Example:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#Experiment-sample_all_params">sample_all_params</a>()</tt></dd></dl>
 
-<dl><dt><a name="Experiment-save_state"><strong>save_state</strong></a>(self, path)</dt><dd><tt>Saves&nbsp;the&nbsp;random&nbsp;state&nbsp;of&nbsp;the&nbsp;variables&nbsp;into&nbsp;a&nbsp;file</tt></dd></dl>
+<dl><dt><a name="Experiment-save_state"><strong>save_state</strong></a>(self, path)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Saves&nbsp;the&nbsp;state&nbsp;of&nbsp;the&nbsp;random&nbsp;variables&nbsp;into&nbsp;a&nbsp;file<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;-&nbsp;target&nbsp;filepath<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#Experiment-save_state">save_state</a>(states/curr_state.pk)</tt></dd></dl>
 
-<dl><dt><a name="Experiment-seed"><strong>seed</strong></a>(self, seed)</dt></dl>
+<dl><dt><a name="Experiment-seed"><strong>seed</strong></a>(self, seed)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Manually&nbsp;set&nbsp;a&nbsp;seed&nbsp;value<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;seed&nbsp;:&nbsp;integer<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#Experiment-seed">seed</a>(1234)</tt></dd></dl>
 
 <dl><dt><a name="Experiment-set"><strong>set</strong></a>(self, key, value)</dt></dl>
 
-<dl><dt><a name="Experiment-set_state"><strong>set_state</strong></a>(self, path)</dt><dd><tt>Sets&nbsp;the&nbsp;random&nbsp;state&nbsp;of&nbsp;variables&nbsp;from&nbsp;a&nbsp;file</tt></dd></dl>
+<dl><dt><a name="Experiment-set_state"><strong>set_state</strong></a>(self, path)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Sets&nbsp;the&nbsp;state&nbsp;of&nbsp;random&nbsp;variables&nbsp;from&nbsp;a&nbsp;file<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;-&nbsp;target&nbsp;filepath<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#Experiment-set_state">set_state</a>(states/curr_state.pk)</tt></dd></dl>
 
-<dl><dt><a name="Experiment-top"><strong>top</strong></a>(self, count, fn<font color="#909090">=&lt;function &lt;lambda&gt;&gt;</font>)</dt></dl>
+<dl><dt><a name="Experiment-top"><strong>top</strong></a>(self, count, fn<font color="#909090">=&lt;function &lt;lambda&gt;&gt;</font>)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;the&nbsp;top&nbsp;count&nbsp;best&nbsp;results.&nbsp;By&nbsp;default,&nbsp;minimum<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count&nbsp;-&nbsp;integer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fn=leq,geq&nbsp;-&nbsp;optional,&nbsp;set&nbsp;to&nbsp;geq&nbsp;for&nbsp;maximal&nbsp;values<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dictionary&nbsp;of&nbsp;parameters<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#Experiment-top">top</a>(3)</tt></dd></dl>
 
 <hr>
 Data descriptors defined here:<br>
@@ -148,11 +222,42 @@ Methods defined here:<br>
 
 <hr>
 Methods inherited from <a href="randopt.experiment.html#Experiment">Experiment</a>:<br>
-<dl><dt><a name="HyperBand-add_result"><strong>add_result</strong></a>(self, result, data<font color="#909090">=None</font>)</dt><dd><tt>Data&nbsp;is&nbsp;a&nbsp;dict&nbsp;containing&nbsp;additional&nbsp;data&nbsp;about&nbsp;the&nbsp;experiment</tt></dd></dl>
+<dl><dt><a name="HyperBand-add_result"><strong>add_result</strong></a>(self, result, data<font color="#909090">=None</font>)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Generates&nbsp;a&nbsp;randomly&nbsp;sampled&nbsp;value&nbsp;for&nbsp;all&nbsp;specified&nbsp;parameters<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;-&nbsp;resultant&nbsp;value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;-&nbsp;dict&nbsp;of&nbsp;{result_name,&nbsp;value}<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#HyperBand-add_result">add_result</a>(loss)</tt></dd></dl>
 
-<dl><dt><a name="HyperBand-maximum"><strong>maximum</strong></a>(self)</dt></dl>
+<dl><dt><a name="HyperBand-maximum"><strong>maximum</strong></a>(self)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;the&nbsp;maximum&nbsp;result&nbsp;after&nbsp;experimentation<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Maximum&nbsp;result<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#HyperBand-maximum">maximum</a>()</tt></dd></dl>
 
-<dl><dt><a name="HyperBand-minimum"><strong>minimum</strong></a>(self)</dt></dl>
+<dl><dt><a name="HyperBand-minimum"><strong>minimum</strong></a>(self)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;the&nbsp;minimum&nbsp;result&nbsp;after&nbsp;experimentation<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Minimum&nbsp;result<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#HyperBand-minimum">minimum</a>()</tt></dd></dl>
 
 <dl><dt><a name="HyperBand-sample"><strong>sample</strong></a>(self, key)</dt><dd><tt>Description:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Generates&nbsp;a&nbsp;randomly&nbsp;sampled&nbsp;value&nbsp;for&nbsp;given&nbsp;parameter<br>
@@ -178,15 +283,56 @@ Return&nbsp;type:<br>
 Example:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#HyperBand-sample_all_params">sample_all_params</a>()</tt></dd></dl>
 
-<dl><dt><a name="HyperBand-save_state"><strong>save_state</strong></a>(self, path)</dt><dd><tt>Saves&nbsp;the&nbsp;random&nbsp;state&nbsp;of&nbsp;the&nbsp;variables&nbsp;into&nbsp;a&nbsp;file</tt></dd></dl>
+<dl><dt><a name="HyperBand-save_state"><strong>save_state</strong></a>(self, path)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Saves&nbsp;the&nbsp;state&nbsp;of&nbsp;the&nbsp;random&nbsp;variables&nbsp;into&nbsp;a&nbsp;file<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;-&nbsp;target&nbsp;filepath<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#HyperBand-save_state">save_state</a>(states/curr_state.pk)</tt></dd></dl>
 
-<dl><dt><a name="HyperBand-seed"><strong>seed</strong></a>(self, seed)</dt></dl>
+<dl><dt><a name="HyperBand-seed"><strong>seed</strong></a>(self, seed)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Manually&nbsp;set&nbsp;a&nbsp;seed&nbsp;value<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;seed&nbsp;:&nbsp;integer<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#HyperBand-seed">seed</a>(1234)</tt></dd></dl>
 
 <dl><dt><a name="HyperBand-set"><strong>set</strong></a>(self, key, value)</dt></dl>
 
-<dl><dt><a name="HyperBand-set_state"><strong>set_state</strong></a>(self, path)</dt><dd><tt>Sets&nbsp;the&nbsp;random&nbsp;state&nbsp;of&nbsp;variables&nbsp;from&nbsp;a&nbsp;file</tt></dd></dl>
+<dl><dt><a name="HyperBand-set_state"><strong>set_state</strong></a>(self, path)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Sets&nbsp;the&nbsp;state&nbsp;of&nbsp;random&nbsp;variables&nbsp;from&nbsp;a&nbsp;file<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;-&nbsp;target&nbsp;filepath<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#HyperBand-set_state">set_state</a>(states/curr_state.pk)</tt></dd></dl>
 
-<dl><dt><a name="HyperBand-top"><strong>top</strong></a>(self, count, fn<font color="#909090">=&lt;function &lt;lambda&gt;&gt;</font>)</dt></dl>
+<dl><dt><a name="HyperBand-top"><strong>top</strong></a>(self, count, fn<font color="#909090">=&lt;function &lt;lambda&gt;&gt;</font>)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;the&nbsp;top&nbsp;count&nbsp;best&nbsp;results.&nbsp;By&nbsp;default,&nbsp;minimum<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count&nbsp;-&nbsp;integer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fn=leq,geq&nbsp;-&nbsp;optional,&nbsp;set&nbsp;to&nbsp;geq&nbsp;for&nbsp;maximal&nbsp;values<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dictionary&nbsp;of&nbsp;parameters<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#HyperBand-top">top</a>(3)</tt></dd></dl>
 
 <hr>
 Data descriptors inherited from <a href="randopt.experiment.html#Experiment">Experiment</a>:<br>
