@@ -1,4 +1,4 @@
-.PHONY: doc
+.PHONY: doc test
 
 all: example
 
@@ -28,4 +28,4 @@ doc:
 	mv *.html doc
 
 test:
-	python -m unittest discover -s 'randopt/test' -p '*_tests.py'
+	python -m unittest discover -s 'test' -p '*_tests.py'
