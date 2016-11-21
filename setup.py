@@ -12,7 +12,6 @@ install(
         packages=['randopt'],
         version=VERSION,
         description='Random search optimization and experiment logging. Support async, fancy visualization, distributed execution.',
-        long_description=open('README.md').read(),
         author='Seb Arnold',
         author_email='smr.arnold@gmail.com',
         url = 'https://github.com/seba-1511/randopt',
