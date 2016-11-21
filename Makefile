@@ -10,7 +10,7 @@ advanced:
 	python examples/multi_params.py
 	roviz.py -e multi_params_example
 
-clean: 
+clean:
 	rm -rf randopt_results
 
 hb:
@@ -18,3 +18,6 @@ hb:
 
 dev:
 	python setup.py develop
+
+test:
+	python -m unittest discover -s 'randopt/test' -p '*_tests.py'
