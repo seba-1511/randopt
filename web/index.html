@@ -138,31 +138,29 @@
                             </div>
 
                         <h1 id="introduction">Introduction</h1>
-            <p><code>randopt</code> is a python package that will help you manage and run experiments. On top of managing and visualizing experiments, it provides functionalities for hyper-parameter search. It's still in its early days, and we are working on adding more features without clutter the current workflow.</p>
+            <p><code>randopt</code> is a python package that will help you manage and run experiments. On top of that, it provides functionalities for <a href="http://www.argmin.net/2016/06/20/hypertuning/">hyper-parameter search</a>. It's still in its early days, and we are working on adding more features while keeping the current streamlined workflow.</p>
             <h1 id="installation">Installation</h1>
-            <p>To install <code>randopt</code> execute</p>
+            <p>No dependencies. To install <code>randopt</code> execute</p>
             <pre class="shell"><code>pip install randopt</code></pre>
-            <p>source are also available on the GitHub repo</p>
+            <p>Code sources are also available on the GitHub repo</p>
             <blockquote>
             <p><a href="https://github.com/seba-1511/randopt/" class="uri">https://github.com/seba-1511/randopt/</a></p>
             </blockquote>
             <h1 id="overview">Overview</h1>
-            <p><code>randopt</code> provides two main utilities: a programmatic interface to experiments and a visualization tool. Here's what a typical randopt workflow looks like</p>
+            <p><code>randopt</code> provides two main utilities: a programmatic interface to experiments and a visualization tool. Here's what a typical randopt workflow looks like.</p>
             <ol style="list-style-type: decimal">
-            <li>Write (or wrap) your experiment with <code>randopt.Experiment</code></li>
-            <li>Run your experiments (several times if you are searching for best hyper-parameters)</li>
-            <li>Analyse the results using <code>roviz.py</code></li>
+            <li>Annotate your experiments with <code>randopt.Experiment</code>,</li>
+            <li>Run that <strong>same</strong> script so as to try multiple configurations,</li>
+            <li>Analyse the results using <code>roviz.py</code> or the programmatic API.</li>
             </ol>
             <h3 id="simple-example">Simple Example</h3>
-            <p>TL;DR: We're working through <a href="https://github.com/seba-1511/randopt/blob/master/examples/simple.py">this</a> easy example.</p>
-            <p>Let's work through a <a href="https://github.com/seba-1511/randopt/blob/master/examples/simple.py">simple</a> example; trying to find the minimum value of <span class="math inline">\(x^2\)</span> by random search. We first define our <strong>loss function</strong>, which will return the value we're trying to optimize for.</p>
-            <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">
-            <span class="kw">def</span> loss(x):
+            <p>TL;DR: Check out <a href="https://github.com/seba-1511/randopt/blob/master/examples/simple.py">this example</a> to get started.</p>
+            <p>Let's work through a simple example; trying to find the minimum value of <span class="math inline">\(x^2\)</span> by random search. We first define our <strong>loss function</strong>, which will return the value we're trying to optimize for.</p>
+            <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">            <span class="kw">def</span> loss(x):
                 <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span></code></pre></div>
-            <p>Our example is trivial, and a real-world application will more likely be along the lines of minimizing the validation accuracy of a machine learning algorithm.</p>
+            <p>Our example is trivial, and a real-world application will more likely to look like minimizing the validation accuracy of a learning algorithm.</p>
             <p>Now that we have a loss function we create an experiment using <code>randopt.Experiment(name, params)</code>.</p>
-            <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">
-            <span class="im">import</span> randopt <span class="im">as</span> ro
+            <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">            <span class="im">import</span> randopt <span class="im">as</span> ro
             experiment <span class="op">=</span> ro.Experiment(<span class="st">&#39;simple_example&#39;</span>, {
                 <span class="st">&#39;alpha&#39;</span>: ro.Gaussian(mean<span class="op">=</span><span class="fl">0.0</span>, std<span class="op">=</span><span class="fl">0.5</span>)
             })</code></pre></div>
@@ -172,23 +170,22 @@
             <li>you can define any number of parameters, and</li>
             <li>once sampled, their values are accessible at <code>experiment.param_name</code>.</li>
             </ol>
-            <p>Finally, we decided to sample the value of <code>alpha</code> according to a Gaussian distribution, with mean 0 and standard deviation 0.5. <code>randopt</code> provides several distributions, and it is easy to also add you own.</p>
+            <p>Finally, we decided to sample the value of <code>alpha</code> according to a Gaussian distribution, with mean 0 and standard deviation 0.5. <code>randopt</code> provides <a href="https://seba-1511.github.io/randopt/randopt.samplers.html">several distributions</a>, and it is easy to also <a href="https://github.com/seba-1511/randopt/blob/master/randopt/samplers.py#L82">add you own</a>.</p>
             <p>It is now time for us to sample, run our experiment, and save the result.</p>
-            <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">
-            <span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(<span class="dv">100</span>):
+            <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">            <span class="cf">for</span> i <span class="op">in</span> <span class="bu">range</span>(<span class="dv">100</span>):
                 <span class="co"># Could use experiment.sample_all_params()</span>
                 experiment.sample(<span class="st">&#39;alpha&#39;</span>)
                 result <span class="op">=</span> loss(experiment.alpha)
                 experiment.add_result(result)</code></pre></div>
             <p>Here we decided to run our experiment a 100 times. As noted in the comment we could have used <code>experiment.sample_all_params()</code> instead of <code>experiment.sample('alpha')</code>. This is particularly useful when dealing with a large number of hyper-parameters.</p>
-            <p>The crucial line is the call to <code>experiment.add_result(result)</code>. This will save a JSON file with with the current hyper-parameters and the obtained result. You can also choose to add more information in the JSON dump by passing a dictionary as the second parameter to <code>add_result</code>. For example, you could pass the list of validation errors of your training algorithm.</p>
+            <p>The crucial line is the call to <code>experiment.add_result(result)</code>. It will save a JSON file with with the current hyper-parameters and the obtained result. You can also choose to add more information in the JSON dump by passing a dictionary as the second parameter to <code>add_result</code>. For example, you could pass the list of validation errors of your iterative training algorithm.</p>
+            <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">experiment.add_result(loss, data<span class="op">=</span>{<span class="st">&#39;convergence&#39;</span>. [<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="fl">0.1</span>]})</code></pre></div>
             <h3 id="retrieving-results">Retrieving Results</h3>
             <p>There are two <em>preferred</em> ways to retrieve results from randopt. The first one is using <code>roviz.py</code>, which will generate a web-page with a summary of all results.</p>
             <pre><code>roviz.py -e simple_example</code></pre>
             <p>The an example of the web page generated by the above line is <a href="./simple_example/viz.html">available here</a>. Try clicking on the values of <code>alpha</code> !</p>
             <p>The second option is to explore your results using the programmatic API. The following snippet demonstrates some of the available options to search through your results.</p>
-            <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">
-            mini <span class="op">=</span> experiment.minimum() <span class="co"># Returns the exp. with minimum result</span>
+            <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">            mini <span class="op">=</span> experiment.minimum() <span class="co"># Returns the exp. with minimum result</span>
             <span class="bu">print</span> <span class="st">&#39;Minimum result: &#39;</span>, mini.value, <span class="st">&#39;, with params: &#39;</span>, mini.params
             
             maxi <span class="op">=</span> experiment.maximum() <span class="co"># Returns the exp. with maximum result</span>
@@ -196,19 +193,28 @@
             
             leq <span class="op">=</span> <span class="kw">lambda</span> x, y: x <span class="op">&lt;=</span> y
             top <span class="op">=</span> experiment.top(<span class="dv">3</span>, fn<span class="op">=</span>leq) <span class="co"># Best n according to fn. Default: leq</span></code></pre></div>
-            <p>Of course, you can easily access each experiment run individually through its JSON dump, which is available in the <code>randopt_result/simple_example/</code> folder.</p>
+            <p>Of course, you can easily access each run individually through its JSON dump, which is available in the <code>randopt_result/simple_example/</code> folder.</p>
+            <h3 id="distributed-parallel-search">Distributed / Parallel Search</h3>
+            <p>One of the advantage of dumping each result in its own file is that we can trivially parallelize the search. Hence if running the above example involves calling</p>
+            <pre><code>python simple.py</code></pre>
+            <p>then running that command <a href="http://www.argmin.net/2016/06/20/hypertuning/">twice, concurrently</a> (see below for Unix) will launch two processes that should be allocated different cores by the operating system.</p>
+            <pre><code>python simple.py &amp; python simple.py</code></pre>
+            <p>Even better, share your code with friends, let them run it, and then copy their JSON files in your <code>randopt_results/simple_experiment/</code> folder. The search / visualization scripts will consider the entirety of the directory and your friends' results will be included too !</p>
             <h3 id="whats-next">What's next</h3>
+            <p><code>randopt</code> includes other useful utilities to manage your experiments. (eg, seed setting, experiment reproduction, fancy samplers) To learn more about them you can</p>
             <ul>
-            <li>Read the <a href="./doc/randopt.html">doc</a></li>
-            <li>Check out <a href="https://github.com/seba-1511/randopt/blob/master/examples/hb_example.py">more</a> <a href="https://github.com/seba-1511/randopt/blob/master/examples/hb_vs_random.py">complex</a> <a href="https://github.com/seba-1511/randopt/blob/master/examples/multi_params.py">examples</a></li>
+            <li>Read the <a href="./randopt.html">docs</a>,</li>
+            <li>Check out <a href="https://github.com/seba-1511/randopt/blob/master/examples/hb_example.py">more</a> <a href="https://github.com/seba-1511/randopt/blob/master/examples/hb_vs_random.py">complex</a> <a href="https://github.com/seba-1511/randopt/blob/master/examples/multi_params.py">examples</a>, and</li>
             <li>Contribute !</li>
             </ul>
             <h1 id="roadmap">Roadmap</h1>
             <p>Here's a list of functionalities we would like to add to <code>randopt</code></p>
             <ul>
             <li>More samplers</li>
-            <li>HyperBand support</li>
-            <li>Fancier HTML visualization - in particular wrt to plotting result, confidence intervals, etc...</li>
+            <li><a href="https://arxiv.org/abs/1603.06560">HyperBand</a> support (currently <a href="https://github.com/seba-1511/randopt/blob/master/examples/hb_example.py">experimental</a>)</li>
+            <li><a href="http://www.ml4aad.org/algorithm-configuration/smac/">Bayesian</a> <a href="https://hal.inria.fr/hal-00642998">optimization</a> <a href="http://www.jmlr.org/proceedings/papers/v37/snoek15.pdf">support</a>, especially for later stages fine-tuning</li>
+            <li>Improved performance with JSON file management</li>
+            <li>Fancier HTML visualization - in particular w.r.t. to plotting result, confidence intervals, etc...</li>
             </ul>
             <h1 id="contributors">Contributors</h1>
             <p>The following people have made contributions to randopt</p>

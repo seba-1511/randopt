@@ -4,52 +4,49 @@
 
 # Introduction
 
-`randopt` is a python package that will help you manage and run experiments. On top of managing and visualizing experiments, it provides functionalities for hyper-parameter search. It's still in its early days, and we are working on adding more features without clutter the current workflow.
+`randopt` is a python package that will help you manage and run experiments. On top of that, it provides functionalities for [hyper-parameter search](http://www.argmin.net/2016/06/20/hypertuning/). It's still in its early days, and we are working on adding more features while keeping the current streamlined workflow.
 
 # Installation
 
-To install `randopt` execute
+No dependencies. To install `randopt` execute
 
 ```shell
 pip install randopt
 ```
 
-source are also available on the GitHub repo
+Code sources are also available on the GitHub repo
 
 >[https://github.com/seba-1511/randopt/](https://github.com/seba-1511/randopt/)
 
 # Overview
 
-`randopt` provides two main utilities: a programmatic interface to experiments and a visualization tool. Here's what a typical randopt workflow looks like
+`randopt` provides two main utilities: a programmatic interface to experiments and a visualization tool. Here's what a typical randopt workflow looks like.
 
-1. Write (or wrap) your experiment with `randopt.Experiment`
-2. Run your experiments (several times if you are searching for best hyper-parameters)
-3. Analyse the results using `roviz.py`
+1. Annotate your experiments with `randopt.Experiment`,
+2. Run that **same** script so as to try multiple configurations,
+3. Analyse the results using `roviz.py` or the programmatic API.
 
 ### Simple Example
 
-TL;DR: We're working through [this](https://github.com/seba-1511/randopt/blob/master/examples/simple.py) easy example.
+TL;DR: Check out [this example](https://github.com/seba-1511/randopt/blob/master/examples/simple.py) to get started.
 
-Let's work through a [simple](https://github.com/seba-1511/randopt/blob/master/examples/simple.py) example; trying to find the minimum value of $x^2$ by random search. We first define our **loss function**, which will return the value we're trying to optimize for. 
+Let's work through a simple example; trying to find the minimum value of $x^2$ by random search. We first define our **loss function**, which will return the value we're trying to optimize for. 
 
 ```python
-
-def loss(x):
+            def loss(x):
     return x**2
 
 ```
 
-Our example is trivial, and a real-world application will more likely be along the lines of minimizing the validation accuracy of a machine learning algorithm.
+Our example is trivial, and a real-world application will more likely to look like minimizing the validation accuracy of a learning algorithm.
 
 Now that we have a loss function we create an experiment using `randopt.Experiment(name, params)`.
 
 ```python
-
-import randopt as ro
+            import randopt as ro
 experiment = ro.Experiment('simple_example', {
     'alpha': ro.Gaussian(mean=0.0, std=0.5)
 })
-
 ```
 
 In the above snippet, `'simple_example'` is the name of the experiment, and `alpha` is the parameter we will sample. Note
@@ -58,13 +55,12 @@ In the above snippet, `'simple_example'` is the name of the experiment, and `alp
 2. you can define any number of parameters, and
 3. once sampled, their values are accessible at `experiment.param_name`.
 
-Finally, we decided to sample the value of `alpha` according to a Gaussian distribution, with mean 0 and standard deviation 0.5. `randopt` provides several distributions, and it is easy to also add you own.
+Finally, we decided to sample the value of `alpha` according to a Gaussian distribution, with mean 0 and standard deviation 0.5. `randopt` provides [several distributions](https://seba-1511.github.io/randopt/randopt.samplers.html), and it is easy to also [add you own](https://github.com/seba-1511/randopt/blob/master/randopt/samplers.py#L82).
 
 It is now time for us to sample, run our experiment, and save the result.
 
 ```python
-
-for i in range(100):
+            for i in range(100):
     # Could use experiment.sample_all_params()
     experiment.sample('alpha')
     result = loss(experiment.alpha)
@@ -74,7 +70,11 @@ for i in range(100):
 
 Here we decided to run our experiment a 100 times. As noted in the comment we could have used `experiment.sample_all_params()` instead of `experiment.sample('alpha')`. This is particularly useful when dealing with a large number of hyper-parameters. 
 
-The crucial line is the call to `experiment.add_result(result)`. This will save a JSON file with with the current hyper-parameters and the obtained result. You can also choose to add more information in the JSON dump by passing a dictionary as the second parameter to `add_result`. For example, you could pass the list of validation errors of your training algorithm.
+The crucial line is the call to `experiment.add_result(result)`. It will save a JSON file with with the current hyper-parameters and the obtained result. You can also choose to add more information in the JSON dump by passing a dictionary as the second parameter to `add_result`. For example, you could pass the list of validation errors of your iterative training algorithm.
+
+```python
+experiment.add_result(loss, data={'convergence'. [10, 9, 6, 5, 3, 2, 1, 0.1]})
+```
 
 ### Retrieving Results
 
@@ -89,8 +89,7 @@ The an example of the web page generated by the above line is [available here](.
 The second option is to explore your results using the programmatic API. The following snippet demonstrates some of the available options to search through your results.
 
 ```python
-
-mini = experiment.minimum() # Returns the exp. with minimum result
+			mini = experiment.minimum() # Returns the exp. with minimum result
 print 'Minimum result: ', mini.value, ', with params: ', mini.params
 
 maxi = experiment.maximum() # Returns the exp. with maximum result
@@ -98,23 +97,41 @@ print 'Maximum result: ', maxi.value, ', with params: ', maxi.params
 
 leq = lambda x, y: x <= y
 top = experiment.top(3, fn=leq) # Best n according to fn. Default: leq
-
 ```
 
-Of course, you can easily access each experiment run individually through its JSON dump, which is available in the `randopt_result/simple_example/` folder. 
+Of course, you can easily access each run individually through its JSON dump, which is available in the `randopt_result/simple_example/` folder. 
+
+### Distributed / Parallel Search
+
+One of the advantage of dumping each result in its own file is that we can trivially parallelize the search. Hence if running the above example involves calling
+
+```
+python simple.py
+```
+
+then running that command [twice, concurrently](http://www.argmin.net/2016/06/20/hypertuning/) (see below for Unix) will launch two processes that should be allocated different cores by the operating system.
+
+```
+python simple.py & python simple.py
+```
+
+Even better, share your code with friends, let them run it, and then copy their JSON files in your `randopt_results/simple_experiment/` folder. The search / visualization scripts will consider the entirety of the directory and your friends' results will be included too !
 
 ### What's next
+`randopt` includes other useful utilities to manage your experiments. (eg, seed setting, experiment reproduction, fancy samplers) To learn more about them you can
 
-* Read the [doc](./randopt.html)
-* Check out [more](https://github.com/seba-1511/randopt/blob/master/examples/hb_example.py) [complex](https://github.com/seba-1511/randopt/blob/master/examples/hb_vs_random.py) [examples](https://github.com/seba-1511/randopt/blob/master/examples/multi_params.py)
+* Read the [docs](./randopt.html),
+* Check out [more](https://github.com/seba-1511/randopt/blob/master/examples/hb_example.py) [complex](https://github.com/seba-1511/randopt/blob/master/examples/hb_vs_random.py) [examples](https://github.com/seba-1511/randopt/blob/master/examples/multi_params.py), and
 * Contribute !
 
 # Roadmap
 Here's a list of functionalities we would like to add to `randopt`
 
 * More samplers
-* HyperBand support
-* Fancier HTML visualization - in particular wrt to plotting result, confidence intervals, etc...
+* [HyperBand](https://arxiv.org/abs/1603.06560) support (currently [experimental](https://github.com/seba-1511/randopt/blob/master/examples/hb_example.py))
+* [Bayesian](http://www.ml4aad.org/algorithm-configuration/smac/) [optimization](https://hal.inria.fr/hal-00642998) [support](http://www.jmlr.org/proceedings/papers/v37/snoek15.pdf), especially for later stages fine-tuning
+* Improved performance with JSON file management
+* Fancier HTML visualization - in particular w.r.t. to plotting result, confidence intervals, etc...
 
 # Contributors
 The following people have made contributions to randopt

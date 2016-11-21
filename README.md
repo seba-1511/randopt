@@ -1,5 +1,12 @@
-# rand_opt
+# randopt
 Random search optimization and experiment logging. Support async, fancy visualization, distributed execution.
+
+## Install
+
+```shell
+pip install randopt
+```
+or clone this repo and `python setup.py develop`.
 
 ## Example
 Here's a short example on how to use `randopt`.
@@ -44,11 +51,3 @@ By default, the visualizer sorts in order of ascending result. If you wish to vi
 
 `python randopt/roviz.py -e expName -s max`
 
-## TODO
-
-Check each python file or grep `TODO:` for a complete list of todos. Here's an overview.
-
-* Unit Tests
-* Documentation
-* Improve HyperBand implementation
-* Bayesian optimizaiton on previously ran experiments ?
