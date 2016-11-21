@@ -73,7 +73,7 @@ Here we decided to run our experiment a 100 times. As noted in the comment we co
 The crucial line is the call to `experiment.add_result(result)`. It will save a JSON file with with the current hyper-parameters and the obtained result. You can also choose to add more information in the JSON dump by passing a dictionary as the second parameter to `add_result`. For example, you could pass the list of validation errors of your iterative training algorithm.
 
 ```python
-experiment.add_result(loss, data={'convergence'. [10, 9, 6, 5, 3, 2, 1, 0.1]})
+experiment.add_result(loss, data={'convergence': [10, 9, 6, 5, 3, 2, 1, 0.1]})
 ```
 
 ### Retrieving Results

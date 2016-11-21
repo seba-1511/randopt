@@ -19,8 +19,6 @@ This file implements the Experiment class.
 
 TODO:
     * Add option to check if experiment was already ran. (search through json)
-    * Add option to run Bayesian opti, based on previous exp.
-    * Unit tests
 """
 
 leq = lambda x, y: x <= y

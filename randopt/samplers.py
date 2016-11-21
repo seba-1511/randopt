@@ -5,9 +5,6 @@ import math
 
 """
 Here we implement the sampling strategies.
-
-TODO:
-    * Unit tests
 """
 
 
