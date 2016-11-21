@@ -52,7 +52,10 @@ class Experiment(object):
         self.name = name
         self.params = params
         for key in params:
-            setattr(self, key, None)
+            if key is not 'result':
+                setattr(self, key, None)
+            else:
+                raise ValueError('Param cannot be named \'result\'')
         cwd = os.getcwd()
         randopt_folder = os.path.join(cwd, 'randopt_results')
         if not os.path.exists(randopt_folder):
@@ -109,8 +112,17 @@ class Experiment(object):
                     #delete it from the dict
                     del res['result']
 
+                    # TODO: refactor this insert function to be cleaner
                     if len(top_n_experiments) < count:
-                        top_n_experiments.append((result_value, res))
+                        inserted = False
+                        for i in range(len(top_n_experiments)):
+                            if fn(result_value, top_n_experiments[i][0]):
+                                #place the experiment in place
+                                top_n_experiments.insert(i, (result_value, res))
+                                inserted = True
+                                break
+                        if not inserted:
+                            top_n_experiments.append((result_value, res))
                     else:
                         #iterate over each item in the list
                         for i in range(count):
