@@ -1,18 +1,21 @@
 #!/usr/bin/env python
 
 import os
+import random
 try:
     import ujson as json
 except ImportError:
     import json
-import random
-import cPickle as pk
+try:
+    import cPickle as pk
+except ImportError:
+    import pickle as pk
 
 from time import time
 from math import log, ceil
 from collections import namedtuple
 
-from samplers import Uniform
+from .samplers import Uniform
 
 """
 This file implements the Experiment class.
