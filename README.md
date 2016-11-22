@@ -1,4 +1,7 @@
 # randopt
+[![Build Status](https://travis-ci.org/seba-1511/randopt.svg?branch=master)](https://travis-ci.org/seba-1511/randopt)
+[![PyPI version](https://badge.fury.io/py/randopt.svg)](https://badge.fury.io/py/randopt)
+
 ![](./web/figs/randopt.png)
 
 ## Install
