@@ -50,7 +50,7 @@ viz_end = '''
 
     var ARRAY_PLOT = 1;
 
-    function plotArray(name, idx) {
+    function plotArray(name, idx, traceNb) {
         var div = document.getElementById('plotter'), i,
             x = [],
             y = expData[name][idx];
@@ -63,6 +63,7 @@ viz_end = '''
             y: y,
             type: 'scatter',
             mode: 'lines+markers',
+            name: 'Result #' + traceNb,
         }];
         var layout = {
             margin: {t: 0},
@@ -132,7 +133,7 @@ class Visualizer:
                 else:
                     list_of_strings = res[key].strip()[1:-1].split(',')
                     self.exp_data[key].append([float(a) for a in list_of_strings])
-                    self._output_writer.write('<td style="cursor:pointer;" onclick="plotArray(\'' + key + '\', ' + str(len(self.exp_data[key]) - 1) + ');">' + text + '</td>')
+                    self._output_writer.write('<td style="cursor:pointer;" onclick="plotArray(\'' + key + '\', ' + str(len(self.exp_data[key]) - 1) + ', ' + str(self.counter) + ');">' + text + '</td>')
         self._output_writer.write('<td><a target="_blank" href="file://' + res['__filename__'] + '" class="btn btn-primary btn-xs">Download</a></td>')
         self._output_writer.write('</tr>\n')
         self.counter += 1
