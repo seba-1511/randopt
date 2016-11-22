@@ -48,6 +48,37 @@ viz_footer = '''
 
 viz_end = '''
 
+    var ARRAY_PLOT = 1;
+
+    function plotArray(name, idx) {
+        var div = document.getElementById('plotter'), i,
+            x = [],
+            y = expData[name][idx];
+        for (i=0; i < y.length; i++) {
+            debugger;
+            x.push(i);
+        }
+        var data = [{
+            x: x,
+            y: y,
+            type: 'scatter',
+            mode: 'lines+markers',
+        }];
+        var layout = {
+            margin: {t: 0},
+            xaxis: {title: 'index in array'},
+            yaxis: {title: name}
+        };
+        document.getElementById('plotter-container').style.display = '';
+        if (ARRAY_PLOT) {
+            Plotly.plot(div, data, layout);
+        }
+        else {
+            Plotly.newPlot(div, data, layout);
+            ARRAY_PLOT = 1;
+        }
+    };
+
     function plotError(name) {
         var div = document.getElementById('plotter'),
             x = expData[name],
@@ -65,13 +96,14 @@ viz_end = '''
         };
         document.getElementById('plotter-container').style.display = '';
         Plotly.newPlot(div, data, layout);
+        ARRAY_PLOT = 0;
     };
 </script>
 '''
 
 
 def is_array(string):
-    return string.strip()[0] == '['
+    return string.find('[') >= 0
 
 
 class Visualizer:
@@ -93,9 +125,14 @@ class Visualizer:
                 text = str(res[key])
                 if len(text) > 20:
                     text = text[:47] + '...'
-                self._output_writer.write('<td style="cursor:pointer;" onclick="plotError(\'' + key + '\');">' + text + '</td>')
-                if key in self.exp_data:
+                # self._output_writer.write('<td style="cursor:pointer;" onclick="plotError(\'' + key + '\');">' + text + '</td>')
+                if not is_array(res[key]):
                     self.exp_data[key].append(float(res[key]))
+                    self._output_writer.write('<td style="cursor:pointer;" onclick="plotError(\'' + key + '\');">' + text + '</td>')
+                else:
+                    list_of_strings = res[key].strip()[1:-1].split(',')
+                    self.exp_data[key].append([float(a) for a in list_of_strings])
+                    self._output_writer.write('<td style="cursor:pointer;" onclick="plotArray(\'' + key + '\', ' + str(len(self.exp_data[key]) - 1) + ');">' + text + '</td>')
         self._output_writer.write('<td><a target="_blank" href="file://' + res['__filename__'] + '" class="btn btn-primary btn-xs">Download</a></td>')
         self._output_writer.write('</tr>\n')
         self.counter += 1
@@ -107,8 +144,7 @@ class Visualizer:
         for key in res.keys():
             if key not in specials:
                 self._output_writer.write('<th>' + key.title() + '</th>')
-                if not is_array(res[key]):
-                    self.exp_data[key] = []
+                self.exp_data[key] = []
         self._output_writer.write('</tr></thead><tbody>')
 
     def write_js_data(self):

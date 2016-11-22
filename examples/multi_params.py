@@ -8,10 +8,10 @@ def loss(w, x, y, z):
 if __name__ == '__main__':
 
     e = ro.Experiment('multi_params_example', {
-            'dog'  : ro.Normal(mean=0.0, std=1.0, dtype='float'),
-            'cat' : ro.Uniform(low=-1.0, high=1.0, dtype='float'),
-            'dolphin': ro.Gaussian(mean=0.0, std=1.0, dtype='float'),
-            'any_name'  : ro.Choice([0.01, 0.05, 0.1, 0.5, 0.7, 0.9], sampler=ro.Uniform()),
+            'dog': ro.Normal(mean=0.0, std=1.0, dtype='float'),
+            'cat': ro.Uniform(low=-1.0, high=1.0, dtype='float'),
+            'dolphin': ro.LognormVariate(mean=0.0, std=1.0, dtype='float'),
+            'any_name': ro.Choice([0.01, 0.05, 0.1, 0.5, 0.7, 0.9], sampler=ro.Uniform()),
         })
 
     # Seeding will make all of your searches reproducible. (Usually not wanted)
@@ -22,7 +22,10 @@ if __name__ == '__main__':
         e.sample_all_params()
         res = loss(e.dog, e.cat, e.dolphin, e.any_name)
         print 'Result: ', res
-        e.add_result(res)
+        # Example of using the second parameter
+        e.add_result(res, data={
+            'sup.data': [e.dog, e.cat, e.dolphin, e.any_name]
+        })
 
     # Save/load the state of the random number generators
     e.save_state('./multi_params_state.pk')
