@@ -4,4 +4,4 @@ python:
     - 3.2
     - 3.5
 
-script: make test
+script: make dev && make test
