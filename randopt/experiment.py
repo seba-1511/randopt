@@ -236,7 +236,7 @@ class Experiment(object):
 
         Parameters:
             result - resultant value
-            data - dict of {result_name, value}
+            data - dict of {result_name: value}
 
         Return type:
             n/a
@@ -244,12 +244,12 @@ class Experiment(object):
         Example:
             e.add_result(loss)
         '''
-        res = {'result': str(result)}
+        res = {'result': result}
         for key in self.params:
-            res[key] = str(getattr(self, key))
+            res[key] = getattr(self, key)
         if data is not None:
             for key in data:
-                res[key] = str(data[key])
+                res[key] = data[key]
         fname = str(time()) + '_' + str(random.random()) + '.json'
         fpath = os.path.join(self.experiment_path, fname)
         with open(fpath, 'w') as f:

@@ -103,8 +103,8 @@ viz_end = '''
 '''
 
 
-def is_array(string):
-    return string.find('[') >= 0
+def is_array(value):
+    return isinstance(value, list)
 
 
 class Visualizer:
@@ -128,11 +128,12 @@ class Visualizer:
                     text = text[:47] + '...'
                 # self._output_writer.write('<td style="cursor:pointer;" onclick="plotError(\'' + key + '\');">' + text + '</td>')
                 if not is_array(res[key]):
-                    self.exp_data[key].append(float(res[key]))
+                    self.exp_data[key].append(res[key])
                     self._output_writer.write('<td style="cursor:pointer;" onclick="plotError(\'' + key + '\');">' + text + '</td>')
                 else:
-                    list_of_strings = res[key].strip()[1:-1].split(',')
-                    self.exp_data[key].append([float(a) for a in list_of_strings])
+                    # list_of_strings = res[key].strip()[1:-1].split(',')
+                    # self.exp_data[key].append([a for a in list_of_strings])
+                    self.exp_data[key].append(res[key])
                     self._output_writer.write('<td style="cursor:pointer;" onclick="plotArray(\'' + key + '\', ' + str(len(self.exp_data[key]) - 1) + ', ' + str(self.counter) + ');">' + text + '</td>')
         self._output_writer.write('<td><a target="_blank" href="file://' + res['__filename__'] + '" class="btn btn-primary btn-xs">Download</a></td>')
         self._output_writer.write('</tr>\n')
@@ -189,7 +190,7 @@ class Visualizer:
 
         #sort the data
         #only reverse it if the sort style is max
-        data = sorted(data, key=lambda k: float(k['result']), reverse = self._sort_style == 'max')
+        data = sorted(data, key=lambda k: k['result'], reverse = self._sort_style == 'max')
         viz_path = os.path.join(experiment_path, 'viz.html')
         self.write_data(data, viz_path)
         webbrowser.open("file:///" + os.path.abspath(viz_path))
