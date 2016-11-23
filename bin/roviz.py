@@ -28,8 +28,8 @@ viz_header = '''<!DOCTYPE html>
     <div id="plotter" style="margin:auto;height:450px;"></div>
   </div>
   <hr />
-  <div style="overflow-x: auto;transform:rotateX(180deg);-ms-transform:rotateX(180deg);-webkit-transform:rotateX(180deg);">
-  <table id="dataTable" class="table table-hover table-striped flipped" style="transform:rotateX(180deg);-ms-transform:rotateX(180deg);-webkit-transform:rotateX(180deg);">
+  <div style="overflow-x: auto;">
+  <table id="dataTable" class="table table-hover table-striped">
     <thead>
         <tr>'''
 
