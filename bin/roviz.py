@@ -28,13 +28,15 @@ viz_header = '''<!DOCTYPE html>
     <div id="plotter" style="margin:auto;height:450px;"></div>
   </div>
   <hr />
-  <table id="dataTable" class="table table-hover table-striped">
+  <div style="overflow-x: auto;transform:rotateX(180deg);-ms-transform:rotateX(180deg);-webkit-transform:rotateX(180deg);">
+  <table id="dataTable" class="table table-hover table-striped flipped" style="transform:rotateX(180deg);-ms-transform:rotateX(180deg);-webkit-transform:rotateX(180deg);">
     <thead>
         <tr>'''
 
 viz_footer = '''
     </tbody>
   </table>
+  </div>
 </div>
 
 </body>
@@ -126,15 +128,12 @@ class Visualizer:
                 text = str(res[key])
                 if len(text) > 20:
                     text = text[:47] + '...'
-                # self._output_writer.write('<td style="cursor:pointer;" onclick="plotError(\'' + key + '\');">' + text + '</td>')
                 if not is_array(res[key]):
                     self.exp_data[key].append(res[key])
-                    self._output_writer.write('<td style="cursor:pointer;" onclick="plotError(\'' + key + '\');">' + text + '</td>')
+                    self._output_writer.write('<td><a style="cursor:pointer;text-decoration:none;color:black;" onclick="plotError(\'' + key + '\');">' + text + '</a></td>')
                 else:
-                    # list_of_strings = res[key].strip()[1:-1].split(',')
-                    # self.exp_data[key].append([a for a in list_of_strings])
                     self.exp_data[key].append(res[key])
-                    self._output_writer.write('<td style="cursor:pointer;" onclick="plotArray(\'' + key + '\', ' + str(len(self.exp_data[key]) - 1) + ', ' + str(self.counter) + ');">' + text + '</td>')
+                    self._output_writer.write('<td><a style="cursor:pointer;text-decoration:none;color:black;" onclick="plotArray(\'' + key + '\', ' + str(len(self.exp_data[key]) - 1) + ', ' + str(self.counter) + ');">' + text + '</a></td>')
         self._output_writer.write('<td><a target="_blank" href="file://' + res['__filename__'] + '" class="btn btn-primary btn-xs">Download</a></td>')
         self._output_writer.write('</tr>\n')
         self.counter += 1
