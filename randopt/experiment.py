@@ -255,6 +255,32 @@ class Experiment(object):
         with open(fpath, 'w') as f:
             json.dump(res, f)
 
+    def all_results(self):
+        '''
+        Description:
+            Iterates through all previous results in no specific order
+
+        Parameters:
+            n/a
+
+        Return type:
+            iterator
+
+        Example:
+            for res in e.all_results():
+                print res.value
+        '''
+        value, params = None, None
+        for fname in os.listdir(self.experiment_path):
+            base, ext = os.path.splitext(fname)
+            if 'json' in ext:
+                fpath = os.path.join(self.experiment_path, fname)
+                with open(fpath, 'r') as f:
+                    res = json.load(f)
+                    value = float(res['result'])
+                    params = res
+                    yield OptResult(value, params)
+
     def save_state(self, path):
         '''
         Description:

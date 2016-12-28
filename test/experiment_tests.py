@@ -179,3 +179,20 @@ class TestExperiment(unittest.TestCase):
             self.assertEquals(int(writtenData['param1']), 10)
             self.assertEquals(int(writtenData['param2']), 20)
             self.assertEquals(int(writtenData['result']), 50)
+
+    def test_iter_all_results(self):
+        nResults = 5
+        exp_seen = []
+        for i in range(nResults):
+            self.exp.set('param1', i)
+            self.exp.set('param2', i)
+            self.exp.add_result(i)
+            exp_seen.append(0)
+        count = 0
+        for res in self.exp.all_results():
+            count += 1
+            exp_seen[int(res.value)] += 1
+            self.assertEquals(res.params['param1'], res.value)
+            self.assertEquals(exp_seen[int(res.value)], 1)
+        self.assertEquals(count, nResults)
+        self.assertEquals(sum(exp_seen), nResults)

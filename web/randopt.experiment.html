@@ -9,7 +9,7 @@
 <td valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="randopt.html"><font color="#ffffff">randopt</font></a>.experiment</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/seba-1511/Dropbox/dev/rand_opt/randopt/experiment.py">/home/seba-1511/Dropbox/dev/rand_opt/randopt/experiment.py</a></font></td></tr></table>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/seba-1511/Dropbox/Dev/rand_opt/randopt/experiment.py">/Users/seba-1511/Dropbox/Dev/rand_opt/randopt/experiment.py</a></font></td></tr></table>
     <p></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
@@ -18,7 +18,7 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="ujson.html">ujson</a><br>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="json.html">json</a><br>
 </td><td width="25%" valign=top><a href="os.html">os</a><br>
 </td><td width="25%" valign=top><a href="cPickle.html">cPickle</a><br>
 </td><td width="25%" valign=top><a href="random.html">random</a><br>
@@ -80,13 +80,26 @@ Example:<br>
 &nbsp;<br>
 Parameters:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;-&nbsp;resultant&nbsp;value<br>
-&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;-&nbsp;dict&nbsp;of&nbsp;{result_name,&nbsp;value}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;-&nbsp;dict&nbsp;of&nbsp;{result_name:&nbsp;value}<br>
 &nbsp;<br>
 Return&nbsp;type:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
 &nbsp;<br>
 Example:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#Experiment-add_result">add_result</a>(loss)</tt></dd></dl>
+
+<dl><dt><a name="Experiment-all_results"><strong>all_results</strong></a>(self)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Iterates&nbsp;through&nbsp;all&nbsp;previous&nbsp;results&nbsp;in&nbsp;no&nbsp;specific&nbsp;order<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;iterator<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;res&nbsp;in&nbsp;e.<a href="#Experiment-all_results">all_results</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;res.value</tt></dd></dl>
 
 <dl><dt><a name="Experiment-maximum"><strong>maximum</strong></a>(self)</dt><dd><tt>Description:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;the&nbsp;maximum&nbsp;result&nbsp;after&nbsp;experimentation<br>
@@ -227,13 +240,26 @@ Methods inherited from <a href="randopt.experiment.html#Experiment">Experiment</
 &nbsp;<br>
 Parameters:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;-&nbsp;resultant&nbsp;value<br>
-&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;-&nbsp;dict&nbsp;of&nbsp;{result_name,&nbsp;value}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;-&nbsp;dict&nbsp;of&nbsp;{result_name:&nbsp;value}<br>
 &nbsp;<br>
 Return&nbsp;type:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
 &nbsp;<br>
 Example:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;e.<a href="#HyperBand-add_result">add_result</a>(loss)</tt></dd></dl>
+
+<dl><dt><a name="HyperBand-all_results"><strong>all_results</strong></a>(self)</dt><dd><tt>Description:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Iterates&nbsp;through&nbsp;all&nbsp;previous&nbsp;results&nbsp;in&nbsp;no&nbsp;specific&nbsp;order<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n/a<br>
+&nbsp;<br>
+Return&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;iterator<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;res&nbsp;in&nbsp;e.<a href="#HyperBand-all_results">all_results</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;res.value</tt></dd></dl>
 
 <dl><dt><a name="HyperBand-maximum"><strong>maximum</strong></a>(self)</dt><dd><tt>Description:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;the&nbsp;maximum&nbsp;result&nbsp;after&nbsp;experimentation<br>
