@@ -183,9 +183,12 @@ class Visualizer:
             if 'json' in ext:
                 fpath = os.path.join(experiment_path, fname)
                 with open(fpath, 'r') as f:
-                    res = json.load(f)
-                    res['__filename__'] = fpath
-                    data.append(res)
+                    try:
+                        res = json.load(f)
+                        res['__filename__'] = fpath
+                        data.append(res)
+                    except ValueError:
+                        print('Issue when reading file: ', f, ' - ignored.')
 
         #sort the data
         #only reverse it if the sort style is max
