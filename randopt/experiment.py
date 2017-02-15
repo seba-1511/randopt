@@ -276,10 +276,13 @@ class Experiment(object):
             if 'json' in ext:
                 fpath = os.path.join(self.experiment_path, fname)
                 with open(fpath, 'r') as f:
-                    res = json.load(f)
-                    value = float(res['result'])
-                    params = res
-                    yield OptResult(value, params)
+                    try:
+                        res = json.load(f)
+                        value = float(res['result'])
+                        params = res
+                        yield OptResult(value, params)
+                    except ValueError:
+                        print('Error reading file: ' + fpath + ' - skipped.')
 
     def save_state(self, path):
         '''
