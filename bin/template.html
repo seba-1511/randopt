@@ -33,8 +33,23 @@
             background: #3e8196;
         }
 
+        #graphs {
+            flex: 0 1 230px;
+            background: blue;
+        }
+
+        #main {
+            display: flex;
+            flex-flow: column;
+        }
+
         .standard-side-padding {
             padding: 0 25px;
+        }
+
+        #table {
+            flex: 1 1;
+            background: orange;
         }
 
         .rand-h1 {
@@ -60,7 +75,7 @@
 
     <div id="main" class="wrapper standard-side-padding">
         <section id="graphs">
-            <div >
+            <div class="container">
                 <section class="graph" id="graphAlpha">
 
                 </section class="" id="graphBeta">
@@ -72,7 +87,7 @@
 
             </div>
         </section>
-        <section id="tables">
+        <section id="table">
 
         </section>
     </div>
