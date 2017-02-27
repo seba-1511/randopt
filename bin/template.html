@@ -38,9 +38,27 @@
             background: blue;
         }
 
+        #graphAlpha {
+            background: green;
+        }
+
+        #graphAlpha {
+            background: red;
+        }
+
         #main {
             display: flex;
             flex-flow: column;
+        }
+
+        .rand-h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .slight-padding {
+            padding: 5px;
         }
 
         .standard-side-padding {
@@ -50,12 +68,6 @@
         #table {
             flex: 1 1;
             background: orange;
-        }
-
-        .rand-h1 {
-            font-size: 22px;
-            font-weight: 800;
-            color: #fff;
         }
 
         .wrapper {
@@ -74,17 +86,14 @@
     </nav>
 
     <div id="main" class="wrapper standard-side-padding">
-        <section id="graphs">
-            <div class="container">
-                <section class="graph" id="graphAlpha">
-
-                </section class="" id="graphBeta">
-                <section>
+        <section id="graphs" class="container">
+            <div class="row">
+                <section class="graph col-md-6" id="graphAlpha">
 
                 </section>
-            </div>
-            <div id="table">
+                <section class="graph col-md-6" id="graphBeta">
 
+                </section>
             </div>
         </section>
         <section id="table">
