@@ -33,17 +33,21 @@
             background: #3e8196;
         }
 
-        #graphs {
-            flex: 0 1 280px;
+        #graphAlpha {
             background: blue;
         }
 
-        #graphAlpha {
-            background: green;
+        #graphBeta {
+            background: red;
         }
 
-        #graphAlpha {
-            background: red;
+        .graph {
+            height: 100%;
+        }
+
+        #graphs {
+            flex: 0 1 280px;
+            background: blue;
         }
 
         #main {
@@ -57,8 +61,17 @@
             color: #fff;
         }
 
+        .row-graphs {
+            height: 100%;
+        }
+
         .slight-padding {
             padding: 5px;
+        }
+
+        .stabilize-container {
+            margin: 0;
+            width: 100%;
         }
 
         .standard-side-padding {
@@ -86,8 +99,8 @@
     </nav>
 
     <div id="main" class="wrapper standard-side-padding">
-        <section id="graphs" class="container">
-            <div class="row">
+        <section id="graphs" class="container stabilize-container">
+            <div class="row row-graphs">
                 <section class="graph col-md-6" id="graphAlpha">
 
                 </section>
