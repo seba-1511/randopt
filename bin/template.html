@@ -33,6 +33,22 @@
             background: #3e8196;
         }
 
+        footer {
+            background: #3e8196;
+            height: 35px;
+            line-height: 2.4;
+        }
+
+        #footerCaptionText {
+            text-align: center;
+            color: #fff;
+            margin: 0;
+        }
+
+        #footerCaptionWrapper {
+
+        }
+
         #graphAlpha {
             background: blue;
         }
@@ -99,28 +115,70 @@
     </nav>
 
     <div id="main" class="wrapper standard-side-padding">
+
+        <!-- Graphs -->
         <section id="graphs" class="container stabilize-container">
             <div class="row row-graphs">
                 <section class="graph col-md-6" id="graphAlpha">
+                    <figure>
+                        <!-- <figcaption>explanatory caption</figcaption> -->
 
+                    </figure>
                 </section>
                 <section class="graph col-md-6" id="graphBeta">
+                    <figure>
+                        <!-- <figcaption>explanatory caption</figcaption> -->
 
+                    </figure>
                 </section>
             </div>
         </section>
+
+        <!-- Data table -->
         <section id="table">
 
         </section>
     </div>
 
     <footer>
-
+        <div id="footerCaptionWrapper">
+            <p id="footerCaptionText"></p>
+        </div>
     </footer>
 
-
+    <script src="https://code.jquery.com/jquery-2.2.4.js"
+          integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+          crossorigin="anonymous">
+    </script>
     <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        console.log('here');
+        var HTML = (function() {
+            function setFooter() {
+                var footer = document.getElementsByTagName('footer')[0];
+                var nav = document.getElementsByTagName('nav')[0];
+
+                footer.style.height = nav.offsetHeight + 'px';
+                // footer.style.backgroundColor = $('nav').css('backgroundColor');
+            };
+
+            function setFooterCaption () {
+                var copyChar = '&copy;',
+                    year = new Date().getFullYear(),
+                    restOfString = 'Seb Arnold All Rights Reserved.';
+                var text = copyChar + year + ' ' + restOfString;
+                $('#footerCaptionText').append(text);
+            };
+
+            return {
+                setFooter: setFooter,
+                setFooterCaption: setFooterCaption
+            }
+        })();
+
+        HTML.setFooterCaption();
+
         // it needs to have result -- probably has parameters
         // parameters being x,y,z,convergence...
         var EXPERIMENT_RESULTS = [
