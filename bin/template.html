@@ -54,11 +54,11 @@
         }
 
         #graphAlpha {
-            background: blue;
+
         }
 
         #graphBeta {
-            background: red;
+
         }
 
         .graph {
@@ -67,7 +67,8 @@
 
         #graphs {
             flex: 0 1 340px;
-            background: blue;
+            border: 1px solid #e6e6e6;
+
         }
 
         #main {
@@ -100,7 +101,7 @@
 
         #table {
             flex: 1 1;
-            background: orange;
+            overflow-y: scroll;
         }
 
         .wrapper {
@@ -140,7 +141,8 @@
 
         <!-- Data table -->
         <section id="table">
-
+            <table id="dataTable" class="display">
+            </table>
         </section>
     </div>
 
@@ -188,6 +190,132 @@
                         z: 6,
                         result: 0.2,
                         convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
                     }
                 ];
 
@@ -216,9 +344,27 @@
                 $('#footerCaptionText').append(text);
             };
 
+            function addToTable(tableID, dataObject) {
+                var $td;
+                var $tr = $("<tr></tr>");
+
+                for(var key in dataObject) {
+                    $td = $("<td></td>")
+                    $td.append(dataObject[key]);
+                    $tr.append($td);
+                }
+                $(tableID).append($tr);
+            };
+
+            function convertDataToDataTable(tableID, data) {
+                $(tableID).DataTable(data);
+            };
+
             return {
                 setFooter: setFooter,
-                setFooterCaption: setFooterCaption
+                setFooterCaption: setFooterCaption,
+                addToTable: addToTable,
+                convertDataToDataTable: convertDataToDataTable
             }
         })();
 
@@ -228,6 +374,14 @@
             getData("some parameter")
                 .then(function(data) {
                     console.log("Data", data);
+                    var dataArray = data.map(function(value, index) {
+                        console.log(value);
+
+                        HTML.addToTable('#dataTable', value);
+                        return [value];
+                    });
+                    console.log(dataArray);
+                    HTML.convertDataToDataTable('#dataTable', dataArray);
                 })
                 .catch(function(err) {
                     console.log("Error fetching data:", err);
