@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8">
     <title>Template</title>
+
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
     <style type="text/css" media="screen">
 
         /**
@@ -13,6 +15,8 @@
         * border: ???;
         */
         * {
+            margin: 0;
+            padding: 0;
             font-family: 'Raleway', sans-serif;
         }
 
@@ -62,7 +66,7 @@
         }
 
         #graphs {
-            flex: 0 1 280px;
+            flex: 0 1 340px;
             background: blue;
         }
 
@@ -152,6 +156,7 @@
     </script>
     <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
     <script type="text/javascript">
         console.log('here');
         var HTML = (function() {
