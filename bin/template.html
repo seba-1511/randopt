@@ -158,7 +158,47 @@
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
     <script type="text/javascript">
-        console.log('here');
+        console.info('Randopt running...');
+
+        var getData = function(parameter) {
+            return new Promise(function(res, rej)  {
+                // 1. get request to the api
+                // 2. fetch data
+
+                        // it needs to have result -- probably has parameters
+                // parameters being x,y,z,convergence...
+                var EXPERIMENT_RESULTS = [
+                    {
+                        x: 5,
+                        y: 3,
+                        z: 1,
+                        result: 0.0,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 10,
+                        y: 8,
+                        z: 4,
+                        result: 0.1,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    }
+                ];
+
+                if (EXPERIMENT_RESULTS) {
+                    res(EXPERIMENT_RESULTS);
+                } else {
+                    rej("Error");
+                }
+            });
+        };
+
         var HTML = (function() {
             function setFooter() {
                 var footer = document.getElementsByTagName('footer')[0];
@@ -182,33 +222,20 @@
             }
         })();
 
+
+        // Actions
+        (function(){
+            getData("some parameter")
+                .then(function(data) {
+                    console.log("Data", data);
+                })
+                .catch(function(err) {
+                    console.log("Error fetching data:", err);
+                });
+        })();
+
         HTML.setFooterCaption();
 
-        // it needs to have result -- probably has parameters
-        // parameters being x,y,z,convergence...
-        var EXPERIMENT_RESULTS = [
-            {
-                x: 5,
-                y: 3,
-                z: 1,
-                result: 0.0,
-                convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-            },
-            {
-                x: 10,
-                y: 8,
-                z: 4,
-                result: 0.1,
-                convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-            },
-            {
-                x: 8,
-                y: 9,
-                z: 6,
-                result: 0.2,
-                convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-            }
-        ];
     </script>
 </body>
 </html>
