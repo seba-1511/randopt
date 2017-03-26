@@ -199,7 +199,7 @@
                 <md-card>
                     <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
                         <div class="md-toolbar-tools">
-                            <span>Nutrition</span>
+                            <span>Data Points</span>
                             <div flex></div>
                             <md-button class="md-icon-button" ng-click="loadStuff()">
                                 <md-icon class="fa fa-refresh custom-icon" aria-hidden="true"></md-icon>
@@ -514,10 +514,6 @@ angular.module('app', ['ngMaterial', 'md.data.table'])
     console.log('order: ', order);
   };
 
-  $scope.logPagination = function (page, limit) {
-    console.log('page: ', page);
-    console.log('limit: ', limit);
-  }
 }]);
     </script>
 
