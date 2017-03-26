@@ -136,6 +136,16 @@
             padding: 0 10px;
         }
 
+        tr.tableRow {
+            border-top: 1px solid #a7d6ff;
+            border-bottom: 1px solid #a7d6ff;
+        }
+
+        .titleCol {
+            position: relative;
+            left: -10px;
+        }
+
         .wrapper {
             height: 100%;
         }
@@ -228,16 +238,16 @@
                                       <span>Comments</span>
                                     </th>
  -->
-                                    <th md-column md-numeric md-order-by="x"><span>x</span></th>
-                                    <th md-column md-numeric md-order-by="y" show-gt-md><span>y</span></th>
-                                    <th md-column md-numeric md-order-by="z" show-gt-md><span>z</span></th>
-                                    <th md-column md-numeric md-order-by="result" show-gt-md><span>result</span></th>
+                                    <th class="titleCol" md-column md-numeric md-order-by="x"><span>x</span></th>
+                                    <th class="titleCol" md-column md-numeric md-order-by="y" show-gt-md><span>y</span></th>
+                                    <th class="titleCol" md-column md-numeric md-order-by="z" show-gt-md><span>z</span></th>
+                                    <th class="titleCol" md-column md-numeric md-order-by="result" show-gt-md><span>result</span></th>
 
 
                                 </tr>
                             </thead>
                             <tbody md-body>
-                              <tr md-row md-select="tableCell" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="tableCell in tableData.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                              <tr class="tableRow" md-row md-select="tableCell" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="tableCell in tableData.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
                                 <td md-cell>{{tableCell.x}}</td>
                                 <td md-cell>{{tableCell.y}}</td>
                                 <td md-cell>{{tableCell.z}}</td>
