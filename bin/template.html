@@ -193,7 +193,7 @@
         <!-- Data table -->
         <section id="table">
             <md-content laout="column" flex>
-                <md-card>
+<!--                 <md-card>
                     <div layout="row" layout-wrap class="checkboxes">
                       <md-checkbox ng-model="options.rowSelection">Row Selection</md-checkbox>
                       <md-checkbox ng-model="options.multiSelect">Multiple Selection</md-checkbox>
@@ -204,24 +204,24 @@
                       <md-checkbox ng-model="options.limitSelect" ng-click="toggleLimitOptions()">Pagination Limit Select</md-checkbox>
                       <md-checkbox ng-model="options.pageSelect">Pagination Page Select</md-checkbox>
                     </div>
-                </md-card>
+                </md-card> -->
+
+                <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+                    <div class="md-toolbar-tools">
+                        <span>Data Points</span>
+                        <div flex></div>
+                        <md-button class="md-icon-button" ng-click="loadStuff()">
+                            <md-icon class="fa fa-refresh custom-icon" aria-hidden="true"></md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <md-toolbar class="md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
+                    <div class="md-toolbar-tools">
+                        <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
+                    </div>
+                </md-toolbar>
 
                 <md-card>
-                    <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
-                        <div class="md-toolbar-tools">
-                            <span>Data Points</span>
-                            <div flex></div>
-                            <md-button class="md-icon-button" ng-click="loadStuff()">
-                                <md-icon class="fa fa-refresh custom-icon" aria-hidden="true"></md-icon>
-                            </md-button>
-                        </div>
-                    </md-toolbar>
-
-                    <md-toolbar class="md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
-                        <div class="md-toolbar-tools">
-                            <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
-                        </div>
-                    </md-toolbar>
 
                     <md-table-container id="tableContainer">
                         <table id="dataTable" md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
