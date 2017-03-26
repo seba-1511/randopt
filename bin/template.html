@@ -108,6 +108,10 @@
             font-size: 25px;
         }
 
+        md-toolbar.toolbarTheme {
+            background: #3e8196;
+        }
+
         .rand-h1 {
             font-size: 22px;
             font-weight: 800;
@@ -210,7 +214,7 @@
                     </div>
                 </md-card> -->
 
-                <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+                <md-toolbar id="mainHeaderToolbar" class="toolbarTheme md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
                     <div class="md-toolbar-tools">
                         <span>Data Points</span>
                         <div flex></div>
@@ -219,7 +223,7 @@
                         </md-button>
                     </div>
                 </md-toolbar>
-                <md-toolbar class="md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
+                <md-toolbar class="toolbarTheme md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
                     <div class="md-toolbar-tools">
                         <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
                     </div>
