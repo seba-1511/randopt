@@ -100,6 +100,10 @@
             height: 0;
         }
 
+        md-card#tableCard {
+            margin: 2px;
+        }
+
         md-icon.custom-icon {
             font-size: 25px;
         }
@@ -221,8 +225,7 @@
                     </div>
                 </md-toolbar>
 
-                <md-card>
-
+                <md-card id="tableCard">
                     <md-table-container id="tableContainer">
                         <table id="dataTable" md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
                             <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
