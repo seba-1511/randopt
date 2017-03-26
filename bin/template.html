@@ -58,6 +58,10 @@
             width: 100%;
         }
 
+        #dataTable tbody {
+
+        }
+
         #footerCaptionText {
             text-align: center;
             color: #fff;
@@ -91,6 +95,11 @@
             flex-flow: column;
         }
 
+        md-checkbox .md-container {
+            width: 0;
+            height: 0;
+        }
+
         .rand-h1 {
             font-size: 22px;
             font-weight: 800;
@@ -117,6 +126,10 @@
         #table {
             flex: 1 1;
             overflow-y: scroll;
+        }
+
+        #tableContainer {
+            padding: 0 10px;
         }
 
         .wrapper {
@@ -196,7 +209,7 @@
                         </div>
                     </md-toolbar>
 
-                    <md-table-container>
+                    <md-table-container id="tableContainer">
                         <table id="dataTable" md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
                             <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
                                 <tr md-row>
