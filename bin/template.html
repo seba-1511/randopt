@@ -235,7 +235,7 @@
 
                 <md-card id="tableCard">
                     <md-table-container id="tableContainer">
-                        <table id="dataTable" md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
+                        <table id="dataTable" md-table  md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
                             <thead id="mainThead" ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
                                 <tr md-row>
 <!--                                     <th md-column md-numeric md-order-by="calories.value" md-desc><span>Calories</span></th>
@@ -258,7 +258,7 @@
                                 </tr>
                             </thead>
                             <tbody md-body>
-                              <tr class="tableRow" md-row md-select="tableCell" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="tableCell in tableData.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                              <tr class="tableRow" md-row md-auto-select md-select="tableCell" md-on-select="addToSturct" md-on-deselect="removeFromStruct" md-auto-select="options.autoSelect" ng-repeat="tableCell in tableData.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
                                 <td md-cell>{{tableCell.x}}</td>
                                 <td md-cell>{{tableCell.y}}</td>
                                 <td md-cell>{{tableCell.z}}</td>
@@ -529,18 +529,20 @@ angular.module('app', ['ngMaterial', 'md.data.table'])
     }, 2000);
   }
 
-  $scope.logItem = function (item) {
+  $scope.addToSturct = function (item) {
     const selectedParam = item;
     const selectedKey = item["$$hashKey"];
+    selectedRows[selectedKey] = selectedParam;
 
-    if(!selectedRows[selectedKey]) {
-        selectedRows[selectedKey] = selectedParam;
-    } else {
-        delete selectedRows[selectedKey];
-    }
-
-    console.log('Selected: ', selectedRows);
+    console.log('Selected rows after add: ', selectedRows);
   };
+
+  $scope.removeFromStruct = function(item) {
+    const selectedKey = item["$$hashKey"];
+    delete selectedRows[selectedKey];
+
+    console.log('Selected rows after delete: ', selectedRows);
+  }
 
   $scope.logOrder = function (order) {
     console.log('order: ', order);
