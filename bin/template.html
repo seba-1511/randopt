@@ -300,6 +300,8 @@ angular.module('app', ['ngMaterial', 'md.data.table'])
 .controller('RandoptCtrl', ['$mdEditDialog', '$q', '$scope', '$timeout', function ($mdEditDialog, $q, $scope, $timeout) {
   'use strict';
 
+  let selectedRows = {};
+
   $scope.selected = [];
   $scope.limitOptions = [5, 10, 15];
 
@@ -528,7 +530,16 @@ angular.module('app', ['ngMaterial', 'md.data.table'])
   }
 
   $scope.logItem = function (item) {
-    console.log(item.name, 'was selected');
+    const selectedParam = item;
+    const selectedKey = item["$$hashKey"];
+
+    if(!selectedRows[selectedKey]) {
+        selectedRows[selectedKey] = selectedParam;
+    } else {
+        delete selectedRows[selectedKey];
+    }
+
+    console.log('Selected: ', selectedRows);
   };
 
   $scope.logOrder = function (order) {
