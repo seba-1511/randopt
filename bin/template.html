@@ -2,6 +2,7 @@
 <html lang="en" ng-app="app">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
     <title>Template</title>
 
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -82,6 +83,7 @@
 
         .graph {
             height: 100%;
+            padding: 5px;
         }
 
         #graphs {
@@ -144,6 +146,10 @@
             padding: 0 10px;
         }
 
+        #tableMdContent {
+
+        }
+
         tr.tableRow {
             border-top: 1px solid rgba(62, 129, 150, 0.10);
 
@@ -196,24 +202,22 @@
         <!-- Graphs -->
         <section id="graphs" class="container stabilize-container">
             <div class="row row-graphs">
-                <section class="graph-wrapper col-md-6" >
-                    <figure id="graphAlpha" class="graph">
-                        <!-- <figcaption>explanatory caption</figcaption> -->
+                <figure id="graphAlpha" class="graph col-md-4">
+                    <!-- <figcaption>explanatory caption</figcaption> -->
 
-                    </figure>
-                </section>
-                <section class="graph-wrapper col-md-6">
-                    <figure id="graphBeta" class="graph">
+                </figure>
+<!--                 <section class="graph-wrapper col-md-6">
+                    <figure id="graphBeta" class="graph"> -->
                         <!-- <figcaption>explanatory caption</figcaption> -->
-
+<!--
                     </figure>
-                </section>
+                </section> -->
             </div>
         </section>
 
         <!-- Data table -->
         <section id="table">
-            <md-content laout="column" flex>
+            <md-content id="tableMdContent" layout="column" flex>
                 <md-toolbar id="mainHeaderToolbar" class="toolbarTheme md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
                     <div class="md-toolbar-tools">
                         <span>Data Points</span>
@@ -268,238 +272,275 @@
     <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="http://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.js"></script>
-
     <script type="text/javascript">
-angular.module('app', ['ngMaterial', 'md.data.table'])
+        'use strict';
+        angular.module('app', ['ngMaterial', 'md.data.table'])
 
-.config(['$mdThemingProvider', function ($mdThemingProvider) {
-    'use strict';
+        .config(['$mdThemingProvider', function ($mdThemingProvider) {
 
-    $mdThemingProvider.theme('default')
-      .primaryPalette('blue');
-}])
+            $mdThemingProvider.theme('default')
+              .primaryPalette('blue');
+        }])
 
-.controller('RandoptCtrl', ['$mdEditDialog', '$q', '$scope', '$timeout', function ($mdEditDialog, $q, $scope, $timeout) {
-  'use strict';
+        .controller('RandoptCtrl', ['$mdEditDialog', '$q', '$scope', '$timeout', function ($mdEditDialog, $q, $scope, $timeout) {
+            'use strict';
 
-  let selectedRows = {};
-  $scope.selected = [];
-  $scope.headers = [];
-  $scope.limitOptions = [5, 10, 15];
 
-  $scope.options = {
-    rowSelection: true,
-    multiSelect: true,
-    autoSelect: true,
-    decapitate: false,
-    largeEditDialog: false,
-    boundaryLinks: false,
-    limitSelect: true,
-    pageSelect: true
-  };
 
-  $scope.query = {
-    order: 'name',
+          $scope.tableData = {
+            "count": 13,
+            "data":
+            [
+                {
+                    x: 5,
+                    y: 3,
+                    z: 1,
+                    result: 0.0,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 10,
+                    y: 8,
+                    z: 4,
+                    result: 0.1,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                },
+                {
+                    x: 8,
+                    y: 9,
+                    z: 6,
+                    result: 0.2,
+                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                }
+            ]
+          };
 
-  };
+            let selectedRows = {};
+            $scope.selected = [];
+            $scope.headers = [];
+            $scope.limitOptions = [5, 10, 15];
 
-  $scope.tableData = {
-    "count": 13,
-    "data":
-    [
-        {
-            x: 5,
-            y: 3,
-            z: 1,
-            result: 0.0,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 10,
-            y: 8,
-            z: 4,
-            result: 0.1,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        },
-        {
-            x: 8,
-            y: 9,
-            z: 6,
-            result: 0.2,
-            convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        }
-    ]
-  };
+            $scope.options = {
+                rowSelection: true,
+                multiSelect: true,
+                autoSelect: true,
+                decapitate: false,
+                largeEditDialog: false,
+                boundaryLinks: false,
+                limitSelect: true,
+                pageSelect: true
+            };
 
-  $scope.getHeaders = function() {
-    const sample =  $scope.tableData.data[0] ? $scope.tableData.data[0] : {};
-    const headers = [];
-    Object.keys(sample).forEach(function(key) {
-        if(key == 'convergence' || key == '$$hashKey') {
-        } else {
-            headers.push(key.toString());
-        }
-    });
+            $scope.query = {
+                order: 'name',
 
-    return headers;
-  }
+            };
 
-  $scope.toggleLimitOptions = function () {
-    $scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];
-  };
+            let graphsArray = [];
+            const Graph = (function() {
+                function drawScatteredGraph(divId, name, xArray, yArray, layout) {
+                    const trace = {
+                      x: xArray,
+                      y: yArray,
+                      mode: 'markers',
+                      type: 'scatter',
+                      name: name,
+                      marker: { size: 12 }
+                    };
 
-  $scope.loadStuff = function () {
-    $scope.promise = $timeout(function () {
-      // loading
-    }, 2000);
-  }
+                    graphsArray.push(trace);
+                    Plotly.newPlot(divId, graphsArray, layout);
+                }
 
-  $scope.addToSturct = function (item) {
-    const selectedParam = item;
-    const selectedKey = item["$$hashKey"];
-    selectedRows[selectedKey] = selectedParam;
+                return {
+                    drawScatteredGraph: drawScatteredGraph
+                }
+            })();
 
-    console.log('Selected rows after add: ', selectedRows);
-  };
+            const allXValues = $scope.tableData.data.map((point) => point.x);
+            const allYValues = $scope.tableData.data.map((point) => point.y);
 
-  $scope.removeFromStruct = function(item) {
-    const selectedKey = item["$$hashKey"];
-    delete selectedRows[selectedKey];
+            const layout = {
+              xaxis: {
+                range: [ 0, 10]
+              },
+              yaxis: {
+                range: [0, 10]
+              },
+              title:'Data Labels Hover'
+            };
 
-    console.log('Selected rows after delete: ', selectedRows);
-  }
 
-  $scope.logOrder = function (order) {
-    console.log('order: ', order);
-  };
+            Graph.drawScatteredGraph('graphAlpha', 'alpha', allXValues, allYValues, layout);
 
-}]);
+            $scope.getHeaders = function() {
+                const sample =  $scope.tableData.data[0] ? $scope.tableData.data[0] : {};
+                const headers = [];
+                Object.keys(sample).forEach(function(key) {
+                    if(key == 'convergence' || key == '$$hashKey') {
+                    }   else {
+                        headers.push(key.toString());
+                    }
+                });
+
+                return headers;
+            }
+
+            $scope.toggleLimitOptions = function () {
+                $scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];
+            };
+
+            $scope.loadStuff = function () {
+                $scope.promise = $timeout(function () {
+                    // loading
+                }, 2000);
+            }
+
+            $scope.addToSturct = function (item) {
+                const selectedParam = item;
+                const selectedKey = item["$$hashKey"];
+                selectedRows[selectedKey] = selectedParam;
+
+                console.log('Selected rows after add: ', selectedRows);
+            };
+
+            $scope.removeFromStruct = function(item) {
+                const selectedKey = item["$$hashKey"];
+                delete selectedRows[selectedKey];
+
+                console.log('Selected rows after delete: ', selectedRows);
+            }
+
+            $scope.logOrder = function (order) {
+                console.log('order: ', order);
+            };
+        }]);
     </script>
 
     <!-- <script type="text/javascript">
