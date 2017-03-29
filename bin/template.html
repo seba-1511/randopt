@@ -93,8 +93,8 @@
         }
 
         #main {
-            display: flex;
-            flex-flow: column;
+/*            display: flex;
+            flex-flow: column;*/
         }
 
         md-checkbox .md-container {
@@ -139,7 +139,7 @@
 
         #table {
             flex: 1 1;
-            overflow-y: scroll;
+/*            overflow-y: scroll;*/
         }
 
         #tableContainer {
@@ -203,6 +203,10 @@
         <section id="graphs" class="container stabilize-container">
             <div class="row row-graphs">
                 <figure id="graphAlpha" class="graph">
+                    <!-- <figcaption>explanatory caption</figcaption> -->
+
+                </figure>
+                <figure id="graphBeta" class="graph">
                     <!-- <figcaption>explanatory caption</figcaption> -->
 
                 </figure>
@@ -498,6 +502,7 @@
 
 
             Graph.drawScatteredGraph('graphAlpha', 'alpha', allXValues, allYValues, layout);
+            // Graph.drawScatteredGraph('graphBeta', 'beta', allXValues, allYValues, layout);
 
             $scope.getHeaders = function() {
                 const sample =  $scope.tableData.data[0] ? $scope.tableData.data[0] : {};
