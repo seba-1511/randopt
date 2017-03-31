@@ -124,6 +124,16 @@
             font-size: 25px;
         }
 
+        md-icon.custom-sort-icon {
+            font-size: 1.3em;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        md-icon.custom-sort-icon:hover {
+            cursor: pointer;
+        }
+
         md-toolbar.toolbarTheme {
             background: #3e8196;
         }
@@ -221,6 +231,9 @@
         <!-- Graphs -->
         <section id="graphs" class="container stabilize-container">
             <div class="row">
+<!--                 <graph>
+
+                </graph>  -->
 
                     <figure id="graphAlpha" class="col-lg-6 graph">
 
@@ -315,163 +328,160 @@
         }])
 
         .controller('RandoptCtrl', ['$mdEditDialog', '$q', '$scope', '$timeout', function ($mdEditDialog, $q, $scope, $timeout) {
-            'use strict';
+            $scope.tableData = {
+                "count": 13,
+                "data":
+                [
+                    {
+                        x: 5,
+                        y: 3,
+                        z: 1,
+                        result: 0.0,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 10,
+                        y: 8,
+                        z: 4,
+                        result: 0.1,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    }
+                ]
+            };
 
-
-
-          $scope.tableData = {
-            "count": 13,
-            "data":
-            [
-                {
-                    x: 5,
-                    y: 3,
-                    z: 1,
-                    result: 0.0,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 10,
-                    y: 8,
-                    z: 4,
-                    result: 0.1,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                },
-                {
-                    x: 8,
-                    y: 9,
-                    z: 6,
-                    result: 0.2,
-                    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-                }
-            ]
-          };
 
             let selectedRows = {};
             $scope.selected = [];
@@ -584,6 +594,14 @@
             $scope.addNewGraph = function() {
                 console.log('draw graph');
             };
+
+                        const replaceIcons = function(selector, icon) {
+                $(selector).replaceWith("<md-icon class='custom-sort-icon md-sort-icon ng-scope md-asc " + icon + "' ng-class='getDirection()' rol='img'> </md-icon>");
+            };
+
+
+            // $( "md-icon.md-sort-icon" ).replaceWith("<md-icon class='md-sort-icon ng-scope md-asc fa fa-arrows-v' ng-class='getDirection()' rol='img'> </md-icon>");
+            $timeout(() => replaceIcons('md-icon.md-sort-icon', 'fa fa-arrows-v'), 1);
 
         }]);
     </script>
