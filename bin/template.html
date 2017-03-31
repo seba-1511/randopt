@@ -257,6 +257,10 @@
                 <md-toolbar class="toolbarTheme md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
                     <div class="md-toolbar-tools">
                         <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
+                        <div flex></div>
+                        <md-button class="md-icon-button" ng-click="addNewGraph()">
+                            <md-icon class="fa fa-area-chart custom-icon" aria-hidden="true"></md-icon>
+                        </md-button>
                     </div>
                 </md-toolbar>
 
