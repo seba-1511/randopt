@@ -84,12 +84,19 @@
         .graph {
 /*            height: 100%;
             padding: 5px;*/
+/*            height: 100%;
+            width: 50%;*/
+            margin: 0;
         }
 
         #graphs {
             flex: 0 1 340px;
             border: 1px solid #e6e6e6;
 
+        }
+
+        .js-plotly-plot .plotly .modebar {
+            left: 140px;
         }
 
         #main {
@@ -135,6 +142,11 @@
 
         .standard-side-padding {
             padding: 0 60px;
+        }
+
+        .svg-container {
+            margin: 0;
+            padding: 0;
         }
 
         #table {
@@ -201,21 +213,22 @@
     <div id="main" class="wrapper standard-side-padding">
         <!-- Graphs -->
         <section id="graphs" class="container stabilize-container">
-            <div class="row row-graphs">
-                <figure id="graphAlpha" class="graph">
-                    <!-- <figcaption>explanatory caption</figcaption> -->
+            <div class="row">
 
-                </figure>
-                <figure id="graphBeta" class="graph">
-                    <!-- <figcaption>explanatory caption</figcaption> -->
+                    <figure id="graphAlpha" class="col-lg-6 graph">
 
-                </figure>
+                    </figure>
+
+                    <figure id="graphBeta" class="col-lg-6 graph">
+
+                    </figure>
+
 <!--                 <section class="graph-wrapper col-md-6">
                     <figure id="graphBeta" class="graph"> -->
                         <!-- <figcaption>explanatory caption</figcaption> -->
-<!--
-                    </figure>
-                </section> -->
+                    <!-- </figure> -->
+
+<!--                 </section>  -->
             </div>
         </section>
 
@@ -469,17 +482,21 @@
             let graphsArray = [];
             const Graph = (function() {
                 function drawScatteredGraph(divId, name, xArray, yArray, layout) {
+                    let array = [];
                     const trace = {
                       x: xArray,
                       y: yArray,
-                      mode: 'markers',
+                      mode: 'lines+markers',
                       type: 'scatter',
                       name: name,
-                      marker: { size: 12 }
+                      marker: { size: 10 }
                     };
 
+                    array.push(trace);
+
                     graphsArray.push(trace);
-                    Plotly.newPlot(divId, graphsArray, layout);
+
+                    Plotly.newPlot(divId, array, layout);
                 }
 
                 return {
@@ -491,18 +508,21 @@
             const allYValues = $scope.tableData.data.map((point) => point.y);
 
             const layout = {
-              xaxis: {
-                range: [ 0, 10]
-              },
-              yaxis: {
-                range: [0, 10]
-              },
-              title:'Data Labels Hover'
+                autosize: false,
+                width: 600,
+                height: 400,
+                xaxis: {
+                    range: [ 0, 15]
+                },
+                yaxis: {
+                    range: [0, 15]
+                },
+                title:'Data Labels Hover'
             };
 
 
             Graph.drawScatteredGraph('graphAlpha', 'alpha', allXValues, allYValues, layout);
-            // Graph.drawScatteredGraph('graphBeta', 'beta', allXValues, allYValues, layout);
+            Graph.drawScatteredGraph('graphBeta', 'beta', allXValues, allYValues, layout);
 
             $scope.getHeaders = function() {
                 const sample =  $scope.tableData.data[0] ? $scope.tableData.data[0] : {};
@@ -545,6 +565,8 @@
             $scope.logOrder = function (order) {
                 console.log('order: ', order);
             };
+
+            $('')
         }]);
     </script>
 
