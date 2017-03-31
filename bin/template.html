@@ -222,6 +222,10 @@
                     <figure id="graphBeta" class="col-lg-6 graph">
 
                     </figure>
+                                        <figure id="graphTeta" class="col-lg-6 graph">
+
+                    </figure>
+
 
 <!--                 <section class="graph-wrapper col-md-6">
                     <figure id="graphBeta" class="graph"> -->
@@ -239,8 +243,8 @@
                     <div class="md-toolbar-tools">
                         <span>Data Points</span>
                         <div flex></div>
-                        <md-button class="md-icon-button" ng-click="loadStuff()">
-                            <md-icon class="fa fa-refresh custom-icon" aria-hidden="true"></md-icon>
+                        <md-button class="md-icon-button" ng-click="addNewGraph()">
+                            <md-icon class="fa fa-area-chart custom-icon" aria-hidden="true"></md-icon>
                         </md-button>
                     </div>
                 </md-toolbar>
@@ -566,7 +570,10 @@
                 console.log('order: ', order);
             };
 
-            $('')
+            $scope.addNewGraph = function() {
+                console.log('draw graph');
+            };
+
         }]);
     </script>
 
