@@ -235,28 +235,23 @@
         <!-- Graphs -->
         <section id="graphs" class="container stabilize-container">
             <div class="row">
-<!--                 <graph>
+            <div class="col-lg-6 ">
+                <figure id="graphAlpha" class="graph" style="width: 100%">
 
-                </graph>  -->
+                </figure>
+                <div class="dropdwon-y-values">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <md-select ng-model="graphOptions.coordinate">
+                            <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
+                                {{coordinate}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+                <figure id="graphBeta" class="col-lg-6 graph">
 
-                    <figure id="graphAlpha" class="col-lg-6 graph">
-
-                    </figure>
-
-                    <figure id="graphBeta" class="col-lg-6 graph">
-
-                    </figure>
-                                        <figure id="graphTeta" class="col-lg-6 graph">
-
-                    </figure>
-
-
-<!--                 <section class="graph-wrapper col-md-6">
-                    <figure id="graphBeta" class="graph"> -->
-                        <!-- <figcaption>explanatory caption</figcaption> -->
-                    <!-- </figure> -->
-
-<!--                 </section>  -->
+                </figure>
             </div>
         </section>
 
@@ -486,10 +481,18 @@
                 ]
             };
 
+            // $scope.graphOptions = {};
+
+            $scope.graphOptions = {
+                coordinate: 'x'
+            };
+
 
             let selectedRows = {};
+
             $scope.selected = [];
             $scope.headers = [];
+            $scope.coordinates = [];
             $scope.limitOptions = [5, 10, 15];
 
             $scope.options = {
@@ -558,13 +561,32 @@
                 const headers = [];
                 Object.keys(sample).forEach(function(key) {
                     if(key == 'convergence' || key == '$$hashKey') {
-                    }   else {
+                    }
+                    else {
                         headers.push(key.toString());
+                        // if(key !== 'result') {
+                        //     $scope.coordinates.push(key.toString());
+                        // }
                     }
                 });
 
                 return headers;
             }
+
+            const getCoordinates = function() {
+                const sample =  $scope.tableData.data[0] ? $scope.tableData.data[0] : {};
+                Object.keys(sample).forEach(function(key) {
+                    if(key == 'convergence' || key == '$$hashKey') {
+                    }
+                    else {
+                        if(key !== 'result') {
+                            $scope.coordinates.push(key.toString());
+                        }
+                    }
+                });
+            }
+
+            getCoordinates();
 
             $scope.toggleLimitOptions = function () {
                 $scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];
