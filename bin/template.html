@@ -599,14 +599,11 @@
                 console.log('draw graph');
             };
 
-                        const replaceIcons = function(selector, icon) {
+            const replaceIcons = function(selector, icon) {
                 $(selector).replaceWith("<md-icon class='custom-sort-icon md-sort-icon ng-scope md-asc " + icon + "' ng-class='getDirection()' rol='img'> </md-icon>");
             };
 
-
-            // $( "md-icon.md-sort-icon" ).replaceWith("<md-icon class='md-sort-icon ng-scope md-asc fa fa-arrows-v' ng-class='getDirection()' rol='img'> </md-icon>");
-            $timeout(() => replaceIcons('md-icon.md-sort-icon', 'fa fa-arrows-v'), 1);
-
+            $timeout(() => replaceIcons('md-icon.md-sort-icon', 'fa fa-arrows-v'));
         }]);
     </script>
 
@@ -618,7 +615,7 @@
                 // 1. get request to the api
                 // 2. fetch data
 
-                        // it needs to have result -- probably has parameters
+                        // it needs to have result probably has parameters
                 // parameters being x,y,z,convergence...
                 var EXPERIMENT_RESULTS = [
                     {
