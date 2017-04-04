@@ -105,6 +105,12 @@
             margin: 10px;
         }
 
+        .graph-container > .dropdwon-bottom-values {
+            width: 40%;
+            width: 50%;
+            margin: auto;
+        }
+
         #graphs {
             flex: 0 1 340px;
             border: 1px solid #e6e6e6;
@@ -256,7 +262,7 @@
                     <figure id="graphAlpha" class="graph">
 
                     </figure>
-                    <div class="dropdwon-y-values row">
+                    <div class="dropdwon-bottom-values row">
                         <md-input-container class="md-block col-lg-3">
                             <md-select ng-model="graphOptions.coordinate">
                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
@@ -287,7 +293,7 @@
                     <figure id="graphBeta" class="graph">
 
                     </figure>
-                    <div class="dropdwon-y-values row">
+                    <div class="dropdwon-bottom-values row">
                         <md-input-container class="md-block col-lg-3">
                             <md-select ng-model="graphOptions.coordinate">
                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
