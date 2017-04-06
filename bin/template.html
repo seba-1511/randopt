@@ -265,7 +265,7 @@
                     </figure>
                     <div class="dropdown-bottom-values row">
                         <md-input-container class="md-block col-lg-3 dr">
-                            <md-select ng-model="graphOptions.coordinate">
+                            <md-select ng-model="graphOptions.xValue">
                                 <md-option value="INF" selected>
                                     <span class="infinity"> -&infin; </span>
                                 </md-option>
@@ -275,15 +275,15 @@
                             </md-select>
                         </md-input-container>
                         <md-input-container class="md-block col-lg-6">
-                            <md-select ng-model="graphOptions.coordinate">
-                                <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
-                                    {{coordinate}}
+                            <md-select ng-model="graphOptions.axis">
+                                <md-option ng-repeat="ax in axis" value="{{ax}}" ng-selected='ax'>
+                                    {{ax}}
                                 </md-option>
                             </md-select>
                         </md-input-container>
                         <md-input-container class="md-block col-lg-3">
-                            <md-select ng-model="graphOptions.coordinate">
-                                <md-option value="-INF" >
+                            <md-select ng-model="graphOptions.yValue">
+                                <md-option value="-INF" selected>
                                     <span class="infinity"> &infin; </span>
                                 </md-option>
 <!--                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
@@ -295,7 +295,7 @@
                 </div>
 
             </div>
-            <div class="col-lg-6 graph-unit">
+<!--             <div class="col-lg-6 graph-unit">
                 <div class="graph-container">
                     <figure id="graphBeta" class="graph">
 
@@ -324,7 +324,7 @@
                         </md-input-container>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </section>
 
         <!-- Data table -->
@@ -569,7 +569,7 @@
 
             $scope.selected = [];
             $scope.headers = [];
-            $scope.coordinates = [];
+            $scope.axis = [];
             $scope.limitOptions = [5, 10, 15];
 
 
@@ -635,7 +635,7 @@
 
 
             Graph.drawScatteredGraph('graphAlpha', 'alpha', allXValues, allYValues, layout);
-            Graph.drawScatteredGraph('graphBeta', 'beta', allXValues, allYValues, layout);
+            // Graph.drawScatteredGraph('graphBeta', 'beta', allXValues, allYValues, layout);
 
             $scope.getHeaders = function() {
                 const sample =  $scope.tableData.data[0] ? $scope.tableData.data[0] : {};
@@ -661,7 +661,7 @@
                     }
                     else {
                         if(key !== 'result') {
-                            $scope.coordinates.push(key.toString());
+                            $scope.axis.push(key.toString());
                         }
                     }
                 });
