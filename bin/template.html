@@ -259,12 +259,12 @@
         <section id="graphs" class="container stabilize-container">
             <div class="row">
             <div class="col-lg-6 graph-unit">
-                <div class="graph-container">
+                <div class="graph-container md-whiteframe-2dp">
                     <figure id="graphAlpha" class="graph">
 
                     </figure>
-                    <div class="dropdown-bottom-values row">
-                        <md-input-container class="md-block col-lg-3 dr">
+                    <div class="dropdown-bottom-values" layout="row" layout-wrap layout-fill>
+                        <md-input-container class="md-block" flex-gt-md="25" layout layout-align="center center">
                             <md-select ng-model="graphOptions.xValue">
                                 <md-option value="INF" selected>
                                     <span class="infinity"> -&infin; </span>
@@ -274,14 +274,14 @@
                                 </md-option> -->
                             </md-select>
                         </md-input-container>
-                        <md-input-container class="md-block col-lg-6">
+                        <md-input-container class="md-block" flex-gt-md="50">
                             <md-select ng-model="graphOptions.axis">
                                 <md-option ng-repeat="ax in axis" value="{{ax}}" ng-selected='ax'>
                                     {{ax}}
                                 </md-option>
                             </md-select>
                         </md-input-container>
-                        <md-input-container class="md-block col-lg-3">
+                        <md-input-container class="md-block" flex-gt-md="25">
                             <md-select ng-model="graphOptions.yValue">
                                 <md-option value="-INF" selected>
                                     <span class="infinity"> &infin; </span>
