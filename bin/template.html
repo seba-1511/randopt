@@ -55,6 +55,10 @@
         a.project-link:hover {
         }
 
+        .axis {
+            margin: 0;
+        }
+
         #dataTable {
             width: 100%;
         }
@@ -264,34 +268,43 @@
 
                     </figure>
                     <div class="dropdown-bottom-values" layout="row" layout-wrap layout-fill>
-                        <md-input-container class="md-block" flex-gt-md="25" layout layout-align="center center">
-                            <md-select ng-model="graphOptions.xValue">
-                                <md-option value="INF" selected>
-                                    <span class="infinity"> -&infin; </span>
-                                </md-option>
-<!--                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
-                                    {{coordinate}}
-                                </md-option> -->
-                            </md-select>
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-md="50">
-                            <md-select ng-model="graphOptions.axis">
-                                <md-option ng-repeat="ax in axis" value="{{ax}}" ng-selected='ax'>
-                                    {{ax}}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-md="25">
-                            <md-select ng-model="graphOptions.yValue">
-                                <md-option value="-INF" selected>
-                                    <span class="infinity"> &infin; </span>
-                                </md-option>
-<!--                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
-                                    {{coordinate}}
-                                </md-option> -->
-                            </md-select>
-                        </md-input-container>
+                        <div class="md-block" flex-gt-md="30">
+                           <md-input-container class="axis">
+                                <md-select ng-model="graphOptions.xValue">
+                                    <md-option value="INF" selected>
+                                        <span class="infinity"> -&infin; </span>
+                                    </md-option>
+    <!--                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
+                                        {{coordinate}}
+                                    </md-option> -->
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div class="md-block" flex-gt-md="40">
+                           <md-input-container class="axis">
+                                <md-select ng-model="graphOptions.axis">
+                                    <md-option ng-repeat="ax in axis" value="{{ax}}" ng-selected='ax'>
+                                        {{ax}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div class="md-block" flex-gt-md="30">
+                            <md-input-container class="axis">
+                                <md-select ng-model="graphOptions.yValue">
+                                    <md-option value="-INF" selected>
+                                        <span class="infinity"> &infin; </span>
+                                    </md-option>
+    <!--                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
+                                        {{coordinate}}
+                                    </md-option> -->
+                                </md-select>
+                            </md-input-container>
                     </div>
+                        </div>
+
+
+
                 </div>
 
             </div>
