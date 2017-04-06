@@ -105,10 +105,11 @@
             margin: 10px;
         }
 
-        .graph-container > .dropdwon-bottom-values {
+        .graph-container > .dropdown-bottom-values  {
             width: 40%;
-            width: 50%;
             margin: auto;
+            position: relative;
+            bottom: 40px;
         }
 
         #graphs {
@@ -262,12 +263,15 @@
                     <figure id="graphAlpha" class="graph">
 
                     </figure>
-                    <div class="dropdwon-bottom-values row">
-                        <md-input-container class="md-block col-lg-3">
+                    <div class="dropdown-bottom-values row">
+                        <md-input-container class="md-block col-lg-3 dr">
                             <md-select ng-model="graphOptions.coordinate">
-                                <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
-                                    {{coordinate}}
+                                <md-option value="INF" selected>
+                                    <span class="infinity"> -&infin; </span>
                                 </md-option>
+<!--                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
+                                    {{coordinate}}
+                                </md-option> -->
                             </md-select>
                         </md-input-container>
                         <md-input-container class="md-block col-lg-6">
@@ -279,9 +283,12 @@
                         </md-input-container>
                         <md-input-container class="md-block col-lg-3">
                             <md-select ng-model="graphOptions.coordinate">
-                                <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
-                                    {{coordinate}}
+                                <md-option value="-INF" >
+                                    <span class="infinity"> &infin; </span>
                                 </md-option>
+<!--                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
+                                    {{coordinate}}
+                                </md-option> -->
                             </md-select>
                         </md-input-container>
                     </div>
@@ -293,7 +300,7 @@
                     <figure id="graphBeta" class="graph">
 
                     </figure>
-                    <div class="dropdwon-bottom-values row">
+                    <div class="dropdown-bottom-values row">
                         <md-input-container class="md-block col-lg-3">
                             <md-select ng-model="graphOptions.coordinate">
                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
@@ -554,6 +561,8 @@
                 height: 400
             }
 
+            $scope.infinity = "";
+
             $scope.graphOptions = {
                 coordinate: 'x'
             };
@@ -616,10 +625,10 @@
                 height: graphConstraints.height,
 
                 xaxis: {
-                    range: [ 0, 15]
+                    range: [ 0, 15] // change x-axis range by picking the lowest & highest values
                 },
                 yaxis: {
-                    range: [0, 15]
+                    range: [0, 15] // change y-axis range by picking the lowest & highest values
                 },
                 title:'Data Labels Hover'
             };
