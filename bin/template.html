@@ -119,6 +119,8 @@
             width: 50%;*/
             margin: 0;
             padding: 0;
+            position: relative;
+            left: -40px;
         }
 
         .graph .js-plotly-plot .plotly, .js-plotly-plot .plotly div {
@@ -138,9 +140,9 @@
         }
 
         /* Graph's closest wrapper */
-        .graph-container .js-plotly-plot .plotly div {
+/*        .graph-container .js-plotly-plot .plotly div {
             left: -40px;
-        }
+        }*/
 
         .graph-container > .row  {
             margin: 0;
@@ -151,18 +153,15 @@
             padding: 0;
         }
 
-
+        .graph-container .js-plotly-plot .plotly .modebar {
+            right: 0;
+            left: 70px;
+        }
 
         #graphs {
             flex: 0 1 340px;
             border: 1px solid #e6e6e6;
 
-        }
-
-        .js-plotly-plot .plotly .modebar {
-            left: 140px;
-            width: 85%;
-            left: 50px;
         }
 
         .js-plotly-plot .plot-container.plotly {
