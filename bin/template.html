@@ -80,7 +80,8 @@
             width: 100%;
             vertical-align: middle;
             line-height: 11;
-            padding: 0px 6px 0px 6px;
+            padding: 0px;
+            left: 20px;
         }
 
         .dropdown-bottom-values.xAxis {
@@ -318,7 +319,9 @@
                                                 -<span class="infinity"> &infin; </span>
                                             </span>
                                         </option>
-                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{ax}}">
+                                            {{ax}}
+                                        </option>
                                     </select>
                                 </div>
 
@@ -326,7 +329,9 @@
                                 <!-- cordinates -->
                                 <div class="" flex="30">
                                     <select ng-model="graphOptions.axis" class="selectpicker">
-                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{ax}}">
+                                            {{ax}}
+                                        </option>
                                     </select>
                                 </div>
                                 <!-- /cordinates -->
@@ -338,7 +343,9 @@
                                                 <span class="infinity"> &infin; </span>
                                             </span>
                                         </option>
-                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">
+                                            {{ax}}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
