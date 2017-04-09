@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
     <style type="text/css" media="screen">
 
         /**
@@ -67,6 +69,30 @@
 
         }
 
+        .dropdown-bottom-values .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+            width: 100%;
+        }
+
+        .dropdown-bottom-values > .sub {
+            position: relative;
+            top: 100px;
+            height: 30%;
+            width: 100%;
+            vertical-align: middle;
+            line-height: 11;
+            padding: 0px 6px 0px 6px;
+        }
+
+        .dropdown-bottom-values.xAxis {
+            position: relative;
+            vertical-align: middle;
+            top: -20px;
+        }
+
+        .dropdown-container {
+            margin-left: 10px;
+        }
+
         #footerCaptionText {
             text-align: center;
             color: #fff;
@@ -91,6 +117,7 @@
 /*            height: 100%;
             width: 50%;*/
             margin: 0;
+            padding: 0;
         }
 
         .graph .js-plotly-plot .plotly, .js-plotly-plot .plotly div {
@@ -106,14 +133,19 @@
         .graph-container {
             text-align: center;
             margin: 10px;
+            background: #fff;
         }
 
-        .graph-container > .dropdown-bottom-values  {
-            width: 40%;
-            margin: auto;
-            position: relative;
-            bottom: 40px;
+        .graph-container > .row  {
+            margin: 0;
         }
+
+        .graph-container > .row > .dropdown-bottom-values  {
+            margin: 0;
+            padding: 0;
+        }
+
+
 
         #graphs {
             flex: 0 1 340px;
@@ -123,7 +155,8 @@
 
         .js-plotly-plot .plotly .modebar {
             left: 140px;
-
+            width: 85%;
+            left: 50px;
         }
 
         .js-plotly-plot .plot-container.plotly {
@@ -164,6 +197,11 @@
             background: #3e8196;
         }
 
+        .no-marpad {
+            margin: 0;
+            padding: 0;
+        }
+
         .rand-h1 {
             font-size: 22px;
             font-weight: 800;
@@ -190,6 +228,13 @@
         .svg-container {
             margin: 0;
             padding: 0;
+        }
+
+        .sub-b > .layout-row {
+            width: 30%;
+            margin: 0;
+            position: relative;
+            left: 55%;
         }
 
         #table {
@@ -263,47 +308,82 @@
             <div class="row">
             <div class="col-lg-6 graph-unit">
                 <div class="graph-container md-whiteframe-2dp">
-                    <figure id="graphAlpha" class="graph">
+                    <div layout="row" layout-wrap>
+                        <div class="dropdown-bottom-values dropdown-container no-marpad" flex="30">
+                            <div class="sub" layout="row">
+                                <div class="" flex="35">
+                                    <select ng-model="graphOptions.yValue1" class="selectpicker" data-live-search="true">
+                                        <option value="INF" selected>
+                                            <span class="inf-wrapper">
+                                                -<span class="infinity"> &infin; </span>
+                                            </span>
+                                        </option>
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                    </select>
+                                </div>
 
-                    </figure>
-                    <div class="dropdown-bottom-values" layout="row" layout-wrap layout-fill>
-                        <div class="md-block" flex-gt-md="30">
-                           <md-input-container class="axis">
-                                <md-select ng-model="graphOptions.xValue">
-                                    <md-option value="INF" selected>
-                                        <span class="infinity"> -&infin; </span>
-                                    </md-option>
-    <!--                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
-                                        {{coordinate}}
-                                    </md-option> -->
-                                </md-select>
-                            </md-input-container>
+
+                                <!-- cordinates -->
+                                <div class="" flex="30">
+                                    <select ng-model="graphOptions.axis" class="selectpicker">
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                    </select>
+                                </div>
+                                <!-- /cordinates -->
+
+                                <div class="" flex="35">
+                                    <select ng-model="graphOptions.yValue2" class="selectpicker" data-live-search="true">
+                                        <option value="INF" selected>
+                                            <span class="inf-wrapper">
+                                                <span class="infinity"> &infin; </span>
+                                            </span>
+                                        </option>
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="md-block" flex-gt-md="40">
-                           <md-input-container class="axis">
-                                <md-select ng-model="graphOptions.axis">
-                                    <md-option ng-repeat="ax in axis" value="{{ax}}" ng-selected='ax'>
-                                        {{ax}}
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                        </div>
-                        <div class="md-block" flex-gt-md="30">
-                            <md-input-container class="axis">
-                                <md-select ng-model="graphOptions.yValue">
-                                    <md-option value="-INF" selected>
-                                        <span class="infinity"> &infin; </span>
-                                    </md-option>
-    <!--                                 <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
-                                        {{coordinate}}
-                                    </md-option> -->
-                                </md-select>
-                            </md-input-container>
+
+                        <figure id="graphAlpha" class="graph" flex="70">
+                        </figure>
                     </div>
+                    <div class="dropdown-bottom-values xAxis">
+                        <div class="sub-b">
+                            <div layout="row">
+                                <div class="" flex="35">
+                                    <select ng-model="graphOptions.yValue1" class="selectpicker" data-live-search="true">
+                                        <option value="INF" selected>
+                                            <span class="inf-wrapper">
+                                                -<span class="infinity"> &infin; </span>
+                                            </span>
+                                        </option>
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                    </select>
+                                </div>
+
+
+                                <!-- cordinates -->
+                                <div class="" flex="30">
+                                    <select ng-model="graphOptions.axis" class="selectpicker">
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                    </select>
+                                </div>
+                                <!-- /cordinates -->
+
+                                <div class="" flex="35">
+                                    <select ng-model="graphOptions.yValue2" class="selectpicker" data-live-search="true">
+                                        <option value="INF" selected>
+                                            <span class="inf-wrapper">
+                                                <span class="infinity"> &infin; </span>
+                                            </span>
+                                        </option>
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
-
-
-
+                    </div>
                 </div>
 
             </div>
@@ -395,7 +475,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular-animate.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular-aria.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.js" type="text/javascript" charset="utf-8"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     <script src="" type="text/javascript"></script>
     <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -569,8 +649,8 @@
 
             let selectedRows = {};
             const graphConstraints = {
-                width: 500,
-                height: 400
+                width: 420,
+                height: 430
             }
 
             $scope.infinity = "";
@@ -721,7 +801,12 @@
             $timeout(() => {
                 replaceIcons('md-icon.md-sort-icon', 'fa fa-arrows-v');
                 $('.svg-container').addClass('stabilizeGraph');
+                $('.selectpicker').selectpicker({
+                    size: 20
+                });
             });
+
+
         }]);
     </script>
 
