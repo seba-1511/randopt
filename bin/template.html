@@ -81,7 +81,7 @@
             vertical-align: middle;
             line-height: 11;
             padding: 0px;
-            left: 20px;
+            left: 10px;
         }
 
         .dropdown-bottom-values.xAxis {
@@ -135,6 +135,11 @@
             text-align: center;
             margin: 10px;
             background: #fff;
+        }
+
+        /* Graph's closest wrapper */
+        .graph-container .js-plotly-plot .plotly div {
+            left: -40px;
         }
 
         .graph-container > .row  {
@@ -235,7 +240,7 @@
             width: 30%;
             margin: 0;
             position: relative;
-            left: 55%;
+            left: 50%;
         }
 
         #table {
@@ -656,8 +661,8 @@
 
             let selectedRows = {};
             const graphConstraints = {
-                width: 420,
-                height: 430
+                width: 462,
+                height: 440
             }
 
             $scope.infinity = "";
