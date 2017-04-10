@@ -333,7 +333,7 @@
                                 <!-- cordinates -->
                                 <div class="" flex="30">
                                     <select ng-model="graphOptions.axis" class="selectpicker">
-                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{ax}}">
+                                        <option ng-repeat="ax in getCoordinates()" value="{{ax}}">
                                             {{ax}}
                                         </option>
                                     </select>
@@ -368,7 +368,9 @@
                                                 -<span class="infinity"> &infin; </span>
                                             </span>
                                         </option>
-                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">
+                                            {{ax}}
+                                        </option>
                                     </select>
                                 </div>
 
@@ -667,7 +669,7 @@
             $scope.infinity = "";
 
             $scope.graphOptions = {
-                coordinate: 'x'
+                axis: 'x'
             };
 
             $scope.selected = [];
@@ -757,20 +759,23 @@
                 return headers;
             }
 
-            const getCoordinates = function() {
+            $scope.getCoordinates = function() {
                 const sample =  $scope.tableData.data[0] ? $scope.tableData.data[0] : {};
+                let result = [];
                 Object.keys(sample).forEach(function(key) {
                     if(key == 'convergence' || key == '$$hashKey') {
                     }
                     else {
                         if(key !== 'result') {
-                            $scope.axis.push(key.toString());
+                            result.push(key.toString());
+                            // $scope.axis.push(key.toString());
                         }
                     }
                 });
+                return result;
             }
 
-            getCoordinates();
+            // getCoordinates();
 
             $scope.toggleLimitOptions = function () {
                 $scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];
