@@ -323,9 +323,6 @@
                                                 -<span class="infinity"> &infin; </span>
                                             </span>
                                         </option>
-                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{ax}}">
-                                            {{ax}}
-                                        </option>
                                     </select>
                                 </div>
 
@@ -669,7 +666,9 @@
             $scope.infinity = "";
 
             $scope.graphOptions = {
-                axis: 'x'
+                axis: 'x',
+                yValue1: 'negative',
+                yValue2: 'positive'
             };
 
             $scope.selected = [];
@@ -722,8 +721,6 @@
             const allXValues = $scope.tableData.data.map((point) => point.x);
             const allYValues = $scope.tableData.data.map((point) => point.y);
 
-
-
             const layout = {
                 autosize: false,
                 width: graphConstraints.width,
@@ -749,10 +746,11 @@
                     if(key == 'convergence' || key == '$$hashKey') {
                     }
                     else {
-                        headers.push(key.toString());
-                        // if(key !== 'result') {
-                        //     $scope.coordinates.push(key.toString());
-                        // }
+                        if(key === 'result') {
+                            headers.unshift(key);
+                        } else {
+                            headers.push(key.toString());
+                        }
                     }
                 });
 
