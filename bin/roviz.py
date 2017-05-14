@@ -110,12 +110,19 @@ def is_array(value):
 
 
 class Visualizer:
-    def __init__(self, experiment_name, sort_style = 'min'):
-        self._experiment_name = experiment_name
+    def __init__(self, name=None, path=None, sort_style='min'):
+        self.name = None
+        self.path = None
         self._sort_style = sort_style
         self.counter = 1
         self.exp_metadata = ['__filename__']
         self.exp_data = {'result': []}
+        if name is not None:
+            self.name = name
+            self._experiment_name = name
+        elif path is not None:
+            self.path = path
+            self._experiment_name = os.path.basename(path)
 
     def write_row(self, res):
         self._output_writer.write('<tr>')
@@ -171,10 +178,13 @@ class Visualizer:
         randopt_folder = os.path.join(cwd, 'randopt_results')
         if not os.path.exists(randopt_folder):
             os.mkdir(randopt_folder)
-        experiment_path = os.path.join(randopt_folder, self._experiment_name)
-        if not os.path.exists(experiment_path):
-            print "Experiment \"%s\" does not exist" % self._experiment_name
-            return
+        if self.path is not None:
+            experiment_path = self.path
+        else:
+            experiment_path = os.path.join(randopt_folder, self._experiment_name)
+            if not os.path.exists(experiment_path):
+                print "Experiment \"%s\" does not exist" % self._experiment_name
+                return
 
         #The folder exists, so load in the data
         data = []
@@ -202,13 +212,20 @@ def main():
     parser = argparse.ArgumentParser(description='Visualize the results of randopt')
     # parser.add_argument('expname', metavar='name', type=str,
                         # help='the name of the experiment to visualize')
-    parser.add_argument('--expname', '-e', dest='expname', metavar='e', type=str, required=True,
+    parser.add_argument('--expname', '-e', dest='expname', metavar='e', type=str, required=False,
                         help='the name of the experiment to visualize')
+    parser.add_argument('--path', '-p', dest='exp_path', metavar='p', type=str, required=False,
+                        help='the path to the experiment to visualize')
     parser.add_argument('--sort', '-s', dest='sort', type=str, choices=['min', 'max'],
                         default='min', help='sort style')
 
     args = parser.parse_args()
-    viz = Visualizer(args.expname, args.sort)
-    viz.create_visualization()
+    if args.expname:
+        viz = Visualizer(name=args.expname, sort_style=args.sort)
+        viz.create_visualization()
+
+    if args.exp_path:
+        viz = Visualizer(path=args.exp_path, sort_style=args.sort)
+        viz.create_visualization()
 
 main()
