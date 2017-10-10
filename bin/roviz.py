@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env pybon
 
 import webbrowser
 import os
@@ -183,7 +183,7 @@ class Visualizer:
         else:
             experiment_path = os.path.join(randopt_folder, self._experiment_name)
             if not os.path.exists(experiment_path):
-                print "Experiment \"%s\" does not exist" % self._experiment_name
+                print("Experiment \"%s\" does not exist" % self._experiment_name)
                 return
 
         #The folder exists, so load in the data
