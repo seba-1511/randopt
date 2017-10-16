@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+    <title>Template</title>
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <style type="text/css" media="screen">
+
+        /**
+        * background: #3e8196;
+        * color: #fff;
+        * border: ???;
+        */
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-flow: column;
+        }
+
+        nav.navbar {
+            background: #3e8196;
+            border-radius: inherit;
+            margin: 0;
+        }
+
+        footer {
+            background: #3e8196;
+            height: 35px;
+            line-height: 2.4;
+        }
+
+        a.project-link {
+            color: #fff;
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        a.project-link:hover {
+        }
+
+        .axis {
+            margin: 0;
+        }
+
+        #dataTable {
+            width: 100%;
+        }
+
+        #dataTable tbody {
+
+        }
+
+        .dropdown-bottom-values .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+            width: 100%;
+        }
+
+        .dropdown-bottom-values > .sub {
+            position: relative;
+            top: 100px;
+            height: 30%;
+            width: 100%;
+            vertical-align: middle;
+            line-height: 11;
+            padding: 0px;
+            left: 10px;
+        }
+
+        .dropdown-bottom-values.xAxis {
+            position: relative;
+            vertical-align: middle;
+            top: -20px;
+        }
+
+        .dropdown-container {
+            margin-left: 10px;
+        }
+
+        #footerCaptionText {
+            text-align: center;
+            color: #fff;
+            margin: 0;
+        }
+
+        #footerCaptionWrapper {
+
+        }
+
+        #graphAlpha {
+
+        }
+
+        #graphBeta {
+
+        }
+
+        .graph {
+/*            height: 100%;
+            padding: 5px;*/
+/*            height: 100%;
+            width: 50%;*/
+            margin: 0;
+            padding: 0;
+            position: relative;
+            left: -40px;
+        }
+
+        .graph .js-plotly-plot .plotly, .js-plotly-plot .plotly div {
+            margin: 0 auto;
+            position: none;
+        }
+
+        .stabilizeGraph {
+            margin: 0 auto !important;
+            position: none !important;
+        }
+
+        .graph-container {
+            text-align: center;
+            margin: 10px;
+            background: #fff;
+        }
+
+        /* Graph's closest wrapper */
+/*        .graph-container .js-plotly-plot .plotly div {
+            left: -40px;
+        }*/
+
+        .graph-container > .row  {
+            margin: 0;
+        }
+
+        .graph-container > .row > .dropdown-bottom-values  {
+            margin: 0;
+            padding: 0;
+        }
+
+        .graph-container .js-plotly-plot .plotly .modebar {
+            right: 0;
+            left: 70px;
+        }
+
+        #graphs {
+            flex: 0 1 340px;
+            border: 1px solid #e6e6e6;
+
+        }
+
+        .js-plotly-plot .plot-container.plotly {
+           /*border: 1px solid #e4e6ef;*/
+           /*margin: 10px 0px;*/
+        }
+
+        #main {
+/*            display: flex;
+            flex-flow: column;*/
+            padding-bottom: 15px;
+        }
+
+        md-checkbox .md-container {
+            width: 0;
+            height: 0;
+        }
+
+        md-card#tableCard {
+            margin: 2px;
+        }
+
+        md-icon.custom-icon {
+            font-size: 25px;
+        }
+
+        md-icon.custom-sort-icon {
+            font-size: 1.3em;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        md-icon.custom-sort-icon:hover {
+            cursor: pointer;
+        }
+
+        md-toolbar.toolbarTheme {
+            background: #3e8196;
+        }
+
+        .no-marpad {
+            margin: 0;
+            padding: 0;
+        }
+
+        .rand-h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .row-graphs {
+            height: 100%;
+        }
+
+        .slight-padding {
+            padding: 5px;
+        }
+
+        .stabilize-container {
+            margin: 0;
+            width: 100%;
+        }
+
+        .standard-side-padding {
+            padding: 0 60px;
+        }
+
+        .svg-container {
+            margin: 0;
+            padding: 0;
+        }
+
+        .sub-b > .layout-row {
+            width: 30%;
+            margin: 0;
+            position: relative;
+            left: 50%;
+        }
+
+        #table {
+            /*flex: 1 1;*/
+/*            overflow-y: scroll;*/
+        }
+
+        #tableContainer {
+            padding: 0 10px;
+        }
+
+        #tableMdContent {
+
+        }
+
+        tr.tableRow {
+            border-top: 1px solid rgba(62, 129, 150, 0.10);
+
+        }
+
+        tr.tableRow:hover {
+            cursor: pointer;
+            background: rgba(62, 129, 150, 0.10);
+        }
+
+        tr.tableRow.md-selected {
+            background: #dff2ff;
+        }
+
+        thead#mainThead {
+            border-bottom: 1px solid rgba(62, 129, 150, 0.10);
+        }
+
+        .titleCol {
+            position: relative;
+            left: -10px;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -o-user-select: none;
+        }
+
+        .wrapper {
+            /*height: 100%;*/
+        }
+    </style>
+</head>
+<body ng-controller="RandoptCtrl" ng-cloak>
+<!--     <nav>
+        <section id="headerLeft" class="header-component">
+            <h1>Randopt</h1>
+        </section>
+    </nav> -->
+    <nav id="nav" class="navbar standard-side-padding">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand project-link" href="#">Randopt</a>
+        </div>
+      </div><!--/.container-fluid -->
+    </nav>
+
+    <div id="main" class="wrapper standard-side-padding">
+        <!-- Graphs -->
+        <section id="graphs" class="container stabilize-container">
+            <div class="row">
+            <div class="col-lg-6 graph-unit">
+                <div class="graph-container md-whiteframe-2dp">
+                    <div layout="row" layout-wrap>
+                        <div class="dropdown-bottom-values dropdown-container no-marpad" flex="30">
+                            <div class="sub" layout="row">
+                                <div class="" flex="35">
+                                    <select ng-model="graphOptions.yValue1" class="selectpicker" data-live-search="true">
+                                        <option value="INF" selected>
+                                            <span class="inf-wrapper">
+                                                -<span class="infinity"> &infin; </span>
+                                            </span>
+                                        </option>
+                                    </select>
+                                </div>
+
+
+                                <!-- cordinates -->
+                                <div class="" flex="30">
+                                    <select ng-model="graphOptions.axis" class="selectpicker">
+                                        <option ng-repeat="ax in getCoordinates()" value="{{ax}}">
+                                            {{ax}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <!-- /cordinates -->
+
+                                <div class="" flex="35">
+                                    <select ng-model="graphOptions.yValue2" class="selectpicker" data-live-search="true">
+                                        <option value="INF" selected>
+                                            <span class="inf-wrapper">
+                                                <span class="infinity"> &infin; </span>
+                                            </span>
+                                        </option>
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">
+                                            {{ax}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <figure id="graphAlpha" class="graph" flex="70">
+                        </figure>
+                    </div>
+                    <div class="dropdown-bottom-values xAxis">
+                        <div class="sub-b">
+                            <div layout="row">
+                                <div class="" flex="35">
+                                    <select ng-model="graphOptions.yValue1" class="selectpicker" data-live-search="true">
+                                        <option value="INF" selected>
+                                            <span class="inf-wrapper">
+                                                -<span class="infinity"> &infin; </span>
+                                            </span>
+                                        </option>
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">
+                                            {{ax}}
+                                        </option>
+                                    </select>
+                                </div>
+
+
+                                <!-- cordinates -->
+                                <div class="" flex="30">
+                                    <select ng-model="graphOptions.axis" class="selectpicker">
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                    </select>
+                                </div>
+                                <!-- /cordinates -->
+
+                                <div class="" flex="35">
+                                    <select ng-model="graphOptions.yValue2" class="selectpicker" data-live-search="true">
+                                        <option value="INF" selected>
+                                            <span class="inf-wrapper">
+                                                <span class="infinity"> &infin; </span>
+                                            </span>
+                                        </option>
+                                        <option ng-repeat="ax in axis" value="{{ax}}" data-tokens="{{coordinate}}">{{ax}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+<!--             <div class="col-lg-6 graph-unit">
+                <div class="graph-container">
+                    <figure id="graphBeta" class="graph">
+
+                    </figure>
+                    <div class="dropdown-bottom-values row">
+                        <md-input-container class="md-block col-lg-3">
+                            <md-select ng-model="graphOptions.coordinate">
+                                <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
+                                    {{coordinate}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block col-lg-6">
+                            <md-select ng-model="graphOptions.coordinate">
+                                <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
+                                    {{coordinate}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block col-lg-3">
+                            <md-select ng-model="graphOptions.coordinate">
+                                <md-option ng-repeat="coordinate in coordinates" value="{{coordinate}}">
+                                    {{coordinate}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div> -->
+        </section>
+
+        <!-- Data table -->
+        <section id="table">
+            <md-content id="tableMdContent" layout="column" flex>
+                <md-toolbar id="mainHeaderToolbar" class="toolbarTheme md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+                    <div class="md-toolbar-tools">
+                        <span>Data Points</span>
+                        <div flex></div>
+                        <md-button class="md-icon-button" ng-click="addNewGraph()">
+                            <md-icon class="fa fa-area-chart custom-icon" aria-hidden="true"></md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <md-toolbar class="toolbarTheme md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
+                    <div class="md-toolbar-tools">
+                        <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
+                        <div flex></div>
+                        <md-button class="md-icon-button" ng-click="addNewGraph()">
+                            <md-icon class="fa fa-area-chart custom-icon" aria-hidden="true"></md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <md-card id="tableCard">
+                    <md-table-container id="tableContainer">
+                        <table id="dataTable" md-table  md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
+                            <thead id="mainThead" ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th class="titleCol" ng-repeat="header in getHeaders()" md-column md-numeric md-order-by="{{ header }}">
+                                        <span>{{ header }}</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                              <tr class="tableRow" md-row md-auto-select md-select="tableCell" md-on-select="addToSturct" md-on-deselect="removeFromStruct" md-auto-select="options.autoSelect" ng-repeat="tableCell in tableData.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                                <td md-cell>{{tableCell.x}}</td>
+                                <td md-cell>{{tableCell.y}}</td>
+                                <td md-cell>{{tableCell.z}}</td>
+                                <td md-cell>{{tableCell.result}}</td>
+                              </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                </md-card>
+            </md-content>
+        </section>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.js"
+          integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+          crossorigin="anonymous">
+    </script>
+    <script src="https://use.fontawesome.com/445f23898d.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular-animate.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular-aria.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script src="" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.js"></script>
+    <script type="text/javascript">
+        'use strict';
+        angular.module('app', ['ngMaterial', 'md.data.table'])
+
+        .config(['$mdThemingProvider', function ($mdThemingProvider) {
+
+            $mdThemingProvider.theme('default')
+              .primaryPalette('blue');
+        }])
+
+        .controller('RandoptCtrl', ['$mdEditDialog', '$q', '$scope', '$timeout', function ($mdEditDialog, $q, $scope, $timeout) {
+            $scope.tableData = {
+                "count": 13,
+                "data":
+                [
+                    {
+                        x: 5,
+                        y: 3,
+                        z: 1,
+                        result: 0.0,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 10,
+                        y: 8,
+                        z: 4,
+                        result: 0.1,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    }
+                ]
+            };
+
+            // $scope.graphOptions = {};
+
+            let selectedRows = {};
+            const graphConstraints = {
+                width: 462,
+                height: 440
+            }
+
+            $scope.infinity = "";
+
+            $scope.graphOptions = {
+                axis: 'x',
+                yValue1: 'negative',
+                yValue2: 'positive'
+            };
+
+            $scope.selected = [];
+            $scope.headers = [];
+            $scope.axis = [];
+            $scope.limitOptions = [5, 10, 15];
+
+
+            $scope.options = {
+                rowSelection: true,
+                multiSelect: true,
+                autoSelect: true,
+                decapitate: false,
+                largeEditDialog: false,
+                boundaryLinks: false,
+                limitSelect: true,
+                pageSelect: true
+            };
+
+            $scope.query = {
+                order: 'name',
+
+            };
+
+            let graphsArray = [];
+            const Graph = (function() {
+                function drawScatteredGraph(divId, name, xArray, yArray, layout) {
+                    let array = [];
+                    const trace = {
+                      x: xArray,
+                      y: yArray,
+                      mode: 'lines+markers',
+                      type: 'scatter',
+                      name: name,
+                      marker: { size: 10 }
+                    };
+
+                    array.push(trace);
+
+                    graphsArray.push(trace);
+
+                    Plotly.newPlot(divId, array, layout);
+                }
+
+                return {
+                    drawScatteredGraph: drawScatteredGraph
+                }
+            })();
+
+            const allXValues = $scope.tableData.data.map((point) => point.x);
+            const allYValues = $scope.tableData.data.map((point) => point.y);
+
+            const layout = {
+                autosize: false,
+                width: graphConstraints.width,
+                height: graphConstraints.height,
+
+                xaxis: {
+                    range: [ 0, 15] // change x-axis range by picking the lowest & highest values
+                },
+                yaxis: {
+                    range: [0, 15] // change y-axis range by picking the lowest & highest values
+                },
+                title:'Data Labels Hover'
+            };
+
+
+            Graph.drawScatteredGraph('graphAlpha', 'alpha', allXValues, allYValues, layout);
+            // Graph.drawScatteredGraph('graphBeta', 'beta', allXValues, allYValues, layout);
+
+            $scope.getHeaders = function() {
+                const sample =  $scope.tableData.data[0] ? $scope.tableData.data[0] : {};
+                const headers = [];
+                Object.keys(sample).forEach(function(key) {
+                    if(key == 'convergence' || key == '$$hashKey') {
+                    }
+                    else {
+                        if(key === 'result') {
+                            headers.unshift(key);
+                        } else {
+                            headers.push(key.toString());
+                        }
+                    }
+                });
+
+                return headers;
+            }
+
+            $scope.getCoordinates = function() {
+                const sample =  $scope.tableData.data[0] ? $scope.tableData.data[0] : {};
+                let result = [];
+                Object.keys(sample).forEach(function(key) {
+                    if(key == 'convergence' || key == '$$hashKey') {
+                    }
+                    else {
+                        if(key !== 'result') {
+                            result.push(key.toString());
+                            // $scope.axis.push(key.toString());
+                        }
+                    }
+                });
+                return result;
+            }
+
+            // getCoordinates();
+
+            $scope.toggleLimitOptions = function () {
+                $scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];
+            };
+
+            $scope.loadStuff = function () {
+                $scope.promise = $timeout(function () {
+                    // loading
+                }, 2000);
+            }
+
+            $scope.addToSturct = function (item) {
+                const selectedParam = item;
+                const selectedKey = item["$$hashKey"];
+                selectedRows[selectedKey] = selectedParam;
+
+                console.log('Selected rows after add: ', selectedRows);
+            };
+
+            $scope.removeFromStruct = function(item) {
+                const selectedKey = item["$$hashKey"];
+                delete selectedRows[selectedKey];
+
+                console.log('Selected rows after delete: ', selectedRows);
+            }
+
+            $scope.logOrder = function (order) {
+                console.log('order: ', order);
+            };
+
+            $scope.addNewGraph = function() {
+                console.log('draw graph');
+            };
+
+            const replaceIcons = function(selector, icon) {
+                $(selector).replaceWith("<md-icon class='custom-sort-icon md-sort-icon ng-scope md-asc " + icon + "' ng-class='getDirection()' rol='img'> </md-icon>");
+            };
+
+            $timeout(() => {
+                replaceIcons('md-icon.md-sort-icon', 'fa fa-arrows-v');
+                $('.svg-container').addClass('stabilizeGraph');
+                $('.selectpicker').selectpicker({
+                    size: 20
+                });
+            });
+
+
+        }]);
+    </script>
+
+    <!-- <script type="text/javascript">
+        console.info('Randopt running...');
+
+        var getData = function(parameter) {
+            return new Promise(function(res, rej)  {
+                // 1. get request to the api
+                // 2. fetch data
+
+                        // it needs to have result probably has parameters
+                // parameters being x,y,z,convergence...
+                var EXPERIMENT_RESULTS = [
+                    {
+                        x: 5,
+                        y: 3,
+                        z: 1,
+                        result: 0.0,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 10,
+                        y: 8,
+                        z: 4,
+                        result: 0.1,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    },
+                    {
+                        x: 8,
+                        y: 9,
+                        z: 6,
+                        result: 0.2,
+                        convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                    }
+                ];
+
+                if (EXPERIMENT_RESULTS) {
+                    res(EXPERIMENT_RESULTS);
+                } else {
+                    rej("Error");
+                }
+            });
+        };
+
+        var HTML = (function() {
+            function setFooter() {
+                var footer = document.getElementsByTagName('footer')[0];
+                var nav = document.getElementsByTagName('nav')[0];
+
+                footer.style.height = nav.offsetHeight + 'px';
+                // footer.style.backgroundColor = $('nav').css('backgroundColor');
+            };
+
+            function setFooterCaption () {
+                var copyChar = '&copy;',
+                    year = new Date().getFullYear(),
+                    restOfString = 'Seb Arnold All Rights Reserved.';
+                var text = copyChar + year + ' ' + restOfString;
+                $('#footerCaptionText').append(text);
+            };
+
+            function addToTable(tableID, dataObject) {
+                var $td;
+                var $tr = $("<tr></tr>");
+
+                for(var key in dataObject) {
+                    $td = $("<td></td>")
+                    var data;
+
+                    if(dataObject[key] instanceof Array) {
+                        // data = dataObject[key].join(", ");
+                    } else {
+                        data = dataObject[key];
+                    }
+
+                    console.log("Data:::", data);
+                    $td.append(data);
+                    $tr.append($td);
+                }
+                $(tableID).append($tr);
+            };
+
+            function convertDataToDataTable(tableID, data) {
+                $(tableID).DataTable(data);
+            };
+
+            function drawAlpha() {
+
+            };
+
+            function drawBeta () {
+
+            };
+
+            function drawGraph(graphID, data) {
+                var trace1 = {
+                  x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                  y: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+                  fill: "tozerox",
+                  fillcolor: "rgba(0,100,80,0.2)",
+                  line: {color: "transparent"},
+                  name: "Fair",
+                  showlegend: false,
+                  type: "scatter"
+                };
+                var trace2 = {
+                  x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                  y: [5.5, 3, 5.5, 8, 6, 3, 8, 5, 6, 5.5, 4.75, 5, 4, 7, 2, 4, 7, 4.4, 2, 4.5],
+                  fill: "tozerox",
+                  fillcolor: "rgba(0,176,246,0.2)",
+                  line: {color: "transparent"},
+                  name: "Premium",
+                  showlegend: false,
+                  type: "scatter"
+                };
+                var trace3 = {
+                  x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                  y: [11, 9, 7, 5, 3, 1, 3, 5, 3, 1, -1, 1, 3, 1, -0.5, 1, 3, 5, 7, 9],
+                  fill: "tozerox",
+                  fillcolor: "rgba(231,107,243,0.2)",
+                  line: {color: "transparent"},
+                  name: "Fair",
+                  showlegend: false,
+                  type: "scatter"
+                };
+                var trace4 = {
+                  x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                  y: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                  line: {color: "rgb(0,100,80)"},
+                  mode: "lines",
+                  name: "Fair",
+                  type: "scatter"
+                };
+                var trace5 = {
+                  x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                  y: [5, 2.5, 5, 7.5, 5, 2.5, 7.5, 4.5, 5.5, 5],
+                  line: {color: "rgb(0,176,246)"},
+                  mode: "lines",
+                  name: "Premium",
+                  type: "scatter"
+                };
+                var trace6 = {
+                  x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                  y: [10, 8, 6, 4, 2, 0, 2, 4, 2, 0],
+                  line: {color: "rgb(231,107,243)"},
+                  mode: "lines",
+                  name: "Ideal",
+                  type: "scatter"
+                };
+                var data = [trace1, trace2, trace3, trace4, trace5, trace6];
+                var layout = {
+                  paper_bgcolor: "rgb(255,255,255)",
+                  plot_bgcolor: "rgb(229,229,229)",
+                  xaxis: {
+                    gridcolor: "rgb(255,255,255)",
+                    range: [1, 10],
+                    showgrid: true,
+                    showline: false,
+                    showticklabels: true,
+                    tickcolor: "rgb(127,127,127)",
+                    ticks: "outside",
+                    zeroline: false
+                  },
+                  yaxis: {
+                    gridcolor: "rgb(255,255,255)",
+                    showgrid: true,
+                    showline: false,
+                    showticklabels: true,
+                    tickcolor: "rgb(127,127,127)",
+                    ticks: "outside",
+                    zeroline: false
+                  }
+                };
+                Plotly.plot(graphID, data, layout);
+            };
+
+            return {
+                setFooter: setFooter,
+                setFooterCaption: setFooterCaption,
+                addToTable: addToTable,
+                convertDataToDataTable: convertDataToDataTable,
+                drawAlpha: drawAlpha,
+                drawBeta: drawBeta,
+                drawGraph: drawGraph
+            }
+        })();
+
+
+        // Actions
+        (function(){
+            getData("some parameter")
+                .then(function(data) {
+                    console.log("Data", data);
+                    var dataArray = data.map(function(value, index) {
+                        console.log(value);
+
+                        HTML.addToTable('#dataTable', value);
+                        return [value];
+                    });
+                    console.log(dataArray);
+
+                    // draw graphs
+                    HTML.drawGraph('graphAlpha', {});
+                    HTML.convertDataToDataTable('#dataTable', dataArray);
+                })
+                .catch(function(err) {
+                    console.log("Error fetching data:", err);
+                });
+        })();
+
+    </script> -->
+</body>
+</html>
