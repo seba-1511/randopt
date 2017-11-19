@@ -1,0 +1,173 @@
+        // Copy from this line to end in footer.html
+        </script>
+        <script type="text/javascript">
+
+var rovizApp = angular.module('rovizApp', [])
+    .controller('RovizController', function($scope) {
+    this.plotsCreated = 0;
+    $scope.masterCheck = false;
+
+    // Table Control
+    this.data = DATA;
+    this.headers = ['result'];
+    for (var key in this.data[0]) {
+        if (key !== 'result') {
+            this.headers.push(key);
+        }
+    }
+    for (var i=0; i < this.data.length; i++) {
+        this.data[i].__idx = i;
+    }
+
+    this.toggleCheck = function() {
+        var i;
+        $scope.masterCheck = !$scope.masterCheck;
+        for (i=0; i < this.data.length; i++) {
+            this.data[i].__in_current_plot = $scope.masterCheck ? 1 : 0;
+        }
+    };
+
+    this.addPlot = function() {
+        var i;
+        var currentPlot = {
+            data: [],
+            id: this.plotsCreated,
+            xtitle: 'None',
+            ytitle: 'result',
+            name: 'Plot ' + this.plotsCreated,
+        };
+        for (i=0; i < this.data.length; i++) {
+            if (this.data[i].__in_current_plot == 1) {
+                currentPlot.data.push(this.data[i]);
+            } 
+            this.data[i].__in_current_plot = 0;
+        }
+        this.plots.push(currentPlot);
+        this.plotsCreated++;
+
+    };
+
+    this.countCurrentPlot = function() {
+        var i, count = 0;
+        for (i=0; i < this.data.length; i++) {
+            if (this.data[i].__in_current_plot == 1) {
+                count++;
+            }
+        }
+        return count;
+    };
+
+    // Plot Control
+    this.plots = [];
+    this.removePlot = function(id) {
+        var i;
+        for (i=0; i < this.plots.length; i++) {
+            if (this.plots[i].id == id) {
+                this.plots.splice(i, 1);
+            }
+        }
+    };
+
+    this.export = function() {
+        var copy, file, html;
+        copy = (' ' + CODE).slice(1); // Makes a deep copy
+        plots = [];
+        for (i=0; i < this.plots.length; i++) { 
+            p = Object.assign({}, this.plots[i]); // Deep copy
+            delete p['$$hashKey']; // Remove angular annotations
+            plots.push(p);
+        }
+        plot_content = JSON.stringify(plots);
+        search = 'this.plots = ';
+        start_idx = copy.indexOf(search);
+        start = copy.substr(0, start_idx + search.length);
+        end = copy.substr(start_idx + search.length + 2);
+        content = start + plot_content + end;
+        file = "data:text/plain;charset=utf-8," + encodeURIComponent(content);
+        window.open(file, 'export');
+    };
+
+    // Enable plugins
+    $(document).ready(function() {
+            $("#dataTable").tablesorter();
+        });
+
+    }).directive('plotlyPlot', [function() {
+
+        var xrange = function(N) {
+            var i, a = [];
+            for (i=0; i < N; i++) {
+                a.push(i);
+            }
+            return a;
+        };
+
+        var renderPlot = function(scope, element, attrs) {
+                var traces = [];
+                var i, data, trace, xdata, ydata;
+                for (i=0; i < scope.plot.data.length; i++) {
+                    data = scope.plot.data[i];
+                    if (scope.plot.xtitle === 'None') {
+                        xdata = xrange(data[scope.plot.ytitle].length);
+                    } else {
+                        xdata = data[scope.plot.xtitle];
+                    }
+                    if (scope.plot.ytitle === 'None') {
+                        ydata = xrange(data[scope.plot.xtitle].length);
+                    } else {
+                        ydata = data[scope.plot.ytitle];
+                    }
+                    if (!Array.isArray(xdata)) {
+                        xdata = [xdata, ];
+                    }
+                    if (!Array.isArray(ydata)) {
+                        ydata = [ydata, ];
+                    }
+                    trace = {
+                        x: xdata,
+                        y: ydata,
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        name: 'Result ' + data.__idx,
+                    
+                    };
+                    traces.push(trace);
+                }
+                var layout = {
+                    xaxis: {title: scope.plot.xtitle, showticklabels: true},
+                    yaxis: {title: scope.plot.ytitle, showticklabels: true},
+                    width: element[0].parentElement.clientWidth -10,
+                    height: element[0].parentElement.clientHeight -10,
+                    margin: {l:0, t:0, r:0, b:0},
+                    showlegend: false,
+                };
+                setTimeout(function(){Plotly.newPlot(element[0], traces, layout);}, 100)
+                
+            };
+
+        return {
+            restrict: 'EACM',
+            template: '<div></div>',
+            link: function(scope, element, attrs) {
+                scope.$watch('plot.xtitle', function(oldVal, newVal) {
+                    renderPlot(scope, element, attrs);
+                });
+                scope.$watch('plot.ytitle', function(oldVal, newVal) {
+                    renderPlot(scope, element, attrs);
+                });
+                angular.element(element[0]).bind('resize', function() {
+                    renderPlot(scope, element, attrs);
+                });
+            },
+        };
+    }]);
+
+        </script>
+        <script type="text/javascript">
+            var CODE;
+            document.addEventListener("DOMContentLoaded", function(event) {
+                CODE = document.documentElement.outerHTML;
+            });
+        </script>
+    </body>
+</html>

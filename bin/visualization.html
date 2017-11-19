@@ -60,7 +60,7 @@
 
                     <table id="dataTable" class="table table-hover table-striped">
                         <thead>
-                            <th>&nbsp;</th>
+                            <th ng-click="roviz.toggleCheck();" class="sorter-false">+ / - All</th>
                             <th>n°</th>
                             <th ng-repeat="head in roviz.headers">{{head}}</th>
                         </thead>
@@ -82,6 +82,7 @@
             </div>
         </div>
         <script type="text/javascript">
+            // Copy up to this line in header.html
 
 var DATA = [
     {
@@ -107,16 +108,17 @@ var DATA = [
 },
 ];
 
+        // Copy from this line to end in footer.html
         </script>
         <script type="text/javascript">
 
 var rovizApp = angular.module('rovizApp', [])
     .controller('RovizController', function($scope) {
     this.plotsCreated = 0;
+    $scope.masterCheck = false;
 
     // Table Control
     this.data = DATA;
-    this.numEntries = this.data.length;
     this.headers = ['result'];
     for (var key in this.data[0]) {
         if (key !== 'result') {
@@ -126,6 +128,14 @@ var rovizApp = angular.module('rovizApp', [])
     for (var i=0; i < this.data.length; i++) {
         this.data[i].__idx = i;
     }
+
+    this.toggleCheck = function() {
+        var i;
+        $scope.masterCheck = !$scope.masterCheck;
+        for (i=0; i < this.data.length; i++) {
+            this.data[i].__in_current_plot = $scope.masterCheck ? 1 : 0;
+        }
+    };
 
     this.addPlot = function() {
         var i;
@@ -178,10 +188,10 @@ var rovizApp = angular.module('rovizApp', [])
             plots.push(p);
         }
         plot_content = JSON.stringify(plots);
-        search = 'this.plots = []';
+        search = 'this.plots = ';
         start_idx = copy.indexOf(search);
-        start = copy.substr(0, start_idx + search.length - 2);
-        end = copy.substr(start_idx + search.length);
+        start = copy.substr(0, start_idx + search.length);
+        end = copy.substr(start_idx + search.length + 2);
         content = start + plot_content + end;
         file = "data:text/plain;charset=utf-8," + encodeURIComponent(content);
         window.open(file, 'export');

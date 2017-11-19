@@ -12,10 +12,10 @@ if __name__ == '__main__':
         })
 
     # Sampling parameters
-    for i in xrange(100):
+    for i in range(100):
         e.sample('alpha')
         res = loss(e.alpha)
-        print 'Result: ', res
+        print('Result: ', res)
         e.add_result(res)
 
     # Manually setting parameters
@@ -25,4 +25,4 @@ if __name__ == '__main__':
 
     # Search over all experiments results, including ones from previous runs
     opt = e.minimum()
-    print 'Best result: ', opt.value, ' with params: ', opt.params
+    print('Best result: ', opt.value, ' with params: ', opt.params)

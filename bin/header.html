@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/js/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <title>Results Visualization - Randopt</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/css/theme.default.min.css">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-route.min.js"></script>
+    </head>
+    <body ng-app="rovizApp">
+
+        <div class="container" ng-controller="RovizController as roviz">
+            <h2 class="text-center">Randopt Results</h2>
+
+            <div id="plot-container" class="text-left col-md-12">
+                <h3>Plots <small>{{roviz.plots.length}} plots</small></h3>
+                <div ng-repeat="plot in roviz.plots" class="col-md-6">
+                        <input ng-model="plot.name" style="width:100%;text-align:center;background-color:white; border:none;font-size:20px;" />
+                        <div style="height:350px;border:solid black 2px;">
+                            <plotly-plot plot="plot"></plotly-plot>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                X-axis: 
+                                <select class="form-control" style="display:inline;width:100px;height:30px;padding:0px;background-color:white;background:none;border:solid black 0px;overflow:hidden;" ng-model="plot.xtitle">
+                                    <option value="None">List Indices</option>
+                                    <option ng-repeat="head in roviz.headers">{{head}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-5">
+                                Y-axis: 
+                                <select class="form-control" style="display:inline;width:100px;height:30px;padding:0px;background-color:white;background:none;border:solid black 0px;overflow:hidden;" ng-model="plot.ytitle">
+                                    <option value="None">List Indices</option>
+                                    <option ng-repeat="head in roviz.headers">{{head}}</option>
+                                </select>
+                            
+                            </div>
+                                    <a href="#" class="btn btn-xs btn-danger" ng-click="roviz.removePlot(plot.id)">Remove</a>
+                        </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <div id="table-container" class="col-md-12" style="overflow-x: auto;">
+                <h3>Table <small>{{roviz.data.length}} results</small></h3>
+                <div class="col-md-12">
+                    <div style="text-align:right;margin-bottom:20px;">
+                        <small class="text-muted">{{roviz.countCurrentPlot()}} results selected &nbsp;</small>
+                        <button class="btn btn-success" ng-click="roviz.addPlot()">Add Plot</button> 
+                        <button class="btn btn-primary" ng-click="roviz.export();">Export Plots</button> 
+                    </div>
+
+                    <table id="dataTable" class="table table-hover table-striped">
+                        <thead>
+                            <th ng-click="roviz.toggleCheck();" class="sorter-false">+ / - All</th>
+                            <th>n°</th>
+                            <th ng-repeat="head in roviz.headers">{{head}}</th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="res in roviz.data" ng-click="res.__in_current_plot = !res.__in_current_plot;">
+                                <td>
+                                    <input type="checkbox" ng-model="res.__in_current_plot" />
+                                </td>
+                                <td>
+                                    {{res.__idx}}
+                                </td>
+                                <td ng-repeat="key in roviz.headers">
+                                    {{res[key] | json | limitTo : 50: 0}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            // Copy up to this line in header.html
