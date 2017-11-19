@@ -55,7 +55,7 @@
                     <div style="text-align:right;margin-bottom:20px;">
                         <small class="text-muted">{{roviz.countCurrentPlot()}} results selected &nbsp;</small>
                         <button class="btn btn-success" ng-click="roviz.addPlot()">Add Plot</button> 
-                        <button class="btn btn-primary" onclick="alert('Not Implemented.')">Export Plots</button> 
+                        <button class="btn btn-primary" ng-click="roviz.export();">Export Plots</button> 
                     </div>
 
                     <table id="dataTable" class="table table-hover table-striped">
@@ -168,17 +168,29 @@ var rovizApp = angular.module('rovizApp', [])
         }
     };
 
+    this.export = function() {
+        var copy, file, html;
+        copy = (' ' + CODE).slice(1); // Makes a deep copy
+        plots = [];
+        for (i=0; i < this.plots.length; i++) { 
+            p = Object.assign({}, this.plots[i]); // Deep copy
+            delete p['$$hashKey']; // Remove angular annotations
+            plots.push(p);
+        }
+        plot_content = JSON.stringify(plots);
+        search = 'this.plots = []';
+        start_idx = copy.indexOf(search);
+        start = copy.substr(0, start_idx + search.length - 2);
+        end = copy.substr(start_idx + search.length);
+        content = start + plot_content + end;
+        file = "data:text/plain;charset=utf-8," + encodeURIComponent(content);
+        window.open(file, 'export');
+    };
+
     // Enable plugins
     $(document).ready(function() {
             $("#dataTable").tablesorter();
         });
-
-    // Testing code
-    for (var i=0; i < 2; i++) {
-        this.data[0].__in_current_plot = 1;
-        this.data[1].__in_current_plot = 1;
-        this.addPlot();
-    }
 
     }).directive('plotlyPlot', [function() {
 
@@ -251,7 +263,11 @@ var rovizApp = angular.module('rovizApp', [])
     }]);
 
         </script>
-
-
+        <script type="text/javascript">
+            var CODE;
+            document.addEventListener("DOMContentLoaded", function(event) {
+                CODE = document.documentElement.outerHTML;
+            });
+        </script>
     </body>
 </html>
