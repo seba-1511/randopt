@@ -138,7 +138,7 @@ var rovizApp = angular.module('rovizApp', [])
                     yaxis: {title: scope.plot.ytitle, showticklabels: true},
                     width: element[0].parentElement.clientWidth -10,
                     height: element[0].parentElement.clientHeight -10,
-                    margin: {l:0, t:0, r:0, b:0},
+                    margin: {l:30, t:0, r:0, b:30},
                     showlegend: false,
                 };
                 setTimeout(function(){Plotly.newPlot(element[0], traces, layout);}, 100)
