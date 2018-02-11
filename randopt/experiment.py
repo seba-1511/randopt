@@ -49,7 +49,7 @@ class Experiment(object):
         'learning_rate' : ro.Uniform(low=0.0001, high=0.01, dtype='float'),
     })
     '''
-    def __init__(self, name, params):
+    def __init__(self, name, params={}, directory='randopt_results'):
         self.name = name
         self.params = params
         for key in params:
@@ -58,7 +58,7 @@ class Experiment(object):
             else:
                 raise ValueError('Param cannot be named \'result\'')
         cwd = os.getcwd()
-        randopt_folder = os.path.join(cwd, 'randopt_results')
+        randopt_folder = os.path.join(cwd, directory)
         if not os.path.exists(randopt_folder):
             os.mkdir(randopt_folder)
         self.experiment_path = os.path.join(randopt_folder, self.name)
