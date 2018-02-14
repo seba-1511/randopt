@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 
 from setuptools import (
-        setup as install,
+        setup,
         find_packages,
         )
 
 VERSION = '0.1.6'
 
-install(
+setup(
         name='randopt',
-        packages=['randopt'],
+        packages=find_packages(),
         version=VERSION,
         description='Random search optimization and experiment logging. Support async, fancy visualization, distributed execution.',
         author='Seb Arnold',
@@ -20,5 +20,6 @@ install(
         classifiers=[],
         scripts=[
             'bin/roviz.py',
+            'bin/ropt.py',
             ]
         )
