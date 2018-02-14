@@ -166,5 +166,3 @@ if __name__ == '__main__':
     for i, command in enumerate(commands):
         print(i, ':', command)
         call(command)
-
-

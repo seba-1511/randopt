@@ -5,7 +5,7 @@ from setuptools import (
         find_packages,
         )
 
-VERSION = '0.1.6'
+VERSION = '0.1.7'
 
 setup(
         name='randopt',
@@ -15,7 +15,7 @@ setup(
         author='Seb Arnold',
         author_email='smr.arnold@gmail.com',
         url = 'https://github.com/seba-1511/randopt',
-        download_url = 'https://github.com/seba-1511/randopt/archive/0.1.6.zip',
+        download_url = 'https://github.com/seba-1511/randopt/archive/0.1.7.zip',
         license='License :: OSI Approved :: Apache Software License',
         classifiers=[],
         scripts=[
