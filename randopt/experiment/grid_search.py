@@ -115,7 +115,8 @@ class GridSearch(Experiment):
             yield partial
         else:
             for key in index:
-                yield from self._possible_solutions(index[key], partial + [key, ])
+                for sol in self._possible_solutions(index[key], partial + [key, ]):
+                    yield sol
 
     def add_result(self, *args, **kwargs):
         """
