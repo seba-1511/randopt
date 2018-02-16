@@ -15,9 +15,14 @@ Example:
     of the command 'python example.py run --lr X --wd=Y' where X is sampled from a the given 
     Choice distribution and Y is sampled from Uniform(0, 10).
 
+    Another example using Search wrappers is
+
+    ropt.py CUDA_VISIBLE_DEVICES=0 python experiments.py main newton --exp GridSearch --exp_name newton-2_experiment --lr="Choice([0.01,0.1])"
+
 TODO:
     * Add support for different kinds of experiments (HyperBand, BayesOpt).
       This means: pass the name of experiment and name of class to be used for sampling.
+    * Extensively test the position of the arguments in ropt.
 """
 
 import os
@@ -40,6 +45,24 @@ class CommandGenerator(object):
         com = self.command
         for p, s in zip(self.parameters, self.samplers):
             com += ' ' + p + ' ' + str(s.sample()) 
+        return com
+
+
+class ExperimentSampler(object):
+    def __init__(self, command, parameters, experiment):
+        self.experiment = experiment
+        self.command = command
+        self.parameters = parameters
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        self.experiment.sample_all_params()
+        current = self.experiment.current
+        com = self.command
+        for p in self.parameters:
+            com += ' ' + p + ' ' + str(current[p[2:]])
         return com
 
 
@@ -79,6 +102,7 @@ def parse_param(args):
         return 0, args[0]
     return 1, args[1]
 
+
 def parse_sampler(param):
     values = param[param.index('(') + 1:param.index(')')]
     if '[' in values or '(' in values:
@@ -107,9 +131,21 @@ def parse_sampler(param):
     return samplers[sampler](*values)
 
 
+def parse_experiment(param):
+    if 'evo' in param.lower():
+        return ro.Evolutionary
+    elif 'grid' in param.lower():
+        return ro.GridSearch
+    else:
+        msg = 'Experiment class not implemented in ropt.py yet.'
+        raise NotImplementedError(msg)
+
+
 if __name__ == '__main__':
     n_searches = -1
     n_processes = 1
+    experiment = None
+    experiment_name = None
     arguments = sys.argv[1:]
     args_idx = 0
 
@@ -138,6 +174,14 @@ if __name__ == '__main__':
             shift, param = parse_param(arguments[args_idx:])
             n_searches = int(param)
             args_idx += shift
+        elif '--exp_name' in arg:
+            shift, param = parse_param(arguments[args_idx:])
+            experiment_name = param
+            args_idx += shift
+        elif '--exp' in arg:
+            shift, param = parse_param(arguments[args_idx:])
+            experiment = parse_experiment(param)
+            args_idx += shift
         elif '--' not in arg:
             parameters[-1] += ' ' + arg
         else:
@@ -154,7 +198,13 @@ if __name__ == '__main__':
         args_idx += 1
 
     # Generate the right number of commands
-    command_generator = CommandGenerator(command, parameters, samplers)
+    if experiment is not None and experiment_name is not None:
+        print('Using ', experiment.__name__)
+        params = {n[2:]: s for n, s in zip(parameters, samplers)}
+        experiment = experiment(ro.Experiment(experiment_name, params))
+        command_generator = ExperimentSampler(command, parameters, experiment)
+    else:
+        command_generator = CommandGenerator(command, parameters, samplers)
     if n_searches == -1:
         n_searches = float('inf')
         commands = command_generator
