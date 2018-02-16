@@ -19,6 +19,9 @@ hb:
 evo: 
 	python examples/evo_example.py
 
+gs: 
+	python examples/gs_example.py
+
 dev:
 	python setup.py develop
 
