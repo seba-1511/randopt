@@ -2,7 +2,7 @@
 
 
 from random import sample
-from .experiment import Experiment, leq
+from .experiment import Experiment, OptResult, leq
 
 
 class Evolutionary(Experiment):
@@ -40,16 +40,46 @@ class Evolutionary(Experiment):
         self.parent = None
 
     def sample_parent(self):
+        '''
+        Description:
+            Sets and returns a parent from currently available results.
+
+        Parameters:
+            n/a
+
+        Return type:
+            The parent, as an OptResult
+
+        Example:
+            evo.sample_parent()
+        '''
         elite = self.top(self.elite_size, fn=self.fitness)
         if len(elite) > 0:
             self.parent = sample(elite, 1)[0]
-            return self.parent
+            return OptResult(self.parent['result'], self.parent)
         for p in self.params:
             self.set(p, 0.0)
 
     def sample(self, key):
+        '''
+        Description:
+            Generates a randomly sampled value for given parameter, which is
+            a sampled perturbation plus the value of the current parent.
+
+        Parameters:
+            key - name of randomly sampled parameter
+
+        Return type:
+            Value of randomly generated value for specified sampler
+
+        Example:
+            e.sample('iterations')
+
+        '''
         if self.parent is None:
             self.sample_parent()
         perturbation = self.params[key].sample()
-        self.set(key, self.parent[key] + perturbation)
-        self.experiment.set(key, self.parent[key] + perturbation)
+        value = self.parent[key] + perturbation
+        self.set(key, value)
+        self.experiment.set(key, value)
+        return value
