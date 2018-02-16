@@ -56,7 +56,7 @@ class Evolutionary(Experiment):
         elite = self.top(self.elite_size, fn=self.fitness)
         if len(elite) > 0:
             self.parent = sample(elite, 1)[0]
-            return OptResult(self.parent['result'], self.parent)
+            return self.parent
         for p in self.params:
             self.set(p, 0.0)
 
@@ -83,3 +83,11 @@ class Evolutionary(Experiment):
         self.set(key, value)
         self.experiment.set(key, value)
         return value
+
+    def sample_all_params(self):
+        """
+        Similar to Experiment.sample_all_params() but the parent is
+        re-sampled first.
+        """
+        self.sample_parent()
+        return super(Evolutionary, self).sample_all_params()

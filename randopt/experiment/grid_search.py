@@ -45,10 +45,16 @@ class GridSearch(Experiment):
 
         # Count results
         for e in self.experiment.all_results():
+            experiment_in_grid = True
             sub_index = index
             for p in self.params:
-                sub_index = sub_index[e.params[p]]
-            sub_index['count'] += 1
+                if e.params[p] in sub_index:
+                    sub_index = sub_index[e.params[p]]
+                else:
+                    experiment_in_grid = False
+                    break
+            if experiment_in_grid:
+                sub_index['count'] += 1
         self.index = index
 
     def _turn_to_count(self, index):
