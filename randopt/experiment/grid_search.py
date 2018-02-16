@@ -24,6 +24,19 @@ class GridSearch(Experiment):
         self.refresh_index()
 
     def refresh_index(self):
+        """
+        Description:
+            Rebuilds the index of all executed experiments.
+
+        Arguments:
+            n/a
+
+        Returns:
+            n/a
+
+        Example:
+            gs.refresh_index()
+        """
         index = {}
         # Build index
         for key in self.params:
@@ -77,8 +90,12 @@ class GridSearch(Experiment):
         return values[min_idx]
 
     def sample_all_params(self):
-        # Do the first experiment that has been done less than all others
-        # This function can not use sample, else we might end up trapped
+        """
+        Similar to Experiment.sample_all_params()
+
+        Returnt the first configuration that has been executed less times than
+        the others.
+        """
         min_count = 0
         while True:
             for solution in self._possible_solutions(self.index):
