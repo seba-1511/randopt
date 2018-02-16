@@ -16,6 +16,9 @@ clean:
 hb:
 	python hb_example.py
 
+evo: 
+	python examples/evo_example.py
+
 dev:
 	python setup.py develop
 
