@@ -99,7 +99,7 @@ class GridSearch(Experiment):
         """
         Similar to Experiment.sample_all_params()
 
-        Returnt the first configuration that has been executed less times than
+        Returns the first configuration that has been executed less times than
         the others.
         """
         min_count = 0
