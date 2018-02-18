@@ -1,8 +1,13 @@
-# randopt
+<p align="center"><img src="web/figs/logo.png" /></p>
+
+--------------------------------------------------------------------------------
+
+randopt is a packge for machine learning experiment management, hyper-parameter optimization, and results visualization.
+
 [![Build Status](https://travis-ci.org/seba-1511/randopt.svg?branch=master)](https://travis-ci.org/seba-1511/randopt)
 [![PyPI version](https://badge.fury.io/py/randopt.svg)](https://badge.fury.io/py/randopt)
 
-![](./web/figs/randopt.png)
+<p align="center"><img width="40%" src="web/figs/randopt.png" /></p>
 
 ## Install
 
@@ -48,9 +53,5 @@ if __name__ == '__main__':
 ## Visualization
 `randopt` also supports HTML visualization. After running an experiment, and using the `add_result` function, the following code can create a table containing the results. The `roviz.py` script will automatically launch the webpage. However, if you wish to view the HTML file for whatever reason, it's saved as `randopt_results/experiment_name/viz.html`.
 
-`roviz.py -e experiment_name`
-
-By default, the visualizer sorts in order of ascending result. If you wish to visualize the data in a descending order, use the following command line argument.
-
-`roviz.py -e experiment_name -s max`
+`roviz.py path/to/experiment/folder`
 
