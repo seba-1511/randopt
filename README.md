@@ -2,7 +2,7 @@
 
 --------------------------------------------------------------------------------
 
-randopt is a packge for machine learning experiment management, hyper-parameter optimization, and results visualization.
+randopt is a package for machine learning experiment management, hyper-parameter optimization, and results visualization.
 
 [![Build Status](https://travis-ci.org/seba-1511/randopt.svg?branch=master)](https://travis-ci.org/seba-1511/randopt)
 [![PyPI version](https://badge.fury.io/py/randopt.svg)](https://badge.fury.io/py/randopt)
