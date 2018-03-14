@@ -18,34 +18,30 @@ or clone this repo and `python setup.py install`.
 Here's a short example on how to use `randopt`.
 
 ```python
-#!/usr/bin/env python
-
 import randopt as ro
 
 def loss(x):
     return x**2
 
-if __name__ == '__main__':
+e = ro.Experiment('myexp', {
+        'alpha': ro.Gaussian(mean=0.0, std=1.0, dtype='float'),
+    })
 
-    e = ro.Experiment('myexp', {
-            'alpha': ro.Gaussian(mean=0.0, std=1.0, dtype='float'),
-        })
-
-    # Sampling parameters
-    for i in xrange(100):
-        e.sample('alpha')
-        res = loss(e.alpha)
-        print 'Result: ', res
-        e.add_result(res)
-
-    # Manually setting parameters
-    e.alpha = 0.00001
+# Sampling parameters
+for i in xrange(100):
+    e.sample('alpha')
     res = loss(e.alpha)
+    print 'Result: ', res
     e.add_result(res)
 
-    # Search over all experiments results, including ones from previous runs
-    opt = e.minimum()
-    print('Best result: ', opt.value, ' with params: ', opt.params)
+# Manually setting parameters
+e.alpha = 0.00001
+res = loss(e.alpha)
+e.add_result(res)
+
+# Search over all experiments results, including ones from previous runs
+opt = e.minimum()
+print('Best result: ', opt.value, ' with params: ', opt.params)
 ```
 
 ## Visualization
