@@ -4,11 +4,11 @@ all: example
 
 example:
 	python examples/simple.py
-	roviz.py randopt_result/simple_example
+	roviz.py randopt_results/simple_example/
 
 advanced:
 	python examples/multi_params.py
-	roviz.py multi_params_example
+	roviz.py randopt_results/multi_params_example
 
 clean:
 	rm -rf randopt_results
