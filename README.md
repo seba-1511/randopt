@@ -58,7 +58,7 @@ For more info on visualization and `roviz.py`, refer to the [Visualizing Results
 
 To generate results and search for good hyper-parameters you can either user `ropt.py` or write your own optimizaiton script using the [Evolutionary](https://github.com/seba-1511/randopt/wiki/evolutionary) and [GridSearch](https://github.com/seba-1511/randopt/wiki/grid_search) classes.
 
-For more info on hyper-parameter optimization, refer to the [Optimizing Hyper-params]() tutorial.
+For more info on hyper-parameter optimization, refer to the [Optimizing Hyperparams]() tutorial.
 
 
 # Documentation
