@@ -33,9 +33,7 @@ docs:
 	./gendocs.py randopt.experiment.evolutionary Evolutionary > wiki/docs/Evolutionary-Docs.md
 	./gendocs.py randopt.experiment.grid_search GridSearch > wiki/docs/GridSearch-Docs.md
 	cd wiki && git add docs/. && git ci -am 'Docs update' && git push
-#	git submodule update --recursive
 	git ci README.md -m 'README update'
-#	git push origin wiki
 
 test:
 	python -m unittest discover -s 'test' -p '*_tests.py'

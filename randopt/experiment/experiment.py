@@ -19,9 +19,6 @@ from randopt.samplers import Uniform
 
 """
 This file implements the Experiment class.
-
-TODO:
-    * Add option to check if experiment was already ran. (search through json)
 """
 
 leq = lambda x, y: x <= y
@@ -33,22 +30,18 @@ OptResult = namedtuple('OptResult', ['value', 'params'])
 class Experiment(object):
 
     '''
-    Description:
-
-        Initializes experiment
+    Main class to create, manage, and search experimental results.
 
     Parameters:
 
-        * name - name of experiment
-        * params - dicitionary of parameter names to their random sampling functions
+    * name - (string) name of experiment.
+    * params - (dict) dicitionary of parameter names to their random sampling functions.
 
-    Return type:
-
-        n/a
+    Return type: n/a
 
     Example:
 
-        e = ro.Experiment('neuralnet_ftp', {
+        e = ro.Experiment('exp_name', {
             'batch_size' : ro.Uniform(low=5.0, high=150.0, dtype='int'),
             'iterations': ro.Normal(mean=1000.0, std=150.0, dtype='int'),
             'learning_rate' : ro.Uniform(low=0.0001, high=0.01, dtype='float'),
@@ -93,18 +86,14 @@ class Experiment(object):
 
     def top(self, count, fn=leq):
         '''
-        Description:
-
-            Returns the top count best results. By default, minimum
+        Returns the top count best results. By default, minimum.
 
         Parameters:
 
-            * count - integer
-            * fn=leq,geq - optional, set to geq for maximal values
+        * count - (int) number of results to return.
+        * fn - (function) comparison function. Default: leq
 
-        Return type:
-
-            dictionary of parameters
+        Return type: dict of parameters
 
         Example:
 
@@ -151,17 +140,11 @@ class Experiment(object):
 
     def maximum(self):
         '''
-        Description:
+        Returns the maximum result from saved results.
 
-            Returns the maximum result after experimentation
+        Parameters: n/a
 
-        Parameters:
-
-            n/a
-
-        Return type:
-
-            Maximum result
+        Return type: float
 
         Example:
 
@@ -171,17 +154,11 @@ class Experiment(object):
 
     def minimum(self):
         '''
-        Description:
+        Returns the minimum result from saved results.
 
-            Returns the minimum result after experimentation
+        Parameters: n/a
 
-        Parameters:
-
-            n/a
-
-        Return type:
-
-            Minimum result
+        Return type: float
 
         Example:
 
@@ -191,17 +168,13 @@ class Experiment(object):
 
     def seed(self, seed):
         '''
-        Description:
-
-            Manually set a seed value
+        Manually set a seed value.
 
         Parameters:
 
-            * seed : integer
+        * seed - (int) random seed.
 
-        Return type:
-
-            n/a
+        Return type: n/a
 
         Example:
 
@@ -216,17 +189,13 @@ class Experiment(object):
 
     def sample(self, key):
         '''
-        Description:
-
-            Generates a randomly sampled value for given parameter
+        Generates, sets, and returns a randomly sampled value for given parameter.
 
         Parameters:
 
-            * key - name of randomly sampled parameter
+        * key - (string) name of randomly sampled parameter
 
-        Return type:
-
-            Value of randomly generated value for specified sampler
+        Return type: float/int
 
         Example:
 
@@ -239,17 +208,11 @@ class Experiment(object):
 
     def sample_all_params(self):
         '''
-        Description:
+        Generates a randomly sampled value for all specified parameters.
 
-            Generates a randomly sampled value for all specified parameters
+        Parameters: n/a
 
-        Parameters:
-
-            n/a
-
-        Return type:
-
-            self.current
+        Return type: dict of parameters and values.
 
         Example:
 
@@ -261,18 +224,14 @@ class Experiment(object):
 
     def add_result(self, result, data=None):
         '''
-        Description:
-
-            Generates a randomly sampled value for all specified parameters
+        Generates a randomly sampled value for all specified parameters
 
         Parameters:
 
-            * result - resultant value
-            * data - dict of {result_name: value}
+        * result - (float) value for the current set of hyperparameters.
+        * data - (dict) additional logging data.
 
-        Return type:
-
-            n/a
+        Return type: n/a
 
         Example:
 
@@ -291,17 +250,11 @@ class Experiment(object):
 
     def all_results(self):
         '''
-        Description:
+        Iterates through all previous results in no specific order
 
-            Iterates through all previous results in no specific order
+        Parameters: n/a
 
-        Parameters:
-
-            n/a
-
-        Return type:
-
-            iterator
+        Return type: iterator
 
         Example:
 
@@ -324,17 +277,13 @@ class Experiment(object):
 
     def save_state(self, path):
         '''
-        Description:
-
-            Saves the state of the random variables into a file.
+        Saves the state of the random variables into a file.
 
         Parameters:
 
-            * path - target filepath
+        * path - (string) target filepath
 
-        Return type:
-
-            n/a
+        Return type: n/a
 
         Example:
 
@@ -348,17 +297,13 @@ class Experiment(object):
 
     def set_state(self, path):
         '''
-        Description:
-
-            Sets the state of random variables from a file
+        Sets the state of random variables from a file
 
         Parameters:
 
-            * path - target filepath
+        * path - (string) target filepath
 
-        Return type:
-
-            n/a
+        Return type: n/a
 
         Example:
 
