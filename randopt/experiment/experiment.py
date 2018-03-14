@@ -36,6 +36,7 @@ class Experiment(object):
 
     * name - (string) name of experiment.
     * params - (dict) dicitionary of parameter names to their random sampling functions.
+    * directory - (string) directory in which the experiment will be saved. Default: randopt_results
 
     Return type: n/a
 
