@@ -326,11 +326,11 @@ class Experiment(object):
         '''
         Description:
 
-            Saves the state of the random variables into a file
+            Saves the state of the random variables into a file.
 
         Parameters:
 
-            path - target filepath
+            * path - target filepath
 
         Return type:
 

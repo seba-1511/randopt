@@ -32,7 +32,7 @@ docs:
 	./gendocs.py randopt.experiment.experiment Experiment > wiki/docs/Experiment-Docs.md
 	./gendocs.py randopt.experiment.evolutionary Evolutionary > wiki/docs/Evolutionary-Docs.md
 	./gendocs.py randopt.experiment.grid_search GridSearch > wiki/docs/GridSearch-Docs.md
-#	cd wiki && git add docs/. && git ci -am 'Docs update' && git push
+	cd wiki && git add docs/. && git ci -am 'Docs update' && git push
 #	git submodule update --recursive
 	git ci README.md -m 'README update'
 #	git push origin wiki
