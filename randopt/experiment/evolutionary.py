@@ -8,22 +8,23 @@ from .experiment import Experiment, OptResult, leq
 class Evolutionary(Experiment):
 
     """
-    Description:
-        Selects the best `elite_size` results according to `fitness()` from
-        the current experiment. Uniformly samples one of them as a parent, and
-        perturbs it using the experiment's samplers.
+    Selects the best `elite_size` results according to `fitness()` from
+    the current experiment. Uniformly samples one of them as a parent, and
+    perturbs it using the experiment's samplers.
 
-        Note that in order to change parent, you should call experiment.sample_parent()
+    Note that in order to change parent, you should call experiment sample_parent()
 
     Parameters:
-        experiment - experiment to wrap
-        elite_size - number of results to consider as parents
-        fitness - function to determine fitness of result
 
-    Return type:
-        n/a
+    * experiment - (Experiment) experiment to wrap.
+    * elite_size - (int) number of results to consider as parents.
+    * fitness - (function) function to determine fitness of result.
+
+    Return type: n/a
 
     Example:
+
+        experiment = Experiment('name', params={'lr': Gaussian()})
         evo = Evolutionary(experiment)
         evo.sample_parent()
         evo.sample_all_params()
@@ -41,16 +42,14 @@ class Evolutionary(Experiment):
 
     def sample_parent(self):
         '''
-        Description:
-            Sets and returns a parent from currently available results.
+        Sets and returns a parent from currently available results.
 
-        Parameters:
-            n/a
+        Parameters: n/a
 
-        Return type:
-            The parent, as an OptResult
+        Return type: OptResult, the parent result.
 
         Example:
+
             evo.sample_parent()
         '''
         elite = self.top(self.elite_size, fn=self.fitness)
@@ -62,17 +61,17 @@ class Evolutionary(Experiment):
 
     def sample(self, key):
         '''
-        Description:
-            Generates a randomly sampled value for given parameter, which is
-            a sampled perturbation plus the value of the current parent.
+        Generates a randomly sampled value for given parameter, which is
+        a sampled perturbation plus the value of the current parent.
 
         Parameters:
-            key - name of randomly sampled parameter
 
-        Return type:
-            Value of randomly generated value for specified sampler
+        * key - name of randomly sampled parameter
+
+        Return type: (float) Value of randomly generated value for specified sampler
 
         Example:
+
             e.sample('iterations')
 
         '''
