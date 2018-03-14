@@ -12,7 +12,7 @@ randopt is a Python package for machine learning experiment management, hyper-pa
 * support for parallelism / distributed / asynchronous experiments,
 * command-line and programmatic API,
 * shareable, flexible Web visualization,
-* automatic hyper-parameter Search, and
+* automatic hyper-parameter search, and
 * pure Python - no dependencies !
 
 
