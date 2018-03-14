@@ -1,4 +1,4 @@
-<p align="center"><img src="web/figs/logo.png" /></p>
+<p align="center"><img src="wiki/assets/images/logo.png" /></p>
 
 --------------------------------------------------------------------------------
 
