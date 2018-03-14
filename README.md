@@ -7,8 +7,6 @@ randopt is a package for machine learning experiment management, hyper-parameter
 [![Build Status](https://travis-ci.org/seba-1511/randopt.svg?branch=master)](https://travis-ci.org/seba-1511/randopt)
 [![PyPI version](https://badge.fury.io/py/randopt.svg)](https://badge.fury.io/py/randopt)
 
-<p align="center"><img width="60%" src="assets/images/pipeline.png" /></p>
-
 # Installation
 
 ```shell
