@@ -14,7 +14,7 @@ randopt is a package for machine learning experiment management, hyper-parameter
 ```shell
 pip install randopt
 ```
-or clone this repo and `python setup.py develop`.
+or clone this repo and `python setup.py install`.
 
 # Usage
 Here's a short example on how to use `randopt`.
@@ -50,13 +50,43 @@ if __name__ == '__main__':
     print 'Best result: ', opt.value, ' with params: ', opt.params
 ```
 
-# Visualization
+## Visualization
 
-Once your experiments are run, 
+Once you obtained some results, run
 
 `roviz.py path/to/experiment/folder`
+
+to visualize them in your web browser.
+
+For more info, refer to the [Visualizing Results]() tutorial.
+
+## Hyper-Parameter Optimization
+
+To search 
+
+`roviz.py path/to/experiment/folder`
+
+For more info, refer to the [Visualizing Results]() tutorial.
+
 
 # More Info
 
 For more examples, tutorials, and documentation refer to the [wiki](https://github.com/seba-1511/randopt/wiki).
 
+
+# Contributing
+
+How to contribute.
+
+### Acknowledgements
+Randopt is maintained by [Séb Arnold](http://seba1511.com), with numerous contributions from the following persons.
+
+* Noel Trivedi
+* Cyrus Jia
+* Daler Asrorov
+
+# License
+
+Randopt is released under the Apache 2 License. For more information, refer to the [LICENSE file](LICENSE.txt).
+
+I would love to hear how your use Randopt. Feel free to [drop me an email](http://seba1511.com) !
