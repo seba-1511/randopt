@@ -52,31 +52,25 @@ if __name__ == '__main__':
 
 ## Visualization
 
-Once you obtained some results, run
+Once you obtained some results, run `roviz.py path/to/experiment/folder` to visualize them in your web browser.
 
-`roviz.py path/to/experiment/folder`
-
-to visualize them in your web browser.
-
-For more info, refer to the [Visualizing Results]() tutorial.
+For more info on visualization and `roviz.py`, refer to the [Visualizing Results]() tutorial.
 
 ## Hyper-Parameter Optimization
 
-To search 
+To generate results and search for good hyper-parameters you can either user `ropt.py` or write your own optimizaiton script using the [Evolutionary](https://github.com/seba-1511/randopt/wiki/evolutionary) and [GridSearch](https://github.com/seba-1511/randopt/wiki/grid_search) classes.
 
-`roviz.py path/to/experiment/folder`
-
-For more info, refer to the [Visualizing Results]() tutorial.
+For more info on hyper-parameter optimization, refer to the [Optimizing Hyper-params]() tutorial.
 
 
-# More Info
+# Documentation
 
 For more examples, tutorials, and documentation refer to the [wiki](https://github.com/seba-1511/randopt/wiki).
 
 
 # Contributing
 
-How to contribute.
+To contribute to Randopt, it is recommended to follow the [contribution guidelines](CONTRIBUTING.md).
 
 ### Acknowledgements
 Randopt is maintained by [Séb Arnold](http://seba1511.com), with numerous contributions from the following persons.
@@ -89,4 +83,4 @@ Randopt is maintained by [Séb Arnold](http://seba1511.com), with numerous contr
 
 Randopt is released under the Apache 2 License. For more information, refer to the [LICENSE file](LICENSE.txt).
 
-I would love to hear how your use Randopt. Feel free to [drop me an email](http://seba1511.com) !
+I would love to hear how your use Randopt. Feel free to [drop me a line](http://seba1511.com) !

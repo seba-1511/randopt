@@ -35,7 +35,7 @@ docs:
 	cd wiki && git add docs/. && git ci -am 'Docs update' && git push origin master
 	git submodule update --recursive
 	git ci README.md -m 'README update'
-	git push origin HEAD:wiki
+	git push origin wiki
 
 test:
 	python -m unittest discover -s 'test' -p '*_tests.py'
