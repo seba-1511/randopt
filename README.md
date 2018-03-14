@@ -9,14 +9,14 @@ randopt is a package for machine learning experiment management, hyper-parameter
 
 <p align="center"><img width="60%" src="assets/images/pipeline.png" /></p>
 
-## Install
+# Installation
 
 ```shell
 pip install randopt
 ```
 or clone this repo and `python setup.py develop`.
 
-## Example
+# Usage
 Here's a short example on how to use `randopt`.
 
 ```python
@@ -50,13 +50,13 @@ if __name__ == '__main__':
     print 'Best result: ', opt.value, ' with params: ', opt.params
 ```
 
-## Visualization
+# Visualization
 
 Once your experiments are run, 
 
 `roviz.py path/to/experiment/folder`
 
-## More Info
+# More Info
 
-For more examples, tutorials, and documentation refer to the [website](http://seba-1511.github.io/randopt).
+For more examples, tutorials, and documentation refer to the [wiki](https://github.com/seba-1511/randopt/wiki).
 

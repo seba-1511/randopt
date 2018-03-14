@@ -34,6 +34,8 @@ docs:
 	./gendocs.py randopt.experiment.grid_search GridSearch > wiki/docs/grid_search.md
 	cd wiki && git add docs/. && git ci -am 'Docs update' && git push
 	git submodule update --recursive
+	git ci README.md -m 'README update'
+	git push origin HEAD:wiki
 
 test:
 	python -m unittest discover -s 'test' -p '*_tests.py'
