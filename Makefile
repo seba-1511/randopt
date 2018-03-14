@@ -28,14 +28,14 @@ dev:
 docs:
 	rm -rf wiki/docs
 	mkdir wiki/docs
-	./gendocs.py randopt.samplers > wiki/docs/samplers.md
-	./gendocs.py randopt.experiment.experiment Experiment > wiki/docs/experiment.md
-	./gendocs.py randopt.experiment.evolutionary Evolutionary > wiki/docs/evolutionary.md
-	./gendocs.py randopt.experiment.grid_search GridSearch > wiki/docs/grid_search.md
-	cd wiki && git add docs/. && git ci -am 'Docs update' && git push origin master
-	git submodule update --recursive
+	./gendocs.py randopt.samplers > wiki/docs/Samplers-Docs.md
+	./gendocs.py randopt.experiment.experiment Experiment > wiki/docs/Experiment-Docs.md
+	./gendocs.py randopt.experiment.evolutionary Evolutionary > wiki/docs/Evolutionary-Docs.md
+	./gendocs.py randopt.experiment.grid_search GridSearch > wiki/docs/GridSearch-Docs.md
+#	cd wiki && git add docs/. && git ci -am 'Docs update' && git push
+#	git submodule update --recursive
 	git ci README.md -m 'README update'
-	git push origin wiki
+#	git push origin wiki
 
 test:
 	python -m unittest discover -s 'test' -p '*_tests.py'

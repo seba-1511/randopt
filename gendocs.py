@@ -24,6 +24,7 @@ def getmarkdown(module, class_to_doc=None):
         output = [module_header.format(module.__name__) ]
     else:
         output = [module_header.format(class_to_doc) ]
+    output = []
     
     if module.__doc__:
         output.append(module.__doc__)

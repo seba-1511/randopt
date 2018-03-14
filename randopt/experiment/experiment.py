@@ -34,16 +34,20 @@ class Experiment(object):
 
     '''
     Description:
+
         Initializes experiment
 
     Parameters:
-        name - name of experiment
-        params - dicitionary of parameter names to their random sampling functions
+
+        * name - name of experiment
+        * params - dicitionary of parameter names to their random sampling functions
 
     Return type:
+
         n/a
 
     Example:
+
         e = ro.Experiment('neuralnet_ftp', {
             'batch_size' : ro.Uniform(low=5.0, high=150.0, dtype='int'),
             'iterations': ro.Normal(mean=1000.0, std=150.0, dtype='int'),
@@ -90,16 +94,20 @@ class Experiment(object):
     def top(self, count, fn=leq):
         '''
         Description:
+
             Returns the top count best results. By default, minimum
 
         Parameters:
-            count - integer
-            fn=leq,geq - optional, set to geq for maximal values
+
+            * count - integer
+            * fn=leq,geq - optional, set to geq for maximal values
 
         Return type:
+
             dictionary of parameters
 
         Example:
+
             e.top(3)
         '''
         top_n_experiments = []
@@ -144,15 +152,19 @@ class Experiment(object):
     def maximum(self):
         '''
         Description:
+
             Returns the maximum result after experimentation
 
         Parameters:
+
             n/a
 
         Return type:
+
             Maximum result
 
         Example:
+
             e.maximum()
         '''
         return self._search(geq)
@@ -160,15 +172,19 @@ class Experiment(object):
     def minimum(self):
         '''
         Description:
+
             Returns the minimum result after experimentation
 
         Parameters:
+
             n/a
 
         Return type:
+
             Minimum result
 
         Example:
+
             e.minimum()
         '''
         return self._search(leq)
@@ -176,15 +192,19 @@ class Experiment(object):
     def seed(self, seed):
         '''
         Description:
+
             Manually set a seed value
 
         Parameters:
-            seed : integer
+
+            * seed : integer
 
         Return type:
+
             n/a
 
         Example:
+
             e.seed(1234)
         '''
         for key in self.params:
@@ -197,15 +217,19 @@ class Experiment(object):
     def sample(self, key):
         '''
         Description:
+
             Generates a randomly sampled value for given parameter
 
         Parameters:
-            key - name of randomly sampled parameter
+
+            * key - name of randomly sampled parameter
 
         Return type:
+
             Value of randomly generated value for specified sampler
 
         Example:
+
             e.sample('iterations')
 
         '''
@@ -216,15 +240,19 @@ class Experiment(object):
     def sample_all_params(self):
         '''
         Description:
+
             Generates a randomly sampled value for all specified parameters
 
         Parameters:
+
             n/a
 
         Return type:
+
             self.current
 
         Example:
+
             e.sample_all_params()
         '''
         for key in self.params:
@@ -234,16 +262,20 @@ class Experiment(object):
     def add_result(self, result, data=None):
         '''
         Description:
+
             Generates a randomly sampled value for all specified parameters
 
         Parameters:
-            result - resultant value
-            data - dict of {result_name: value}
+
+            * result - resultant value
+            * data - dict of {result_name: value}
 
         Return type:
+
             n/a
 
         Example:
+
             e.add_result(loss)
         '''
         res = {'result': result}
@@ -260,15 +292,19 @@ class Experiment(object):
     def all_results(self):
         '''
         Description:
+
             Iterates through all previous results in no specific order
 
         Parameters:
+
             n/a
 
         Return type:
+
             iterator
 
         Example:
+
             for res in e.all_results():
                 print res.value
         '''
@@ -289,15 +325,19 @@ class Experiment(object):
     def save_state(self, path):
         '''
         Description:
+
             Saves the state of the random variables into a file
 
         Parameters:
+
             path - target filepath
 
         Return type:
+
             n/a
 
         Example:
+
             e.save_state(states/curr_state.pk)
         '''
         states = dict()
@@ -309,15 +349,19 @@ class Experiment(object):
     def set_state(self, path):
         '''
         Description:
+
             Sets the state of random variables from a file
 
         Parameters:
-            path - target filepath
+
+            * path - target filepath
 
         Return type:
+
             n/a
 
         Example:
+
             e.set_state(states/curr_state.pk)
         '''
         with open(path, 'rb') as f:

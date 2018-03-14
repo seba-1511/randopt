@@ -79,17 +79,21 @@ class Truncated(Sampler):
 class Uniform(Sampler):
     '''
     Description:
+
         Generates a randomly sampled value from low to high with equal probability.
 
     Parameters:
-        low - minimum value
-        high - maximum value
-        dtype - data type (float by default)
+
+        * low - minimum value
+        * high - maximum value
+        * dtype - data type (float by default)
 
     Return type:
+
         n/a
 
     Example:
+
         randopt.Uniform(low=-1.0, high=1.0, dtype='float')
     '''
     def __init__(self, low=0.0, high=1.0, dtype='float'):
@@ -108,17 +112,21 @@ class Uniform(Sampler):
 class Gaussian(Sampler):
     '''
     Description:
+
         Generates a randomly sampled value with specified mean and std based on a Gaussian distribution
 
     Parameters:
-        mean - mean of Gaussian
-        std - standard deviation of Gaussian
-        dtype - data type (float by default)
+
+        * mean - mean of Gaussian
+        * std - standard deviation of Gaussian
+        * dtype - data type (float by default)
 
     Return type:
+
         n/a
 
     Example:
+
         randopt.Gaussian(mean=0.0, std=1.0, dtype='float')
     '''
     def __init__(self, mean=0.0, std=1.0, dtype='float'):
@@ -141,17 +149,21 @@ class Normal(Gaussian):
 class LognormVariate(Sampler):
     '''
     Description:
+
         Generates a randomly sampled value with specified mean and std based on a Log normal distribution
 
     Parameters:
-        mean - mean of Lognormal
-        std - standard deviation of Lognormal
-        dtype - data type (float by default)
+
+        * mean - mean of Lognormal
+        * std - standard deviation of Lognormal
+        * dtype - data type (float by default)
 
     Return type:
+
         n/a
 
     Example:
+
         randopt.LognormVariate(mean=0.0, std=1.0, dtype='float')
     '''
     def __init__(self, mean=0.0, std=1.0, dtype='float'):
@@ -170,17 +182,21 @@ class LognormVariate(Sampler):
 class BetaVariate(Sampler):
     '''
     Description:
+
         Generates a randomly sampled value with specified mean and std based on a Beta distribution
 
     Parameters:
-        alpha - alpha of beta distribution
-        beta - beta of beta distribution
-        dtype - data type (float by default)
+
+        * alpha - alpha of beta distribution
+        * beta - beta of beta distribution
+        * dtype - data type (float by default)
 
     Return type:
+
         n/a
 
     Example:
+
         randopt.BetaVariate(alpha=1,beta=1,dtype='float')
     '''
     def __init__(self, alpha, beta, dtype='float'):
@@ -199,16 +215,20 @@ class BetaVariate(Sampler):
 class ExpoVariate(Sampler):
     '''
     Description:
+
         Generates a randomly sampled value with lambda based on an exponential distribution
 
     Parameters:
-        lam - lambda of exponential distribution (one divided by desired mean)
-        dtype - data type (float by default)
+
+        * lam - lambda of exponential distribution (one divided by desired mean)
+        * dtype - data type (float by default)
 
     Return type:
+
         n/a
 
     Example:
+
         randopt.ExpoVariate(lam=1, dtype='float')
     '''
     def __init__(self, lam, dtype='float'):
@@ -226,17 +246,21 @@ class ExpoVariate(Sampler):
 class WeibullVariate(Sampler):
     '''
     Description:
+
         Generates a randomly sampled value with specified mean and std based on a Weibull distribution
 
     Parameters:
-        alpha - alpha of Weibull distribution (scale parameter)
-        beta - beta of Weibull distribution (shape parameter)
-        dtype - data type (float by default)
+
+        * alpha - alpha of Weibull distribution (scale parameter)
+        * beta - beta of Weibull distribution (shape parameter)
+        * dtype - data type (float by default)
 
     Return type:
+
         n/a
 
     Example:
+
         randopt.WeibullVariate(alpha=1,beta=1,dtype='float')
     '''
     def __init__(self, alpha, beta, dtype='float'):
@@ -255,16 +279,20 @@ class WeibullVariate(Sampler):
 class ParetoVariate(Sampler):
     '''
     Description:
+
         Generates a randomly sampled value with alpha based on the Pareto distribution
 
     Parameters:
-        alpha - alpha of Pareto distribution (shape parameter)
-        dtype - data type (float by default)
+
+        * alpha - alpha of Pareto distribution (shape parameter)
+        * dtype - data type (float by default)
 
     Return type:
+
         n/a
 
     Example:
+
         randopt.ParetoVariate(alpha=1,dtype='float')
     '''
     def __init__(self, alpha, dtype='float'):
