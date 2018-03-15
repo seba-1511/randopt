@@ -21,10 +21,8 @@ randopt is a Python package for machine learning experiment management, hyper-pa
 ```shell
 pip install randopt
 ```
-or clone this repo and `python setup.py install`.
 
 # Usage
-Here's a short example on how to use `randopt`.
 
 ```python
 import randopt as ro
@@ -53,7 +51,7 @@ opt = e.minimum()
 print('Best result: ', opt.value, ' with params: ', opt.params)
 ```
 
-## Visualization
+## Results Visualization
 
 Once you obtained some results, run `roviz.py path/to/experiment/folder` to visualize them in your web browser.
 
