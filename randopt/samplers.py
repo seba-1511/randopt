@@ -19,7 +19,8 @@ class Sampler(object):
     """
 
     def __init__(self, *args, **kwargs):
-        self.rng = RANDOPT_RNG
+        self.rng = random.Random()
+        self.rng.setstate(RANDOPT_RNG.getstate())
 
     def sample(self):
         raise NotImplementedError('sample() has not been implemented.')
