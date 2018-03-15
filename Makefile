@@ -4,11 +4,11 @@ all: example
 
 example:
 	python examples/simple.py
-	roviz.py randopt_result/simple_example
+	roviz.py randopt_results/simple_example/
 
 advanced:
 	python examples/multi_params.py
-	roviz.py multi_params_example
+	roviz.py randopt_results/multi_params_example
 
 clean:
 	rm -rf randopt_results
@@ -25,19 +25,18 @@ gs:
 dev:
 	python setup.py develop
 
-doc:
-	rm -rf doc
-	mkdir -p doc
-	pydoc -w randopt
-	pydoc -w randopt.experiment
-	pydoc -w randopt.samplers
-	mv *.html doc
+docs:
+	rm -rf wiki/docs
+	mkdir wiki/docs
+	./gendocs.py randopt.samplers > wiki/docs/Samplers-Docs.md
+	./gendocs.py randopt.experiment.experiment Experiment > wiki/docs/Experiment-Docs.md
+	./gendocs.py randopt.experiment.evolutionary Evolutionary > wiki/docs/Evolutionary-Docs.md
+	./gendocs.py randopt.experiment.grid_search GridSearch > wiki/docs/GridSearch-Docs.md
+	cd wiki && git add docs/. && git ci -am 'Docs update' && git push
+	git ci README.md -m 'README update'
 
 test:
 	python -m unittest discover -s 'test' -p '*_tests.py'
-
-web: doc
-	cp ./doc/* ./web/
 
 publish:
 	#http://peterdowns.com/posts/first-time-with-pypi.html

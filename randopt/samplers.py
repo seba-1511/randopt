@@ -3,6 +3,8 @@
 import random
 import math
 
+from . import RANDOPT_RNG
+
 """
 Here we implement the sampling strategies.
 """
@@ -10,11 +12,17 @@ Here we implement the sampling strategies.
 
 class Sampler(object):
 
+    """
+    Base class for all samplers.
+
+    Note: This class should not be directly instanciated.
+    """
+
     def __init__(self, *args, **kwargs):
-        self.rng = random.Random()
+        self.rng = RANDOPT_RNG
 
     def sample(self):
-        raise('Sampler should not be instantiated')
+        raise NotImplementedError('sample() has not been implemented.')
 
     def seed(self, seed_val):
         self.rng.seed(seed_val)
@@ -38,6 +46,21 @@ class Constant(Sampler):
 
 class Choice(Sampler):
 
+    """
+    Samples a value from a given list according to the provided sampler.
+
+    Parameters:
+
+    * items - (list) itemsm to be sampled.
+    * sampler - (Sampler) Sampler used to select an item based on its index.
+
+    Return type: n/a
+
+    Example:
+        
+        TODO.
+    """
+
     def __init__(self, items, sampler=None):
         """sampler is any of the available samplers,
            used to sample element's index from the list."""
@@ -55,8 +78,21 @@ class Choice(Sampler):
 
 class Truncated(Sampler):
     """
-    Given a sampler, truncates the distribution between low and high.
+    Given a sampler, clips the distribution between low and high.
     If None, not truncated.
+
+    Parameters:
+
+    * sampler - (Sampler) Sampler to be truncated.
+    * low - (float) minimum value to be sampled. Default: None
+    * high - (float) maximum value to be sampled. Default: None
+
+    Return type: n/a
+
+    Example:
+        
+        sampler = Gaussian(0.0, 0.1)
+        truncated = Truncated(sampler, -0.1, 0.1)
     """
 
     def __init__(self, sampler=None, low=None, high=None):
@@ -78,18 +114,18 @@ class Truncated(Sampler):
 
 class Uniform(Sampler):
     '''
-    Description:
-        Generates a randomly sampled value from low to high with equal probability.
+    Generates a randomly sampled value from low to high with equal probability.
 
     Parameters:
-        low - minimum value
-        high - maximum value
-        dtype - data type (float by default)
 
-    Return type:
-        n/a
+    * low - (float) minimum value.
+    * high - (float) maximum value.
+    * dtype - (string) data type. Default: float
+
+    Return type: n/a
 
     Example:
+
         randopt.Uniform(low=-1.0, high=1.0, dtype='float')
     '''
     def __init__(self, low=0.0, high=1.0, dtype='float'):
@@ -107,18 +143,18 @@ class Uniform(Sampler):
 
 class Gaussian(Sampler):
     '''
-    Description:
-        Generates a randomly sampled value with specified mean and std based on a Gaussian distribution
+    Generates a randomly sampled value with specified mean and std based on a Gaussian distribution.
 
     Parameters:
-        mean - mean of Gaussian
-        std - standard deviation of Gaussian
-        dtype - data type (float by default)
 
-    Return type:
-        n/a
+    * mean - (float) mean of Gaussian. Default: 0.0
+    * std - (float) standard deviation of Gaussian. Default: 1.0
+    * dtype - (string) data type. Default: float
+
+    Return type: n/a
 
     Example:
+
         randopt.Gaussian(mean=0.0, std=1.0, dtype='float')
     '''
     def __init__(self, mean=0.0, std=1.0, dtype='float'):
@@ -140,18 +176,18 @@ class Normal(Gaussian):
 
 class LognormVariate(Sampler):
     '''
-    Description:
-        Generates a randomly sampled value with specified mean and std based on a Log normal distribution
+    Generates a randomly sampled value with specified mean and std based on a Log normal distribution.
 
     Parameters:
-        mean - mean of Lognormal
-        std - standard deviation of Lognormal
-        dtype - data type (float by default)
 
-    Return type:
-        n/a
+    * mean - (float) mean of Lognormal. Default: 0.0
+    * std - (float) standard deviation of Lognormal. Default: 1.0
+    * dtype - (string) data type. Default: float
+
+    Return type: n/a
 
     Example:
+
         randopt.LognormVariate(mean=0.0, std=1.0, dtype='float')
     '''
     def __init__(self, mean=0.0, std=1.0, dtype='float'):
@@ -169,18 +205,18 @@ class LognormVariate(Sampler):
 
 class BetaVariate(Sampler):
     '''
-    Description:
-        Generates a randomly sampled value with specified mean and std based on a Beta distribution
+    Generates a randomly sampled value with specified mean and std based on a Beta distribution.
 
     Parameters:
-        alpha - alpha of beta distribution
-        beta - beta of beta distribution
-        dtype - data type (float by default)
 
-    Return type:
-        n/a
+    * alpha - (float) alpha of beta distribution.
+    * beta - (float) beta of beta distribution.
+    * dtype - (string) data type. Default: float
+
+    Return type: n/a
 
     Example:
+
         randopt.BetaVariate(alpha=1,beta=1,dtype='float')
     '''
     def __init__(self, alpha, beta, dtype='float'):
@@ -198,17 +234,17 @@ class BetaVariate(Sampler):
 
 class ExpoVariate(Sampler):
     '''
-    Description:
-        Generates a randomly sampled value with lambda based on an exponential distribution
+    Generates a randomly sampled value with lambda based on an exponential distribution.
 
     Parameters:
-        lam - lambda of exponential distribution (one divided by desired mean)
-        dtype - data type (float by default)
 
-    Return type:
-        n/a
+    * lam - (float) lambda of exponential distribution (one divided by desired mean).
+    * dtype - (string) data type. Default: float
+
+    Return type: n/a
 
     Example:
+
         randopt.ExpoVariate(lam=1, dtype='float')
     '''
     def __init__(self, lam, dtype='float'):
@@ -225,18 +261,18 @@ class ExpoVariate(Sampler):
 
 class WeibullVariate(Sampler):
     '''
-    Description:
-        Generates a randomly sampled value with specified mean and std based on a Weibull distribution
+    Generates a randomly sampled value with specified mean and std based on a Weibull distribution.
 
     Parameters:
-        alpha - alpha of Weibull distribution (scale parameter)
-        beta - beta of Weibull distribution (shape parameter)
-        dtype - data type (float by default)
 
-    Return type:
-        n/a
+    * alpha - (float) alpha of Weibull distribution (scale parameter).
+    * beta - (float) beta of Weibull distribution (shape parameter).
+    * dtype - (string) data type. Default: float
+
+    Return type: n/a
 
     Example:
+
         randopt.WeibullVariate(alpha=1,beta=1,dtype='float')
     '''
     def __init__(self, alpha, beta, dtype='float'):
@@ -254,17 +290,17 @@ class WeibullVariate(Sampler):
 
 class ParetoVariate(Sampler):
     '''
-    Description:
-        Generates a randomly sampled value with alpha based on the Pareto distribution
+    Generates a randomly sampled value with alpha based on the Pareto distribution.
 
     Parameters:
-        alpha - alpha of Pareto distribution (shape parameter)
-        dtype - data type (float by default)
 
-    Return type:
-        n/a
+    * alpha - (float) alpha of Pareto distribution (shape parameter).
+    * dtype - (string) data type. Default: float
+
+    Return type: n/a
 
     Example:
+
         randopt.ParetoVariate(alpha=1,dtype='float')
     '''
     def __init__(self, alpha, dtype='float'):

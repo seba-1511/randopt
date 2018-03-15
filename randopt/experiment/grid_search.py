@@ -10,6 +10,17 @@ class GridSearch(Experiment):
     Performs a grid-search on the parameters of a given experiment.
 
     Only accepts `Choice` as parameter sampler.
+
+    Parameters:
+
+    * experiment - (Experiment) Experiment to wrap.
+
+    Return type: n/a
+
+    Example:
+
+        exp = Experiment('name', params={'lr': Choice([1, 2, 3])})
+        gs = GridSearch(exp)
     """
 
     def __init__(self, experiment):
@@ -25,16 +36,14 @@ class GridSearch(Experiment):
 
     def refresh_index(self):
         """
-        Description:
-            Rebuilds the index of all executed experiments.
+        Rebuilds the index of all executed experiments.
 
-        Arguments:
-            n/a
+        Parameters: n/a
 
-        Returns:
-            n/a
+        Returns: n/a
 
         Example:
+
             gs.refresh_index()
         """
         index = {}
@@ -75,7 +84,17 @@ class GridSearch(Experiment):
 
     def sample(self, key):
         """
-        Given current params, choose the experiment that will fill the index
+        Given current params, choose the experiment that will fill the index.
+
+        Parameters:
+
+        * key - (string) parameter to sample
+
+        Return type: (float) new value of sampled parameter.
+
+        Example:
+
+            gs.sample('x')
 
         TODO: This function is O(3n), but could be O(n).
         """
