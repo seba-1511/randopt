@@ -2,6 +2,9 @@
 
 all: example
 
+dev:
+	python examples/monitor.py randopt_results/simple_example
+
 example:
 	python examples/simple.py
 	roviz.py randopt_results/simple_example/
@@ -21,9 +24,6 @@ evo:
 
 gs: 
 	python examples/gs_example.py
-
-dev:
-	python setup.py develop
 
 docs:
 	rm -rf wiki/docs
