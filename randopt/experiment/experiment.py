@@ -167,6 +167,32 @@ class Experiment(object):
         '''
         return self._search(leq)
 
+    def all(self):
+        '''
+        Alias for Experiment.all_results()
+
+        Example:
+
+            e.all_results()
+        '''
+        for r in self.all_results():
+            yield r
+
+    def count(self):
+        '''
+        Returns the number of JSON summaries.
+
+        Parameters: n/a
+
+        Return type: int
+
+        Example:
+
+            e.count()
+        '''
+        return len(list(self.all()))
+
+
     def seed(self, seed):
         '''
         Manually set a seed value.
