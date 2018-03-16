@@ -45,6 +45,7 @@ def table_statistics(counts, timings, minimums, maximums, name='Experiment'):
 
 
 def plot_statistics(counts, timings, minimums, maximums, name='Experiment'):
+    plt.ion()
     plt.clf()
 
     # Min subplot
@@ -105,7 +106,10 @@ if __name__ == '__main__':
                 screen.refresh()
             else:
                 print(table)
-            time.sleep(5)
+            if USE_MPL:
+                plt.pause(5)
+            else:
+                time.sleep(5)
     finally:
         if USE_CURSES:
             curses.echo()
