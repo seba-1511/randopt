@@ -5,7 +5,6 @@ import os
 import time
 import curses
 
-import numpy as np
 import randopt as ro
 
 USE_MPL = True

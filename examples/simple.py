@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import randopt as ro
+import time
 
 def loss(x):
+    time.sleep(1)
     return x**2
 
 if __name__ == '__main__':

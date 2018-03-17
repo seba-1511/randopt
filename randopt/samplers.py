@@ -20,6 +20,7 @@ class Sampler(object):
 
     def __init__(self, *args, **kwargs):
         self.rng = random.Random()
+        RANDOPT_RNG.random() # Change initial random state
         self.rng.setstate(RANDOPT_RNG.getstate())
 
     def sample(self):
