@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+"""
+Usage:
+    python monitor.py randopt_results/simple_example/
+"""
+
 import sys
 import os
 import time

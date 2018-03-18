@@ -42,4 +42,4 @@ if __name__ == '__main__':
             })
 
         opt = exp.minimum()
-    print 'Optimal result: ', opt.value, ', with convergence: ', opt.params['convergence']
+    print('Optimal result: ', opt.value, ', with convergence: ', opt.params['convergence'])

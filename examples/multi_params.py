@@ -18,10 +18,10 @@ if __name__ == '__main__':
     e.seed(1234)
 
     # Randomly sampling parameters
-    for i in xrange(100):
+    for i in range(100):
         e.sample_all_params()
         res = loss(e.dog, e.cat, e.dolphin, e.any_name)
-        print 'Result: ', res
+        print('Result: ', res)
         # Example of using the second parameter
         e.add_result(res, data={
             'sup.data': [e.dog, e.cat, e.dolphin, e.any_name]
@@ -33,10 +33,10 @@ if __name__ == '__main__':
 
     # Search over all experiments results, including ones from previous runs
     opt = e.minimum()
-    print 'Best result: ', opt.value, ' with params: ', opt.params
+    print('Best result: ', opt.value, ' with params: ', opt.params)
     opt = e.maximum()
-    print 'Worst result: ', opt.value, ' with params: ', opt.params
+    print('Worst result: ', opt.value, ' with params: ', opt.params)
 
     # Grab the top N results
     best_runs = e.top(3)
-    print 'Best 3 results: ', best_runs
+    print('Best 3 results: ', best_runs)

@@ -31,7 +31,7 @@ if __name__ == '__main__':
     for run in range(num_runs):
         e = run_exp()
 
-    print 'optimal value: ', e.minimum()
+    print('optimal value: ', e.minimum())
 
     import os
     import json
@@ -44,4 +44,4 @@ if __name__ == '__main__':
                 res = json.load(f)
                 if res['alpha'] > max_lr:
                     max_lr = res['alpha']
-    print 'Max LR tried: ', max_lr
+    print('Max LR tried: ', max_lr)

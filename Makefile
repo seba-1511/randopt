@@ -1,29 +1,12 @@
 .PHONY: doc test
 
-all: example
+all: dev
 
 dev:
 	python setup.py develop
 
-example:
-	python examples/simple.py
-	roviz.py randopt_results/simple_example/
-
-advanced:
-	python examples/multi_params.py
-	roviz.py randopt_results/multi_params_example
-
 clean:
 	rm -rf randopt_results
-
-hb:
-	python hb_example.py
-
-evo: 
-	python examples/evo_example.py
-
-gs: 
-	python examples/gs_example.py
 
 docs:
 	rm -rf wiki/docs
@@ -38,6 +21,11 @@ docs:
 test:
 	python -m unittest discover -s 'test' -p '*_tests.py'
 	python examples/simple.py
+	python examples/multi_params.py
+	python examples/evo_example.py
+	python examples/gs_example.py
+	python examples/grad_descent.py
+	python examples/monitor.py randopt_results/simple_example/
 
 publish:
 	#http://peterdowns.com/posts/first-time-with-pypi.html
