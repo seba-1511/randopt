@@ -1,4 +1,4 @@
 theme: jekyll-theme-minimal
-title: <img src="https://seba-1511.github.io/randopt/assets/images/logo.png" width="50%" />
+title: <center><img src="https://seba-1511.github.io/randopt/assets/images/logo.png" width="65%" /></center>
 description: <p><i>Streamlined machine learning experiment management.</i><br /><br /><br /><b>Wiki</b><a href="https://github.com/seba-1511/randopt/wiki/Home">Home</a><br /><br /><b>Tutorials</b><br /><a href="https://github.com/seba-1511/randopt/wiki/Managing-Experiments">Managing Experiments</a><br /><a href="https://github.com/seba-1511/randopt/wiki/Optimizing-Hyperparams">Optimizing Hyperparams</a><br /><a href="https://github.com/seba-1511/randopt/wiki/Visualizing-Results">Visualizing Results</a></p>
 show_downloads: true
