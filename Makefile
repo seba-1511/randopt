@@ -3,7 +3,7 @@
 all: example
 
 dev:
-	python examples/monitor.py randopt_results/simple_example
+	python setup.py develop
 
 example:
 	python examples/simple.py
@@ -37,6 +37,7 @@ docs:
 
 test:
 	python -m unittest discover -s 'test' -p '*_tests.py'
+	python examples/simple.py
 
 publish:
 	#http://peterdowns.com/posts/first-time-with-pypi.html
