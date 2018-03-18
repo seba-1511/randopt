@@ -3,7 +3,7 @@
 all: example
 
 dev:
-	python examples/monitor.py randopt_results/simple_example
+	python setup.py develop
 
 example:
 	python examples/simple.py
