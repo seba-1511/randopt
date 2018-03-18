@@ -37,6 +37,7 @@ docs:
 
 test:
 	python -m unittest discover -s 'test' -p '*_tests.py'
+	python examples/simple.py
 
 publish:
 	#http://peterdowns.com/posts/first-time-with-pypi.html
