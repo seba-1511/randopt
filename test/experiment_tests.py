@@ -76,7 +76,7 @@ class TestExperiment(unittest.TestCase):
         self.exp.add_result(1)
 
         maxResult = self.exp.maximum()
-        self.assertEquals(maxResult.value, 1000)
+        self.assertEquals(maxResult.result, 1000)
         self.assertEquals(int(maxResult.params['param1']), int(expectedMaximum['param1']))
         self.assertEquals(int(maxResult.params['param2']), int(expectedMaximum['param2']))
 
@@ -91,7 +91,7 @@ class TestExperiment(unittest.TestCase):
         self.exp.add_result(1000)
 
         minResult = self.exp.minimum()
-        self.assertEquals(minResult.value, 1)
+        self.assertEquals(minResult.result, 1)
         self.assertEquals(int(minResult.params['param1']), int(expectedMinimum['param1']))
         self.assertEquals(int(minResult.params['param2']), int(expectedMinimum['param2']))
 
@@ -191,8 +191,8 @@ class TestExperiment(unittest.TestCase):
         count = 0
         for res in self.exp.all_results():
             count += 1
-            exp_seen[int(res.value)] += 1
-            self.assertEquals(res.params['param1'], res.value)
-            self.assertEquals(exp_seen[int(res.value)], 1)
+            exp_seen[int(res.result)] += 1
+            self.assertEquals(res.params['param1'], res.result)
+            self.assertEquals(exp_seen[int(res.result)], 1)
         self.assertEquals(count, nResults)
         self.assertEquals(sum(exp_seen), nResults)

@@ -33,9 +33,9 @@ if __name__ == '__main__':
 
     # Search over all experiments results, including ones from previous runs
     opt = e.minimum()
-    print('Best result: ', opt.value, ' with params: ', opt.params)
+    print('Best result: ', opt.result, ' with params: ', opt.params)
     opt = e.maximum()
-    print('Worst result: ', opt.value, ' with params: ', opt.params)
+    print('Worst result: ', opt.result, ' with params: ', opt.params)
 
     # Grab the top N results
     best_runs = e.top(3)

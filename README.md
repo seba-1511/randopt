@@ -48,7 +48,7 @@ e.add_result(res)
 
 # Search over all experiments results, including ones from previous runs
 opt = e.minimum()
-print('Best result: ', opt.value, ' with params: ', opt.params)
+print('Best result: ', opt.result, ' with params: ', opt.params)
 ```
 
 ## Results Visualization
