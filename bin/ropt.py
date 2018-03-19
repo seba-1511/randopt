@@ -86,22 +86,6 @@ def is_number(s):
     return False
 
 
-def parse_equality_param(arg):
-    param = ''
-    if '=' in arg:
-        cut = arg.index('=')
-        param += arg[cut+1:]
-    return param
-
-
-def parse_param(args):
-    if '=' in args[0]:
-        return 0, parse_equality_param(args[0])
-    if '--' in args[1]:
-        return 0, args[0]
-    return 1, args[1]
-
-
 def parse_sampler(param):
     values = param[param.index('(') + 1:param.index(')')]
     if '[' in values or '(' in values:
