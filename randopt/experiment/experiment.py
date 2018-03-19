@@ -24,8 +24,8 @@ This file implements the Experiment class.
 ATTACHMENT_DIR = '_attachments'
 ATTACHMENT_EXT = '.pk'
 
-leq = lambda x, y: x <= y
-geq = lambda x, y: x >= y
+leq = lambda x, y: x.result <= y.result
+geq = lambda x, y: x.result >= y.result
 
 
 class JSONSummary(dict):
@@ -124,7 +124,7 @@ class Experiment(object):
             if 'json' in ext:
                 fpath = os.path.join(self.experiment_path, fname)
                 candidate = JSONSummary(fpath)
-                if result is None or fn(candidate.result, result.result):
+                if result is None or fn(candidate, result):
                     result = candidate
         return result
 
@@ -151,31 +151,28 @@ class Experiment(object):
 
                 summary = JSONSummary(fpath)
                 result_value = summary.result
-                # TODO: refactor this insert function to be cleaner
+                # TODO: refactor this insert function to be cleaner (no need for storing result_value)
                 if len(top_n_experiments) < count:
                     inserted = False
                     for i in range(len(top_n_experiments)):
-                        if fn(result_value, top_n_experiments[i][0]):
+                        if fn(summary, top_n_experiments[i]):
                             #place the experiment in place
-                            top_n_experiments.insert(i, (result_value, summary))
+                            top_n_experiments.insert(i, summary)
                             inserted = True
                             break
                     if not inserted:
-                        top_n_experiments.append((result_value, summary))
+                        top_n_experiments.append(summary)
                 else:
                     #iterate over each item in the list
                     for i in range(count):
-                        if fn(result_value, top_n_experiments[i][0]):
+                        if fn(summary, top_n_experiments[i]):
                             #place the experiment in place
-                            top_n_experiments.insert(i, (result_value, summary))
+                            top_n_experiments.insert(i, summary)
                             #remove the next worst element
                             top_n_experiments.pop()
                             break
 
-        #sort the past experiments and then unzip to drop the result value
-        results, dict_of_params = zip(*top_n_experiments)
-
-        return dict_of_params
+        return top_n_experiments
 
     def maximum(self):
         '''
