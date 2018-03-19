@@ -118,7 +118,7 @@ class Experiment(object):
         self.params = params
         for key in params:
             if key is not 'result':
-                setattr(self, key, None)
+                setattr(self, key, params[key].sample())
             else:
                 raise ValueError('Param cannot be named \'result\'')
         cwd = os.getcwd()
