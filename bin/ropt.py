@@ -62,6 +62,7 @@ class ExperimentSampler(object):
 
     def __next__(self):
         self.experiment.sample_all_params()
+        current = self.experiment.current
         values = [current[p] for p in self.parameters]
         return self.command.format(*values)
 
