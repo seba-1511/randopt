@@ -164,6 +164,7 @@ if __name__ == '__main__':
     # Generate the right number of commands
     if experiment is not None and experiment_name is not None:
         print('Using ', experiment.__name__)
+        print('sys: ', sys.argv)
         params = {p: s for p, s in zip(parameters, samplers)}
         experiment = experiment(ro.Experiment(name=experiment_name,
                                               params=params,
@@ -171,6 +172,7 @@ if __name__ == '__main__':
         command_generator = ExperimentSampler(command, parameters, experiment)
     else:
         command_generator = CommandGenerator(command, parameters, samplers)
+
     if n_searches == -1:
         n_searches = float('inf')
         commands = command_generator
