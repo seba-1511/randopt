@@ -1,28 +1,24 @@
 #!/usr/bin/env python3
 
 """
-Docstring
 
-Allows sampling from outside of Python.
+Allows sampling and hyper-parameter search from outside of Python.
 
-Note: --nproc is currently unsupported, until I find a way to cleanly kill all
+Note: ROPT_NPROC is currently unsupported, until I find a way to cleanly kill all
       sub-processes.
 
 Example:
-    ropt.py python example.py run --nproc 4 --nsearch 16 --lr 'Choice([0.1,0.2,0.3])' --wd='uniform(0,10)'
+    ROPT_NSEARCH=16 ROPT_NPROC=4 ropt.py python example.py run --lr='Choice([0.1,0.2,0.3])' --wd='uniform(0,10)'
 
     Runs 16 searches with up to 4 processes in parallel (these are ropt.py parameters)
-    of the command 'python example.py run --lr X --wd=Y' where X is sampled from a the given 
+    of the command 'python example.py run --lr X --wd Y' where X is sampled from  the given 
     Choice distribution and Y is sampled from Uniform(0, 10).
 
-    Another example using Search wrappers is
+Another example using Search wrappers is
 
-    ropt.py CUDA_VISIBLE_DEVICES=0 python experiments.py main newton --exp GridSearch --exp_name newton-2_experiment --lr="Choice([0.01,0.1])"
+    ROPT_TYPE=GridSearch ROPT_NAME=newton-2_experiment ropt.py CUDA_VISIBLE_DEVICES=0 python experiments.py main newton --lr="Choice([0.01,0.1])"
 
-TODO:
-    * Add support for different kinds of experiments (HyperBand, BayesOpt).
-      This means: pass the name of experiment and name of class to be used for sampling.
-    * Extensively test the position of the arguments in ropt.
+The convention is to always pass sampled arguments to ropt with an = sign, to wrap the sampler in quotes (required by most shells), and avoid spaces within these quotes. The choice of quotes and the casing for samplers is irrelevant.
 """
 
 import os
@@ -30,6 +26,12 @@ import sys
 import subprocess
 import multiprocessing as mp
 import randopt as ro
+
+ROPT_TYPE = 'ROPT_TYPE'
+ROPT_NAME = 'ROPT_NAME'
+ROPT_DIR = 'ROPT_DIR'
+ROPT_NSEARCH = 'ROPT_NSEARCH'
+ROPT_NPROC = 'ROPT_NPROC'
 
 
 class CommandGenerator(object):
@@ -42,10 +44,8 @@ class CommandGenerator(object):
         return self
 
     def __next__(self):
-        com = self.command
-        for p, s in zip(self.parameters, self.samplers):
-            com += ' ' + p + ' ' + str(s.sample()) 
-        return com
+        values = [s.sample() for s in self.samplers]
+        return self.command.format(*values)
 
 
 class ExperimentSampler(object):
@@ -60,10 +60,9 @@ class ExperimentSampler(object):
     def __next__(self):
         self.experiment.sample_all_params()
         current = self.experiment.current
-        com = self.command
-        for p in self.parameters:
-            com += ' ' + p + ' ' + str(current[p[2:]])
-        return com
+
+        values = [current[p] for p in self.parameters]
+        return self.command.format(*values)
 
 
 def is_number(s):
@@ -142,66 +141,49 @@ def parse_experiment(param):
 
 
 if __name__ == '__main__':
-    n_searches = -1
-    n_processes = 1
     experiment = None
+    if ROPT_TYPE in os.environ:
+        experiment = os.environ[ROPT_TYPE]
+        experiment = parse_experiment(experiment)
     experiment_name = None
+    if ROPT_NAME in os.environ:
+        experiment_name = os.environ[ROPT_NAME]
+    experiment_dir = 'randopt_results'
+    if ROPT_DIR in os.environ:
+        experiment_dir = os.environ[ROPT_DIR]
+    n_searches = -1
+    if ROPT_NSEARCH in os.environ:
+        n_searches = int(os.environ[ROPT_NSEARCH]) 
+    n_processes = 1
+    if ROPT_NPROC in os.environ:
+        experiment_name = int(os.environ[ROPT_NPROC]) 
+
+
     arguments = sys.argv[1:]
     args_idx = 0
 
-    command = ''
-    # Parse main command
-    if '-c' in arguments[0] or '--command' in arguments[0]:
-        if '=' in arguments[0]:
-            command += parse_equality_param(arguments[0])
-            args_idx += 1
-
-    while '--' not in arguments[args_idx]:
-        command += ' ' + arguments[args_idx]
-        args_idx += 1
-
-    # Parse arguments
+    command = ""
     parameters = []
     samplers = []
-
-    while args_idx < len(arguments):
-        arg = arguments[args_idx]
-        if '--nproc' in arg:
-            shift, param = parse_param(arguments[args_idx:])
-            n_processes = int(param)
-            args_idx += shift
-        elif '--nsearch' in arg:
-            shift, param = parse_param(arguments[args_idx:])
-            n_searches = int(param)
-            args_idx += shift
-        elif '--exp_name' in arg:
-            shift, param = parse_param(arguments[args_idx:])
-            experiment_name = param
-            args_idx += shift
-        elif '--exp' in arg:
-            shift, param = parse_param(arguments[args_idx:])
-            experiment = parse_experiment(param)
-            args_idx += shift
-        elif '--' not in arg:
-            parameters[-1] += ' ' + arg
+    for arg in arguments:
+        if '=' in arg and '(' in arg and ')' in arg:
+            # parse argument and sampler
+            param, sampler = arg.split('=')
+            command = command + ' ' + param + ' {' + str(len(samplers)) + ':10f}'
+            sampler = parse_sampler(sampler)
+            param = param.replace('-', '')
+            parameters.append(param)
+            samplers.append(sampler)
         else:
-            shift, param = parse_param(arguments[args_idx:])
-            if '--' in param:
-                parameters[-1] += ' ' + param
-            else:
-                sampler = parse_sampler(param)
-                if '=' in arg:
-                    arg = arg[:arg.index('=')]
-                parameters.append(arg)
-                samplers.append(sampler)
-            args_idx += shift
-        args_idx += 1
+            command = command + ' ' + arg
 
     # Generate the right number of commands
     if experiment is not None and experiment_name is not None:
         print('Using ', experiment.__name__)
-        params = {n[2:]: s for n, s in zip(parameters, samplers)}
-        experiment = experiment(ro.Experiment(experiment_name, params))
+        params = {p: s for p, s in zip(parameters, samplers)}
+        experiment = experiment(ro.Experiment(name=experiment_name,
+                                              params=params,
+                                              directory=experiment_dir))
         command_generator = ExperimentSampler(command, parameters, experiment)
     else:
         command_generator = CommandGenerator(command, parameters, samplers)
@@ -212,7 +194,6 @@ if __name__ == '__main__':
         commands = (next(command_generator) for _ in range(n_searches))
 
     # Run until search finishes
-    call = lambda x: subprocess.call(x, shell=True)
     for i, command in enumerate(commands):
         print(i, ':', command)
-        call(command)
+        subprocess.call(command, shell=True)

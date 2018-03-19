@@ -52,6 +52,8 @@ class Evolutionary(Experiment):
 
             evo.sample_parent()
         '''
+        assert(self.experiment.count() >= 1,
+               'Evolutionary can only be used with existing results.')
         elite = self.top(self.elite_size, fn=self.fitness)
         if len(elite) > 0:
             self.parent = sample(elite, 1)[0]

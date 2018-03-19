@@ -121,6 +121,7 @@ class GridSearch(Experiment):
         Returns the first configuration that has been executed less times than
         the others.
         """
+        self.refresh_index()
         min_count = 0
         while True:
             for solution in self._possible_solutions(self.index):

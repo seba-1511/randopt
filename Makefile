@@ -19,6 +19,14 @@ docs:
 	cd wiki && git add docs/. && git ci -am 'Docs update' && git push
 	git ci README.md -m 'README update'
 
+ropt_test:
+	make clean
+	python test/ropt_simple.py --asdf 1 --qwer 1 --abcd 1
+#	ropt.py python test/ropt_simple.py --asdf=1 --qwer=1 --abcd=1
+#	ROPT_TYPE='GridSearch' ROPT_NAME='ropt_test' ROPT_NSEARCH=18 ropt.py python test/ropt_simple.py --abcd='Choice([1,2])' --qwer='Choice([1,2,3])' --asdf='Choice([1,2,3])'
+#	ROPT_NSEARCH=3 ropt.py python test/ropt_simple.py --abcd='Gaussian(1.0,1.0)' --qwer='uniform(0,10)' --asdf='Choice([1,2,3])'
+	ROPT_TYPE='Evolutionary' ROPT_NAME='ropt_test' ROPT_NSEARCH=8 ropt.py python test/ropt_simple.py --abcd='Normal(0.0,0.1)' --qwer='Uniform(-0.1,0.1)' --asdf='Normal(0.0,0.3)'
+
 test:
 	python -m unittest discover -s 'test' -p '*_tests.py'
 	python examples/simple.py
