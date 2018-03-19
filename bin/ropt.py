@@ -47,6 +47,9 @@ class CommandGenerator(object):
         values = [s.sample() for s in self.samplers]
         return self.command.format(*values)
 
+    def next(self):
+        return self.__next__()
+
 
 class ExperimentSampler(object):
     def __init__(self, command, parameters, experiment):
@@ -59,10 +62,11 @@ class ExperimentSampler(object):
 
     def __next__(self):
         self.experiment.sample_all_params()
-        current = self.experiment.current
-
         values = [current[p] for p in self.parameters]
         return self.command.format(*values)
+
+    def next(self):
+        return self.__next__()
 
 
 def is_number(s):
