@@ -27,20 +27,24 @@ ATTACHMENT_EXT = '.pk'
 leq = lambda x, y: x <= y
 geq = lambda x, y: x >= y
 
-OptResult = namedtuple('OptResult', ['value', 'params'])
 
-
-class JSONSummary(object):
+class JSONSummary(dict):
 
     def __init__(self, path):
-        assert(path[-5:] == '.json')
-        with open(path, 'r') as f:
-            result = json.load(f)
-        self.__summary = result
-        self.__attachment = None
-        self.__path = path
-        self.__dir = os.path.dirname(path)
-        self.__name = os.path.basename(path)[:-5]
+        try:
+            assert(path[-5:] == '.json')
+            with open(path, 'r') as f:
+                result = json.load(f)
+                for key in result.keys():
+                    self[key] = result[key]
+            self.__summary = result
+            self.__attachment = None
+            self.__path = path
+            self.__dir = os.path.dirname(path)
+            self.__name = os.path.basename(path)[:-5]
+        except ValueError:
+            raise('Error reading file: ' + path + ' - skipped.')
+
 
     def __getattr__(self, attr):
         if attr in self.__summary.keys():
@@ -114,7 +118,6 @@ class Experiment(object):
         return res
 
     def _search(self, fn=leq):
-        value, params = None, None
         result = None
         for fname in os.listdir(self.experiment_path):
             base, ext = os.path.splitext(fname)
@@ -145,34 +148,29 @@ class Experiment(object):
             base, ext = os.path.splitext(fname)
             if 'json' in ext:
                 fpath = os.path.join(self.experiment_path, fname)
-                with open(fpath, 'r') as f:
-                    res = json.load(f)
 
-                    #save the result
-                    result_value = float(res['result'])
-                    #delete it from the dict
-                    del res['result']
-
-                    # TODO: refactor this insert function to be cleaner
-                    if len(top_n_experiments) < count:
-                        inserted = False
-                        for i in range(len(top_n_experiments)):
-                            if fn(result_value, top_n_experiments[i][0]):
-                                #place the experiment in place
-                                top_n_experiments.insert(i, (result_value, res))
-                                inserted = True
-                                break
-                        if not inserted:
-                            top_n_experiments.append((result_value, res))
-                    else:
-                        #iterate over each item in the list
-                        for i in range(count):
-                            if fn(result_value, top_n_experiments[i][0]):
-                                #place the experiment in place
-                                top_n_experiments.insert(i, (result_value, res))
-                                #remove the next worst element
-                                top_n_experiments.pop()
-                                break
+                summary = JSONSummary(fpath)
+                result_value = summary.result
+                # TODO: refactor this insert function to be cleaner
+                if len(top_n_experiments) < count:
+                    inserted = False
+                    for i in range(len(top_n_experiments)):
+                        if fn(result_value, top_n_experiments[i][0]):
+                            #place the experiment in place
+                            top_n_experiments.insert(i, (result_value, summary))
+                            inserted = True
+                            break
+                    if not inserted:
+                        top_n_experiments.append((result_value, summary))
+                else:
+                    #iterate over each item in the list
+                    for i in range(count):
+                        if fn(result_value, top_n_experiments[i][0]):
+                            #place the experiment in place
+                            top_n_experiments.insert(i, (result_value, summary))
+                            #remove the next worst element
+                            top_n_experiments.pop()
+                            break
 
         #sort the past experiments and then unzip to drop the result value
         results, dict_of_params = zip(*top_n_experiments)
@@ -335,21 +333,14 @@ class Experiment(object):
         Example:
 
             for res in e.all_results():
-                print res.value
+                print(res.result)
+                print(res.params)
         '''
-        value, params = None, None
         for fname in os.listdir(self.experiment_path):
             base, ext = os.path.splitext(fname)
             if 'json' in ext:
                 fpath = os.path.join(self.experiment_path, fname)
-                with open(fpath, 'r') as f:
-                    try:
-                        res = json.load(f)
-                        value = float(res['result'])
-                        params = res
-                        yield OptResult(value, params)
-                    except ValueError:
-                        print('Error reading file: ' + fpath + ' - skipped.')
+                yield JSONSummary(fpath)
 
     def save_state(self, path):
         '''

@@ -2,7 +2,7 @@
 
 
 from random import sample
-from .experiment import Experiment, OptResult, leq
+from .experiment import Experiment, leq
 
 
 class Evolutionary(Experiment):
@@ -46,7 +46,7 @@ class Evolutionary(Experiment):
 
         Parameters: n/a
 
-        Return type: OptResult, the parent result.
+        Return type: JSONSummary, the parent result.
 
         Example:
 

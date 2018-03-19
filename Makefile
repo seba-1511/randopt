@@ -26,6 +26,7 @@ test:
 	python examples/evo_example.py
 	python examples/gs_example.py
 	python examples/grad_descent.py
+	python examples/attachments_example.py
 
 publish:
 	#http://peterdowns.com/posts/first-time-with-pypi.html
