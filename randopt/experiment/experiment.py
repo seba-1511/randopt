@@ -22,11 +22,50 @@ This file implements the Experiment class.
 """
 
 ATTACHMENT_DIR = '_attachments'
+ATTACHMENT_EXT = '.pk'
 
 leq = lambda x, y: x <= y
 geq = lambda x, y: x >= y
 
 OptResult = namedtuple('OptResult', ['value', 'params'])
+
+
+class JSONSummary(object):
+
+    def __init__(self, path):
+        assert(path[-5:] == '.json')
+        with open(path, 'r') as f:
+            result = json.load(f)
+        self.__summary = result
+        self.__attachment = None
+        self.__path = path
+        self.__dir = os.path.dirname(path)
+        self.__name = os.path.basename(path)[:-5]
+
+    def __getattr__(self, attr):
+        if attr in self.__summary.keys():
+            return self.__summary[attr]
+        elif attr == 'attachment':
+            self._load_attachment()
+            return self.__attachment
+        elif attr == 'value':
+            print('WARNING: .value is deprecated in favor of .result')
+            return self.result
+        elif attr == 'params':
+            return self.__summary
+        else:
+            msg = 'Attribute ' + attr + ' is not implement in JSONSummary.'
+            raise(NotImplementedError(msg))
+
+    def __str__(self):
+        return 'JSONSummary ' + str(self.__name) + ' with value ' + str(self.result)
+
+    def _load_attachment(self):
+        if self.__attachment is None:
+            att_path = os.path.join(self.__dir, ATTACHMENT_DIR)
+            att_path = os.path.join(att_path, self.__name + ATTACHMENT_EXT)
+            with open(att_path, 'rb') as f:
+                self.__attachment = pk.load(f)
 
 
 class Experiment(object):
@@ -76,16 +115,15 @@ class Experiment(object):
 
     def _search(self, fn=leq):
         value, params = None, None
+        result = None
         for fname in os.listdir(self.experiment_path):
             base, ext = os.path.splitext(fname)
             if 'json' in ext:
                 fpath = os.path.join(self.experiment_path, fname)
-                with open(fpath, 'r') as f:
-                    res = json.load(f)
-                    if value is None or fn(float(res['result']), value):
-                        value = float(res['result'])
-                        params = res
-        return OptResult(value, params)
+                candidate = JSONSummary(fpath)
+                if result is None or fn(candidate.result, result.result):
+                    result = candidate
+        return result
 
     def top(self, count, fn=leq):
         '''
@@ -282,7 +320,7 @@ class Experiment(object):
             att_path = os.path.join(self.experiment_path, ATTACHMENT_DIR)
             if not os.path.exists(att_path):
                 os.mkdir(att_path)
-            att_file = os.path.join(att_path, fname + '.pk')
+            att_file = os.path.join(att_path, fname + ATTACHMENT_EXT)
             with open(att_file, 'wb') as f:
                 pk.dump(attachment, f)
 
