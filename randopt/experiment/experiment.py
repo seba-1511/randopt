@@ -21,6 +21,8 @@ from randopt.samplers import Uniform
 This file implements the Experiment class.
 """
 
+ATTACHMENT_DIR = '_attachments'
+
 leq = lambda x, y: x <= y
 geq = lambda x, y: x >= y
 
@@ -249,7 +251,7 @@ class Experiment(object):
             self.sample(key)
         return self.current
 
-    def add_result(self, result, data=None):
+    def add_result(self, result, data=None, attachment=None):
         '''
         Generates a randomly sampled value for all specified parameters
 
@@ -257,6 +259,7 @@ class Experiment(object):
 
         * result - (float) value for the current set of hyperparameters.
         * data - (dict) additional logging data.
+        * attachment - (dict) attachment data excluded from JSON summary.
 
         Return type: n/a
 
@@ -270,10 +273,18 @@ class Experiment(object):
         if data is not None:
             for key in data:
                 res[key] = data[key]
-        fname = str(time()) + '_' + str(random.random()) + '.json'
-        fpath = os.path.join(self.experiment_path, fname)
+        fname = str(time()) + '_' + str(random.random())
+        fpath = os.path.join(self.experiment_path, fname) + '.json'
         with open(fpath, 'w') as f:
             json.dump(res, f)
+        if attachment is not None:
+            assert(isinstance(attachment, dict))
+            att_path = os.path.join(self.experiment_path, ATTACHMENT_DIR)
+            if not os.path.exists(att_path):
+                os.mkdir(att_path)
+            att_file = os.path.join(att_path, fname + '.pk')
+            with open(att_file, 'wb') as f:
+                pk.dump(attachment, f)
 
     def all_results(self):
         '''

@@ -1,6 +1,7 @@
 .PHONY: doc test
 
-all: dev
+all: 
+	python examples/attachments_example.py
 
 dev:
 	python setup.py develop
