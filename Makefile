@@ -1,4 +1,4 @@
-.PHONY: doc test
+.PHONY: docs test
 
 all: 
 	python examples/attachments_example.py
@@ -18,9 +18,6 @@ docs:
 	./gendocs.py randopt.experiment.grid_search GridSearch > wiki/docs/GridSearch-Docs.md
 	cd wiki && git add docs/. && git ci -am 'Docs update' && git push
 	git ci README.md -m 'README update'
-
-ropt:
-	python -m unittest test/ropt_tests.py
 
 test:
 	make clean
