@@ -30,6 +30,25 @@ geq = lambda x, y: x.result >= y.result
 
 class JSONSummary(dict):
 
+    """
+    Commodity wrapper around JSON summaries and their attachment.
+
+    Upon calling `summary.attachment`, the attachment is lazy-loaded.
+
+    Parameters:
+    
+    * path - (string) path to JSON file.
+
+    Return type: n/a
+
+    Example:
+        
+        summary = JSONSummary(path_to_json_file)
+        summary.result == summary['result']
+        summary.params['param1'] == summary.param1 == summary['param1']
+        summary.attachment # Attachment is lazy loaded
+    """
+
     def __init__(self, path):
         try:
             assert(path[-5:] == '.json')
