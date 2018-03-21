@@ -92,8 +92,8 @@ if __name__ == '__main__':
     counts = []
     try:
         while True:
-            minimums.append(exp.minimum().value)
-            maximums.append(exp.maximum().value)
+            minimums.append(exp.minimum().result)
+            maximums.append(exp.maximum().result)
             counts.append(exp.count())
             timings.append(time.time() - start_time)
             if USE_MPL:

@@ -14,4 +14,4 @@ if __name__ == '__main__':
     exp.add_result(0, attachment=attachment)
     result = exp.minimum()
     print(result.attachment)
-    assert(attachment == result.attachment)
+    assert attachment == result.attachment

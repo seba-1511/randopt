@@ -51,7 +51,7 @@ class JSONSummary(dict):
 
     def __init__(self, path):
         try:
-            assert(path[-5:] == '.json')
+            assert path[-5:] == '.json'
             with open(path, 'r') as f:
                 result = json.load(f)
                 for key in result.keys():
@@ -330,7 +330,7 @@ class Experiment(object):
         with open(fpath, 'w') as f:
             json.dump(res, f)
         if attachment is not None:
-            assert(isinstance(attachment, dict))
+            assert isinstance(attachment, dict)
             att_path = os.path.join(self.experiment_path, ATTACHMENT_DIR)
             if not os.path.exists(att_path):
                 os.mkdir(att_path)
