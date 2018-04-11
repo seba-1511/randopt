@@ -21,20 +21,32 @@
 
             <div id="plot-container" class="text-left col-md-12">
                 <h3>Plots <small>{{roviz.plots.length}} plots</small></h3>
+
+                <div style="text-align:right;margin-bottom:20px;">
+                    <small class="text-muted">{{roviz.countSelectedPlots()}} plots selected &nbsp;</small>
+                    <button class="btn btn-info" ng-click="roviz.averagePlots();">Plot Averages</button> 
+                    <button class="btn btn-success" ng-click="roviz.mergePlots();">Merge Plots</button> 
+                    <button class="btn btn-primary" ng-click="roviz.export();">Export Plots</button> 
+                </div>
+
                 <div ng-repeat="plot in roviz.plots" class="col-md-6">
                         <input ng-model="plot.name" style="width:100%;text-align:center;background-color:white; border:none;font-size:20px;" />
                         <div style="height:350px;border:solid black 2px;">
                             <plotly-plot plot="plot"></plotly-plot>
                         </div>
                         <div class="row">
-                            <div class="col-sm-5">
+                            <div class="col-sm-2" style="padding-top:5px;">
+                                <input type="checkbox" ng-model="plot.selected" />
+                                <a ng-click="plot.selected = !plot.selected" style="text-decoration:none;" class="btn btn-xs btn-default" >Select</a>
+                            </div>
+                            <div class="col-sm-4">
                                 X-axis: 
                                 <select class="form-control" style="display:inline;width:100px;height:30px;padding:0px;background-color:white;background:none;border:solid black 0px;overflow:hidden;" ng-model="plot.xtitle">
                                     <option value="None">List Indices</option>
                                     <option ng-repeat="head in roviz.headers">{{head}}</option>
                                 </select>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
                                 Y-axis: 
                                 <select class="form-control" style="display:inline;width:100px;height:30px;padding:0px;background-color:white;background:none;border:solid black 0px;overflow:hidden;" ng-model="plot.ytitle">
                                     <option value="None">List Indices</option>
@@ -55,7 +67,6 @@
                     <div style="text-align:right;margin-bottom:20px;">
                         <small class="text-muted">{{roviz.countCurrentPlot()}} results selected &nbsp;</small>
                         <button class="btn btn-success" ng-click="roviz.addPlot()">Add Plot</button> 
-                        <button class="btn btn-primary" ng-click="roviz.export();">Export Plots</button> 
                     </div>
 
                     <table id="dataTable" class="table table-hover table-striped">

@@ -21,20 +21,32 @@
 
             <div id="plot-container" class="text-left col-md-12">
                 <h3>Plots <small>{{roviz.plots.length}} plots</small></h3>
+
+                <div style="text-align:right;margin-bottom:20px;">
+                    <small class="text-muted">{{roviz.countSelectedPlots()}} plots selected &nbsp;</small>
+                    <button class="btn btn-info" ng-click="roviz.averagePlots();">Plot Averages</button> 
+                    <button class="btn btn-success" ng-click="roviz.mergePlots();">Merge Plots</button> 
+                    <button class="btn btn-primary" ng-click="roviz.export();">Export Plots</button> 
+                </div>
+
                 <div ng-repeat="plot in roviz.plots" class="col-md-6">
                         <input ng-model="plot.name" style="width:100%;text-align:center;background-color:white; border:none;font-size:20px;" />
                         <div style="height:350px;border:solid black 2px;">
                             <plotly-plot plot="plot"></plotly-plot>
                         </div>
                         <div class="row">
-                            <div class="col-sm-5">
+                            <div class="col-sm-2" style="padding-top:5px;">
+                                <input type="checkbox" ng-model="plot.selected" />
+                                <a ng-click="plot.selected = !plot.selected" style="text-decoration:none;" class="btn btn-xs btn-default" >Select</a>
+                            </div>
+                            <div class="col-sm-4">
                                 X-axis: 
                                 <select class="form-control" style="display:inline;width:100px;height:30px;padding:0px;background-color:white;background:none;border:solid black 0px;overflow:hidden;" ng-model="plot.xtitle">
                                     <option value="None">List Indices</option>
                                     <option ng-repeat="head in roviz.headers">{{head}}</option>
                                 </select>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
                                 Y-axis: 
                                 <select class="form-control" style="display:inline;width:100px;height:30px;padding:0px;background-color:white;background:none;border:solid black 0px;overflow:hidden;" ng-model="plot.ytitle">
                                     <option value="None">List Indices</option>
@@ -55,7 +67,6 @@
                     <div style="text-align:right;margin-bottom:20px;">
                         <small class="text-muted">{{roviz.countCurrentPlot()}} results selected &nbsp;</small>
                         <button class="btn btn-success" ng-click="roviz.addPlot()">Add Plot</button> 
-                        <button class="btn btn-primary" ng-click="roviz.export();">Export Plots</button> 
                     </div>
 
                     <table id="dataTable" class="table table-hover table-striped">
@@ -127,6 +138,7 @@ var rovizApp = angular.module('rovizApp', [])
     }
     for (var i=0; i < this.data.length; i++) {
         this.data[i].__idx = i;
+        this.data[i].__name = 'Result ' + i;
     }
 
     this.toggleCheck = function() {
@@ -145,6 +157,7 @@ var rovizApp = angular.module('rovizApp', [])
             xtitle: 'None',
             ytitle: 'result',
             name: 'Plot ' + this.plotsCreated,
+            selected: false,
         };
         for (i=0; i < this.data.length; i++) {
             if (this.data[i].__in_current_plot == 1) {
@@ -177,6 +190,94 @@ var rovizApp = angular.module('rovizApp', [])
             }
         }
     };
+
+    this.countSelectedPlots = function() {
+        var i, count = 0;
+        for (i=0; i < this.plots.length; i++) {
+            if (this.plots[i].selected == 1) {
+                count++;
+            }
+        }
+        return count;
+    };
+
+    this.mergePlots = function() {
+        var i, j, plots = [];
+        var currentPlot;
+        currentPlot = {
+            data: [],
+            id: this.plotsCreated,
+            xtitle: 'None',
+            ytitle: 'result',
+            name: 'Merge ' + this.plotsCreated,
+            selected: false,
+        };
+        for (i=0; i < this.plots.length; i++) {
+            if (this.plots[i].selected) {
+                for (j=0; j < this.plots[i].data.length; j++) {
+                    currentPlot.data.push(this.plots[i].data[j]);
+                }
+                this.plots[i].selected = false;
+            }
+        }
+        this.plots.push(currentPlot);
+        this.plotsCreated++;
+    };
+
+    this.averagePlots = function() {
+        var i, j, h, plots = [];
+        var currentPlot, header, new_data, header_avg, header_data;
+        currentPlot = {
+            data: [],
+            id: this.plotsCreated,
+            xtitle: 'None',
+            ytitle: 'result',
+            name: 'Average ' + this.plotsCreated,
+            selected: false,
+        };
+        for (i=0; i < this.plots.length; i++) {
+            if (this.plots[i].selected) {
+                new_data = {};
+
+                for (h=0; h < this.headers.length; h++) {
+                    header = this.headers[h];
+                    header_avg = this.plots[i].data[0][header];
+
+                    for (j=1; j < this.plots[i].data.length; j++) {
+                        // For each data (curve), you need to compute the average
+                        header_data = this.plots[i].data[j][header];
+                        if (typeof header_data == 'number') {
+                            header_avg = header_avg + header_data;
+                        }
+                        else {
+                            header_avg = header_avg.map(function(num, idx) {
+                                return num + header_data[idx];
+                            });
+                        }
+                    }
+                    if (typeof header_avg == 'number') {
+                        header_avg = header_avg / this.plots[i].data.length;
+                    }
+                    else {
+                        thisplots = this.plots;
+                        header_avg = header_avg.map(function(num, idx) {
+                            return num / thisplots[i].data.length;
+                        });
+                    }
+
+                    new_data[header] = header_avg;
+                }
+
+                new_data.__name = this.plots[i].name;
+                currentPlot.data.push(new_data);
+                this.plots[i].selected = false;
+            }
+        }
+        debugger;
+        this.plots.push(currentPlot);
+        this.plotsCreated++;
+    };
+
 
     this.export = function() {
         var copy, file, html;
@@ -238,7 +339,7 @@ var rovizApp = angular.module('rovizApp', [])
                         y: ydata,
                         type: 'scatter',
                         mode: 'lines+markers',
-                        name: 'Result ' + data.__idx,
+                        name: data.__name,
                     
                     };
                     traces.push(trace);
