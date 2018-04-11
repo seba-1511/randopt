@@ -1,7 +1,9 @@
 .PHONY: docs test
 
 all: 
-	python examples/attachments_example.py
+	rm -rf randopt_results
+	python examples/objective_examples.py
+	roviz.py randopt_results/objectives_example
 
 dev:
 	python setup.py develop
@@ -28,6 +30,7 @@ test:
 	python examples/gs_example.py
 	python examples/grad_descent.py
 	python examples/attachments_example.py
+	python examples/objective_examples.py
 
 publish:
 	#http://peterdowns.com/posts/first-time-with-pypi.html
