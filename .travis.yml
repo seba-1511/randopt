@@ -10,7 +10,9 @@ python:
     - 3.4
     - 3.5
     - "3.5-dev"
+    - 3.6
     - "3.6-dev"
+    - "3.7-dev"
     - "nightly"
 
 script: make dev && make test
