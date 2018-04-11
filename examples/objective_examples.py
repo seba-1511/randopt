@@ -10,7 +10,7 @@ def converge(curve, mu, sigma):
 if __name__ == '__main__':
     curve = [10 / x for x in range(1, 36)]
 
-    loss = obj.mean_std
+    loss = obj.median_variance
 
     exp = ro.Experiment('objectives_example', params={
         'mu': ro.Gaussian(3, 1),
