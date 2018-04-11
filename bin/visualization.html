@@ -36,7 +36,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-2" style="padding-top:5px;">
-                                <input type="checkbox" ng-model="plot.selected" />
+                                <input type="checkbox" ng-model="plot.selected"  />
                                 <a ng-click="plot.selected = !plot.selected" style="text-decoration:none;" class="btn btn-xs btn-default" >Select</a>
                             </div>
                             <div class="col-sm-4">
@@ -101,20 +101,23 @@ var DATA = [
     y: 3,
     z: 1,
     result: 0.0,
-    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+    convergence: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+    text: 'my great text',
 },
     {
     x: 10,
     y: 8,
     z: 4,
     result: 0.1,
-    convergence: [23, 54, 23, 34, 12, 12, 57, 0, 34]
+    convergence: [23, 54, 23, 34, 12, 12, 57, 0, 34],
+    text: 'my great text',
 },
     {
     x: 8,
     y: 9,
     z: 6,
     result: 0.2,
+    text: 'my great text',
     convergence: [110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 10, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 110, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 },
 ];
@@ -246,23 +249,23 @@ var rovizApp = angular.module('rovizApp', [])
                     for (j=1; j < this.plots[i].data.length; j++) {
                         // For each data (curve), you need to compute the average
                         header_data = this.plots[i].data[j][header];
-                        if (typeof header_data == 'number') {
-                            header_avg = header_avg + header_data;
-                        }
-                        else {
+                        if (typeof header_data.map === 'function') {
                             header_avg = header_avg.map(function(num, idx) {
                                 return num + header_data[idx];
                             });
                         }
+                        else {
+                            header_avg = header_avg + header_data;
+                        }
                     }
-                    if (typeof header_avg == 'number') {
-                        header_avg = header_avg / this.plots[i].data.length;
-                    }
-                    else {
+                    if (typeof header_avg.map === 'function') {
                         thisplots = this.plots;
                         header_avg = header_avg.map(function(num, idx) {
                             return num / thisplots[i].data.length;
                         });
+                    }
+                    else {
+                        header_avg = header_avg / this.plots[i].data.length;
                     }
 
                     new_data[header] = header_avg;
@@ -273,7 +276,6 @@ var rovizApp = angular.module('rovizApp', [])
                 this.plots[i].selected = false;
             }
         }
-        debugger;
         this.plots.push(currentPlot);
         this.plotsCreated++;
     };

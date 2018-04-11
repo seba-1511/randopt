@@ -125,23 +125,23 @@ var rovizApp = angular.module('rovizApp', [])
                     for (j=1; j < this.plots[i].data.length; j++) {
                         // For each data (curve), you need to compute the average
                         header_data = this.plots[i].data[j][header];
-                        if (typeof header_data == 'number') {
-                            header_avg = header_avg + header_data;
-                        }
-                        else {
+                        if (typeof header_data.map === 'function') {
                             header_avg = header_avg.map(function(num, idx) {
                                 return num + header_data[idx];
                             });
                         }
+                        else {
+                            header_avg = header_avg + header_data;
+                        }
                     }
-                    if (typeof header_avg == 'number') {
-                        header_avg = header_avg / this.plots[i].data.length;
-                    }
-                    else {
+                    if (typeof header_avg.map === 'function') {
                         thisplots = this.plots;
                         header_avg = header_avg.map(function(num, idx) {
                             return num / thisplots[i].data.length;
                         });
+                    }
+                    else {
+                        header_avg = header_avg / this.plots[i].data.length;
                     }
 
                     new_data[header] = header_avg;
@@ -152,7 +152,6 @@ var rovizApp = angular.module('rovizApp', [])
                 this.plots[i].selected = false;
             }
         }
-        debugger;
         this.plots.push(currentPlot);
         this.plotsCreated++;
     };
