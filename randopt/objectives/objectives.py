@@ -5,8 +5,10 @@ This module defines scalarization functions for multi-objective
 optimization problems.
 """
 
-
-from statistics import mean, median, pvariance, pstdev
+try:  # Try native statistics module
+    from statistics import mean, median, pvariance, pstdev
+except ImportError:
+    from .statistics import mean, median, pvariance, pstdev
 
 variance = pvariance
 std = pstdev
