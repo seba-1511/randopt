@@ -2,8 +2,7 @@
 
 all: 
 	rm -rf randopt_results
-	python examples/objective_examples.py
-	roviz.py randopt_results/objectives_example
+	python examples/summary_list_example.py
 
 dev:
 	python setup.py develop
@@ -31,6 +30,7 @@ test:
 	python examples/grad_descent.py
 	python examples/attachments_example.py
 	python examples/objective_examples.py
+	python examples/summary_list_example.py
 
 publish:
 	#http://peterdowns.com/posts/first-time-with-pypi.html

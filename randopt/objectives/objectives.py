@@ -8,7 +8,7 @@ optimization problems.
 try:  # Try native statistics module
     from statistics import mean, median, pvariance, pstdev
 except ImportError:
-    from .statistics import mean, median, pvariance, pstdev
+    from randopt.statistics import mean, median, pvariance, pstdev
 
 variance = pvariance
 std = pstdev

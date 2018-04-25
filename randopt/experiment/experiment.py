@@ -16,9 +16,14 @@ from math import log, ceil
 from collections import namedtuple
 
 from randopt.samplers import Uniform
+try:  # Try native statistics module
+    from statistics import mean, median, pvariance, pstdev
+except ImportError:
+    from randopt.statistics import mean, median, pvariance, pstdev
+
 
 """
-This file implements the Experiment class.
+This file implements the Experiment, JSONSummary, and SummaryList classes.
 """
 
 ATTACHMENT_DIR = '_attachments'
@@ -26,6 +31,65 @@ ATTACHMENT_EXT = '.pk'
 
 leq = lambda x, y: x.result <= y.result
 geq = lambda x, y: x.result >= y.result
+
+
+class SummaryList(list):
+
+    """
+    List of JSON Summaries on steroid.
+
+    Parameters:
+
+    * results - (list) list of JSON Summaries.
+
+    Return type: n/a
+
+    Example:
+        
+        results = exp.top(10)
+        results.mean('alpha')
+        results.filter(lambda r: r.result > results.mean())
+    """
+
+    def __init__(self, results):
+        list.__init__(self, results)
+        self.__results = results
+
+    def __getitem__(self, key):
+        if isinstance(key, slice):
+            return SummaryList(self.__results[key])
+        return self.__results[key]
+
+    def count(self):
+        return len(self)
+
+    def filter(self, fn):
+        results = [r for r in self if fn(r)]
+        return SummaryList(results)
+
+    def map(self, fn, key='result'):
+        if isinstance(self[0][key], list):
+            values = [r[key] for r in self]
+            return [fn(v) for v in zip(*values)]
+        return fn([r[key] for r in self])
+
+    def min(self, key='result'):
+        return self.map(min, key)
+
+    def max(self, key='result'):
+        return self.map(max, key)
+
+    def mean(self, key='result'):
+        return self.map(mean, key)
+
+    def variance(self, key='result'):
+        return self.map(pvariance, key)
+
+    def std(self, key='result'):
+        return self.map(pstdev, key)
+
+    def median(self, key='result'):
+        return self.map(median, key)
 
 
 class JSONSummary(dict):
@@ -191,7 +255,7 @@ class Experiment(object):
                             top_n_experiments.pop()
                             break
 
-        return top_n_experiments
+        return SummaryList(top_n_experiments) 
 
     def maximum(self):
         '''
