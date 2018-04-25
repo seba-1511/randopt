@@ -60,6 +60,12 @@ class SummaryList(list):
             return SummaryList(self.__results[key])
         return self.__results[key]
 
+    def __getslice__(self, i, j):
+        return self.__getitem__(slice(i, j))
+
+    def __str__(self):
+        return 'SummaryList(' + str(len(self)) + ')'
+
     def count(self):
         return len(self)
 
