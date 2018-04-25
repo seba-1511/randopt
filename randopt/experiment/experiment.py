@@ -62,7 +62,7 @@ class JSONSummary(dict):
             self.__dir = os.path.dirname(path)
             self.__name = os.path.basename(path)[:-5]
         except ValueError:
-            raise('Error reading file: ' + path + ' - skipped.')
+            raise Exception('Error reading file: ' + path + ' - skipped.')
 
 
     def __getattr__(self, attr):
