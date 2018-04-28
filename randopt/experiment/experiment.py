@@ -2,10 +2,8 @@
 
 import os
 import random
-try:
-    import ujson as json
-except ImportError:
-    import json
+import json
+
 try:
     import cPickle as pk
 except ImportError:
