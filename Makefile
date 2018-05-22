@@ -2,7 +2,10 @@
 
 all: 
 	rm -rf randopt_results
-	python examples/summary_list_example.py
+	python examples/command.py test1 --arg1 21 --arg2 name2 --arg3=4.56
+	python examples/command.py test2 --arg1 21 --arg2 name2
+	python examples/command.py --help
+	python examples/command.py --help test2
 
 dev:
 	python setup.py develop
