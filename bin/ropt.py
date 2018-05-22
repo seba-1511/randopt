@@ -146,6 +146,7 @@ if __name__ == '__main__':
     if ROPT_NPROC in os.environ:
         experiment_name = int(os.environ[ROPT_NPROC]) 
 
+    print('Working on', experiment_name, 'in', experiment_dir)
 
     arguments = sys.argv[1:]
     args_idx = 0
@@ -157,7 +158,7 @@ if __name__ == '__main__':
         if '=' in arg and '(' in arg and ')' in arg:
             # parse argument and sampler
             param, sampler = arg.split('=')
-            command = command + ' ' + param + ' {' + str(len(samplers)) + ':10f}'
+            command = command + ' ' + param + ' {' + str(len(samplers)) + ':.10f}'
             sampler = parse_sampler(sampler)
             param = param.replace('-', '')
             parameters.append(param)

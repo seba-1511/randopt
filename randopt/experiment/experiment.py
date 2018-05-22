@@ -404,7 +404,7 @@ class Experiment(object):
                 os.mkdir(att_path)
             att_file = os.path.join(att_path, fname + ATTACHMENT_EXT)
             with open(att_file, 'wb') as f:
-                pk.dump(attachment, f)
+                pk.dump(attachment, f, protocol=-1)
 
     def all_results(self):
         '''
