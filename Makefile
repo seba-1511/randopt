@@ -6,6 +6,9 @@ all:
 	python examples/command.py test2 --arg1 21 --arg2 name2
 	python examples/command.py --help
 	python examples/command.py --help test2
+	python examples/command.py test_experiment1 --x 3 --y 4
+	python examples/command.py test_experiment2 --x 1 --y 3
+	python examples/command.py test_experiment3 --x 1 --y 3
 
 dev:
 	python setup.py develop
@@ -34,6 +37,13 @@ test:
 	python examples/attachments_example.py
 	python examples/objective_examples.py
 	python examples/summary_list_example.py
+	python examples/command.py test1 --arg1 21 --arg2 name2 --arg3=4.56
+	python examples/command.py test2 --arg1 21 --arg2 name2
+	python examples/command.py --help
+	python examples/command.py --help test2
+	python examples/command.py test_experiment1 --x 3 --y 4
+	python examples/command.py test_experiment2 --x 1 --y 3
+	python examples/command.py test_experiment3 --x 1 --y 3
 
 publish:
 	#http://peterdowns.com/posts/first-time-with-pypi.html
