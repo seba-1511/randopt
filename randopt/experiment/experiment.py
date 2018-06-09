@@ -184,11 +184,13 @@ class Experiment(object):
     def __init__(self, name, params={}, directory='randopt_results'):
         self.name = name
         self.params = params
+        forbidden_keys = ['result', 'attachment', 'name']
         for key in params:
-            if key is not 'result':
+            if key not in forbidden_keys:
                 setattr(self, key, params[key].sample())
             else:
-                raise ValueError('Param cannot be named \'result\'')
+                raise ValueError('Param name cannot be one of [' +
+                                 ' '.join(forbidden_keys) + ']')
         cwd = os.getcwd()
         randopt_folder = os.path.join(cwd, directory)
         if not os.path.exists(randopt_folder):
