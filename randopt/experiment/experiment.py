@@ -295,10 +295,25 @@ class Experiment(object):
 
         Example:
 
-            e.all_results()
+            e.all()
         '''
         for r in self.all_results():
             yield r
+
+    def list(self):
+        '''
+        Returns a SummaryList of all results.
+
+        Parameters: n/a
+
+        Return type: SummaryList
+
+        Example:
+
+            summaries = exp.list()
+            summaries.filter(lambda x: x.result > 0.1)
+        '''
+        return SummaryList(list(self.all()))
 
     def count(self):
         '''
