@@ -51,10 +51,16 @@ def experiment(name, directory='randopt_results'):
         fn_name = fn.__name__
 
         def wrapper(*args, **kwargs):
-            experiment = ro.Experiment(name=name, directory=directory, params={
+            params = {
                 param: ro.Constant(default)
                 for param, default in zip(arg_names, arg_defaults)
-            })
+            }
+            for key, value in kwargs.items():
+                if key in params:
+                    params[key] = ro.Constant(value)
+            experiment = ro.Experiment(name=name,
+                                       directory=directory,
+                                       params=params)
             result = fn(*args, **kwargs)
             if isinstance(result, collections.Iterable):
                 if len(result) == 2:
