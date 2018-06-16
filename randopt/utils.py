@@ -4,5 +4,5 @@
 
 import randopt as ro
 
-def dict_to_params(dictionary):
+def dict_to_constants(dictionary):
     return {k: ro.Constant(dictionary[k]) for k in dictionary}

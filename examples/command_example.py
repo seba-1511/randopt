@@ -43,7 +43,7 @@ def test_experiment3(x=2, y=3):
 
 @ro.cli
 def test_experiment4(x=2, y=4):
-    exp = ro.Experiment('params_from_def', params=ro.dict_to_params(locals()))
+    exp = ro.Experiment('params_from_def', params=ro.dict_to_constants(locals()))
     exp.add_result(x**2 + y**2, data={'additional': 'as usual.'})
 
 
