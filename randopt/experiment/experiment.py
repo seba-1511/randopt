@@ -71,6 +71,9 @@ class SummaryList(list):
         results = [r for r in self if fn(r)]
         return SummaryList(results)
 
+    def values(self, key='result'):
+        return list({r[key] for r in self})
+
     def map(self, fn, key='result'):
         if isinstance(self[0][key], list):
             values = [r[key] for r in self]
