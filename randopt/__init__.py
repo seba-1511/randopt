@@ -12,3 +12,4 @@ if 'RANDOP_INIT' not in globals():
 from .experiment import Experiment, HyperBand, Evolutionary, GridSearch, SummaryList
 from .samplers import *
 from .command import cli, experiment, parse
+from .utils import dict_to_params
