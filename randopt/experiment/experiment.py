@@ -3,6 +3,7 @@
 import os
 import random
 import json
+import multiprocessing as mp
 
 try:
     import cPickle as pk
@@ -242,8 +243,6 @@ class Experiment(object):
                 fpath = os.path.join(self.experiment_path, fname)
 
                 summary = JSONSummary(fpath)
-                result_value = summary.result
-                # TODO: refactor this insert function to be cleaner (no need for storing result_value)
                 if len(top_n_experiments) < count:
                     inserted = False
                     for i in range(len(top_n_experiments)):
@@ -440,11 +439,25 @@ class Experiment(object):
                 print(res.result)
                 print(res.params)
         '''
+
+        file_paths = []
         for fname in os.listdir(self.experiment_path):
             base, ext = os.path.splitext(fname)
             if 'json' in ext:
                 fpath = os.path.join(self.experiment_path, fname)
-                yield JSONSummary(fpath)
+                file_paths.append(fpath)
+
+        queue = mp.Queue()
+        def read_summary(fpath):
+            read_summary.queue.put(JSONSummary(fpath))
+
+        def pool_init(queue):
+            read_summary.queue = queue
+        pool = mp.Pool(None, pool_init, [queue, ])
+        pool.imap(read_summary, file_paths)
+        pool.close()
+        for _ in file_paths:
+            yield queue.get()
 
     def save_state(self, path):
         '''
