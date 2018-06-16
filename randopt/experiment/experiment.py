@@ -452,7 +452,7 @@ class Experiment(object):
             if 'json' in ext:
                 fpath = os.path.join(self.experiment_path, fname)
                 file_paths.append(fpath)
-        if len(file_paths) < 1000 or True:
+        if len(file_paths) < 1000:
             for fpath in file_paths:
                 yield JSONSummary(fpath)
         else:
