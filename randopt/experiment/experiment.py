@@ -162,6 +162,12 @@ class JSONSummary(dict):
             with open(att_path, 'rb') as f:
                 self.__attachment = pk.load(f)
 
+    def __getstate__(self):
+        return self.__dict__
+
+    def __setstate__(self, state):
+        self.__dict__ = state
+
 
 class Experiment(object):
 
@@ -446,18 +452,17 @@ class Experiment(object):
             if 'json' in ext:
                 fpath = os.path.join(self.experiment_path, fname)
                 file_paths.append(fpath)
-
-        queue = mp.Queue()
-        def read_summary(fpath):
-            read_summary.queue.put(JSONSummary(fpath))
-
-        def pool_init(queue):
-            read_summary.queue = queue
-        pool = mp.Pool(None, pool_init, [queue, ])
-        pool.imap(read_summary, file_paths)
-        pool.close()
-        for _ in file_paths:
-            yield queue.get()
+        if len(file_paths) < 1000 or True:
+            for fpath in file_paths:
+                yield JSONSummary(fpath)
+        else:
+            pool = mp.Pool()
+            chunksize = len(file_paths) // pool._processes
+            summaries = pool.imap_unordered(JSONSummary,
+                                            file_paths,
+                                            chunksize=chunksize)
+            for summary in summaries:
+                yield summary
 
     def save_state(self, path):
         '''
