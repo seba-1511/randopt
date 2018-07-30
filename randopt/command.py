@@ -34,6 +34,7 @@ def cli(fn=None):
     global __ARGUMENTS
     __ARGUMENTS[fn_name] = {name: default
                             for name, default in zip(arg_names, arg_defaults)}
+    return fn
 
 
 def experiment(name, directory='randopt_results'):
