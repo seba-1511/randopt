@@ -1,306 +1,360 @@
-        // Copy from this line to end in footer.html
-        </script>
-        <script type="text/javascript">
+// Copy from this line to end in footer.html
+                </script>
+                <script type="text/javascript">
 
-agGrid.initialiseAgGridWithAngular1(angular);
+                    agGrid.initialiseAgGridWithAngular1(angular);
 
 var rovizApp = angular.module('rovizApp', ['ngRoute', 'agGrid'])
     .controller('RovizController', function($scope) {
 
-    $scope.page = 'data'
-    this.plotsCreated = 0;
+        $scope.page = 'data'
+        this.plotsCreated = 0;
 
-    // Table Control
-    this.data = DATA;
-    this.headers = ['result'];
-    for (var key in this.data[0]) {
-        if (key !== 'result') {
-            this.headers.push(key);
+        // Table Control
+        this.data = DATA;
+        this.headers = ['result'];
+        for (var key in this.data[0]) {
+            if (key !== 'result') {
+                this.headers.push(key);
+            }
         }
-    }
-    for (var i=0; i < this.data.length; i++) {
-        this.data[i].__idx = i;
-        this.data[i].__name = 'Result ' + i;
-    }
-
-    var columnDefs = [
-        {headerCheckboxSelection: true, checkboxSelection: true},
-        {headerName: 'id', field: '__idx'},
-        {headerName: 'result', field: 'result'},
-    ];
-
-    for (var key in this.data[0]) {
-        if (key !== 'result' && !key.startsWith('__')) {
-            columnDefs.push({headerName: key, field: key})
+        for (var i=0; i < this.data.length; i++) {
+            this.data[i].__idx = i;
+            this.data[i].__name = 'Result ' + i;
         }
-    }
 
-    $scope.gridOptions = {
-        enableFilter: true,
-        enableSorting: true,
-        columnDefs: columnDefs,
-        rowData: this.data,
-        enableColResize: true,
-        rowMultiSelectWithClick: true,
-        rowDeselection: true,
-        suppressRowClickSelection: false,
-        rowSelection: 'multiple',
-        onGridReady: function(params) {
-            params.api.sizeColumnsToFit();
-        },
-    };
+        var columnDefs = [
+            {headerCheckboxSelection: true, checkboxSelection: true},
+            {headerName: 'id', field: '__idx'},
+            {headerName: 'result', field: 'result'},
+        ];
 
-    this.updateQuickFilter = function() {
-        var value = document.getElementById('dataFilter').value;
-        $scope.gridOptions.api.setQuickFilter(value);
-    };
+        for (var key in this.data[0]) {
+            if (key !== 'result' && !key.startsWith('__')) {
+                columnDefs.push({headerName: key, field: key})
+            }
+        }
 
-    this.addPlot = function() {
-        $scope.page = 'plots';
-        var currentPlot = {
-            summaries: $scope.gridOptions.api.getSelectedRows(),
-            id: this.plotsCreated,
-            xtitle: 'None',
-            ytitle: 'result',
-            name: 'Plot ' + this.plotsCreated,
-            selected: false,
-            layout: {},
-            data: {},
-            custom: false,
-            num_updates: 0,
-        };
-        this.plots.push(currentPlot);
-        this.plotsCreated++;
-        $scope.plotToEdit = {
-            data: {},
-            layout: {},
-            plot: currentPlot,
-            showPrev: false,
-        
+        $scope.gridOptions = {
+            enableFilter: true,
+            enableSorting: true,
+            columnDefs: columnDefs,
+            rowData: this.data,
+            enableColResize: true,
+            rowMultiSelectWithClick: true,
+            rowDeselection: true,
+            suppressRowClickSelection: false,
+            rowSelection: 'multiple',
+            onGridReady: function(params) {
+                params.api.sizeColumnsToFit();
+            },
         };
 
-    };
+        this.updateQuickFilter = function() {
+            var value = document.getElementById('dataFilter').value;
+            $scope.gridOptions.api.setQuickFilter(value);
+        };
 
-    this.countCurrentPlot = function() {
-        return $scope.gridOptions.api.getSelectedRows().length;
-    };
-
-    // Keyboard Shortcuts
-
-    var shiftDown = false;
-    angular.element(document).bind('keydown', function(event) {
-        if (event.which == 16) { // 16 == Shift
-            shiftDown = true;
-        } 
-        if (shiftDown && event.which == 222) { // 222 == ?
-            $scope.page = 'home';
-            $scope.$apply();
-        }
-        if (shiftDown && event.which == 68) { // 68 == d
-            $scope.page = 'data';
-            $scope.$apply();
-        }
-        if (shiftDown && event.which == 80) { // 80 == p
+        this.addPlot = function() {
             $scope.page = 'plots';
-            $scope.$apply();
-        }
-        if (shiftDown && event.which == 72) { // 72 == h
-            switch($scope.page) {
-                case 'home':
-                    $scope.page = 'plots';
-                    break;
-                case 'data':
-                    $scope.page = 'home';
-                    break;
-                case 'plots':
-                    $scope.page = 'data';
-                    break;
-            }
-            $scope.$apply();
-        }
-        if (shiftDown && event.which == 76) { // 76 == l
-            switch($scope.page) {
-                case 'home':
-                    $scope.page = 'data';
-                    break;
-                case 'data':
-                    $scope.page = 'plots';
-                    break;
-                case 'plots':
-                    $scope.page = 'home';
-                    break;
-            }
-            $scope.$apply();
-        }
-        if (event.which == 74) { // 74 == j
-            window.scrollBy(0, 500);
-        }
-        if (event.which == 75) { // 75 == k
-            window.scrollBy(0, -500);
-        }
-    });
-    angular.element(document).bind('keyup', function(event) {
-        if (event.which == 16) { // 16 == Shift
-            shiftDown = false;
-        } 
-    });
+            var currentPlot = {
+                summaries: $scope.gridOptions.api.getSelectedRows(),
+                id: this.plotsCreated,
+                xtitle: 'None',
+                ytitle: 'result',
+                name: 'Plot ' + this.plotsCreated,
+                selected: false,
+                layout: {},
+                data: {},
+                custom: false,
+                num_updates: 0,
+            };
+            this.plots.push(currentPlot);
+            this.plotsCreated++;
+            $scope.plotToEdit = {
+                data: {},
+                layout: {},
+                plot: currentPlot,
+                showPrev: false,
 
-    // Plot Control
-    this.plots = [];
-    $scope.plotToEdit = {};
-
-
-    this.editPlot = function(id) {
-        var i, plotToEdit, dataContent, layoutContent;
-        for (i=0; i < this.plots.length; i++) {
-            if (this.plots[i].id == id) {
-                plotToEdit = this.plots[i];
-                break;
-            }
-        }
-        $scope.plotToEdit.plot = plotToEdit;
-        $scope.plotToEdit.layout = JSON.stringify(plotToEdit.layout, null, 4);
-        $scope.plotToEdit.data = JSON.stringify(plotToEdit.data, null, 4);
-    };
-
-    this.savePlot = function(id) {
-        var data, layout;
-        data = $scope.plotToEdit.data.replace(/'/g, '"');
-        layout = $scope.plotToEdit.layout.replace(/'/g, '"');
-        try {
-            data = JSON.parse($scope.plotToEdit.data);
-        }
-        catch (err) {
-            data = eval($scope.plotToEdit.data);        
-        }
-        try {
-            layout = JSON.parse($scope.plotToEdit.layout);
-        }
-        catch (err) {
-            layout = eval($scope.plotToEdit.layout);        
-        }
-        $scope.plotToEdit.plot.data = data;
-        $scope.plotToEdit.plot.layout = layout;
-        $scope.plotToEdit.plot.custom = true;
-        $scope.plotToEdit.plot.num_updates++;
-    };
-
-    this.removePlot = function(id) {
-        var i;
-        for (i=0; i < this.plots.length; i++) {
-            if (this.plots[i].id == id) {
-                this.plots.splice(i, 1);
-            }
-        }
-    };
-
-    this.countSelectedPlots = function() {
-        var i, count = 0;
-        for (i=0; i < this.plots.length; i++) {
-            if (this.plots[i].selected == 1) {
-                count++;
-            }
-        }
-        return count;
-    };
-
-    this.mergePlots = function() {
-        var i, j, plots = [];
-        var currentPlot;
-        currentPlot = {
-            data: [],
-            id: this.plotsCreated,
-            xtitle: 'None',
-            ytitle: 'result',
-            name: 'Merge ' + this.plotsCreated,
-            selected: false,
+            };
+            this.saveState();
         };
-        for (i=0; i < this.plots.length; i++) {
-            if (this.plots[i].selected) {
-                for (j=0; j < this.plots[i].data.length; j++) {
-                    currentPlot.summaries.push(this.plots[i].data[j]);
+
+        this.countCurrentPlot = function() {
+            return $scope.gridOptions.api.getSelectedRows().length;
+        };
+
+        // Keyboard Shortcuts
+
+        var shiftDown = false;
+        angular.element(document).bind('keydown', function(event) {
+            if (event.which == 16) { // 16 == Shift
+                shiftDown = true;
+            } 
+            if (shiftDown && event.which == 222) { // 222 == ?
+                $scope.page = 'home';
+                $scope.$apply();
+            }
+            if (shiftDown && event.which == 68) { // 68 == d
+                $scope.page = 'data';
+                $scope.$apply();
+            }
+            if (shiftDown && event.which == 80) { // 80 == p
+                $scope.page = 'plots';
+                $scope.$apply();
+            }
+            if (shiftDown && event.which == 72) { // 72 == h
+                switch($scope.page) {
+                    case 'home':
+                        $scope.page = 'plots';
+                        break;
+                    case 'data':
+                        $scope.page = 'home';
+                        break;
+                    case 'plots':
+                        $scope.page = 'data';
+                        break;
                 }
-                this.plots[i].selected = false;
+                $scope.$apply();
             }
+            if (shiftDown && event.which == 76) { // 76 == l
+                switch($scope.page) {
+                    case 'home':
+                        $scope.page = 'data';
+                        break;
+                    case 'data':
+                        $scope.page = 'plots';
+                        break;
+                    case 'plots':
+                        $scope.page = 'home';
+                        break;
+                }
+                $scope.$apply();
+            }
+            if (event.which == 74) { // 74 == j
+                window.scrollBy(0, 500);
+            }
+            if (event.which == 75) { // 75 == k
+                window.scrollBy(0, -500);
+            }
+            if (event.which == 70) { // 70 == f
+                var elem = document.documentElement;
+
+                if (document.fullscreenElement) {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.mozCancelFullScreen) { /* Firefox */
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) { /* IE/Edge */
+                        document.msExitFullscreen();
+                    }
+                }
+                else {
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                    }
+                    else if (elem.mozRequestFullScreen) { /* Firefox */
+                        elem.mozRequestFullScreen();
+                    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                        elem.webkitRequestFullscreen();
+                    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                        elem.msRequestFullscreen();
+                    }
+                }
+
+            }
+        });
+        angular.element(document).bind('keyup', function(event) {
+            if (event.which == 16) { // 16 == Shift
+                shiftDown = false;
+            } 
+        });
+
+        // Plot Control
+        this.plots = [];
+        $scope.plotToEdit = {};
+
+        if (window.localStorage[window.location.href] !== null && typeof(window.localStorage[window.location.href]) !== 'undefined') {
+            this.plots = JSON.parse(window.localStorage.getItem(window.location.href));
         }
-        this.plots.push(currentPlot);
-        this.plotsCreated++;
-    };
 
-    this.averagePlots = function() {
-        var i, j, h, plots = [];
-        var currentPlot, header, new_data, header_avg, header_data;
-        currentPlot = {
-            data: [],
-            id: this.plotsCreated,
-            xtitle: 'None',
-            ytitle: 'result',
-            name: 'Average ' + this.plotsCreated,
-            selected: false,
+
+        this.editPlot = function(id) {
+            var i, plotToEdit, dataContent, layoutContent;
+            for (i=0; i < this.plots.length; i++) {
+                if (this.plots[i].id == id) {
+                    plotToEdit = this.plots[i];
+                    break;
+                }
+            }
+            $scope.plotToEdit.plot = plotToEdit;
+            $scope.plotToEdit.layout = JSON.stringify(plotToEdit.layout, null, 4);
+            $scope.plotToEdit.data = JSON.stringify(plotToEdit.data, null, 4);
         };
-        for (i=0; i < this.plots.length; i++) {
-            if (this.plots[i].selected) {
-                new_data = {};
 
-                for (h=0; h < this.headers.length; h++) {
-                    header = this.headers[h];
-                    header_avg = this.plots[i].data[0][header];
+        this.savePlot = function(id) {
+            var data, layout;
+            data = $scope.plotToEdit.data.replace(/'/g, '"');
+            layout = $scope.plotToEdit.layout.replace(/'/g, '"');
+            try {
+                data = JSON.parse($scope.plotToEdit.data);
+            }
+            catch (err) {
+                data = eval($scope.plotToEdit.data);        
+            }
+            try {
+                layout = JSON.parse($scope.plotToEdit.layout);
+            }
+            catch (err) {
+                layout = eval($scope.plotToEdit.layout);        
+            }
+            $scope.plotToEdit.plot.data = data;
+            $scope.plotToEdit.plot.layout = layout;
+            $scope.plotToEdit.plot.custom = true;
+            $scope.plotToEdit.plot.num_updates++;
+            this.saveState();
+        };
 
-                    for (j=1; j < this.plots[i].data.length; j++) {
-                        // For each data (curve), you need to compute the average
-                        header_data = this.plots[i].data[j][header];
-                        if (typeof header_data.map === 'function') {
+        this.removePlot = function(id) {
+            var i;
+            for (i=0; i < this.plots.length; i++) {
+                if (this.plots[i].id == id) {
+                    this.plots.splice(i, 1);
+                }
+            }
+            this.saveState();
+        };
+
+        this.countSelectedPlots = function() {
+            var i, count = 0;
+            for (i=0; i < this.plots.length; i++) {
+                if (this.plots[i].selected == 1) {
+                    count++;
+                }
+            }
+            return count;
+        };
+
+        this.mergePlots = function() {
+            var i, j, plots = [];
+            var currentPlot;
+            currentPlot = {
+                summaries: [],
+                id: this.plotsCreated,
+                xtitle: 'None',
+                ytitle: 'result',
+                name: 'Merge ' + this.plotsCreated,
+                selected: false,
+                data: {},
+                layout: {},
+            };
+            for (i=0; i < this.plots.length; i++) {
+                if (this.plots[i].selected) {
+                    for (j=0; j < this.plots[i].data.length; j++) {
+                        currentPlot.summaries.push(this.plots[i].data[j]);
+                    }
+                    this.plots[i].selected = false;
+                }
+            }
+            this.plots.push(currentPlot);
+            this.plotsCreated++;
+            this.saveState();
+        };
+
+        this.averagePlots = function() {
+            var i, j, h, plots = [];
+            var currentPlot, header, new_data, header_avg, header_data;
+            currentPlot = {
+                summaries: [],
+                id: this.plotsCreated,
+                xtitle: 'None',
+                ytitle: 'result',
+                name: 'Average ' + this.plotsCreated,
+                selected: false,
+                data: {},
+                layout: {},
+            };
+            for (i=0; i < this.plots.length; i++) {
+                if (this.plots[i].selected) {
+                    new_data = {};
+
+                    for (h=0; h < this.headers.length; h++) {
+                        header = this.headers[h];
+                        header_avg = this.plots[i].summaries[0][header];
+
+                        for (j=1; j < this.plots[i].summaries.length; j++) {
+                            // For each data (curve), you need to compute the average
+                            header_data = this.plots[i].summaries[j][header];
+                            if (typeof header_data.map === 'function') {
+                                header_avg = header_avg.map(function(num, idx) {
+                                    return num + header_data[idx];
+                                });
+                            }
+                            else {
+                                header_avg = header_avg + header_data;
+                            }
+                        }
+                        if (typeof header_avg.map === 'function') {
+                            thisplots = this.plots;
                             header_avg = header_avg.map(function(num, idx) {
-                                return num + header_data[idx];
+                                return num / thisplots[i].summaries.length;
                             });
                         }
                         else {
-                            header_avg = header_avg + header_data;
+                            header_avg = header_avg / this.plots[i].summaries.length;
                         }
-                    }
-                    if (typeof header_avg.map === 'function') {
-                        thisplots = this.plots;
-                        header_avg = header_avg.map(function(num, idx) {
-                            return num / thisplots[i].data.length;
-                        });
-                    }
-                    else {
-                        header_avg = header_avg / this.plots[i].data.length;
+
+                        new_data[header] = header_avg;
                     }
 
-                    new_data[header] = header_avg;
+                    new_data.__name = this.plots[i].name;
+                    currentPlot.summaries.push(new_data);
+                    this.plots[i].selected = false;
                 }
-
-                new_data.__name = this.plots[i].name;
-                currentPlot.summaries.push(new_data);
-                this.plots[i].selected = false;
             }
-        }
-        this.plots.push(currentPlot);
-        this.plotsCreated++;
-    };
+            this.plots.push(currentPlot);
+            this.plotsCreated++;
+            this.saveState();
+        };
 
 
-    this.export = function() {
-        var copy, file, html;
-        copy = (' ' + CODE).slice(1); // Makes a deep copy
-        plots = [];
-        for (i=0; i < this.plots.length; i++) { 
-            p = Object.assign({}, this.plots[i]); // Deep copy
-            delete p['$$hashKey']; // Remove angular annotations
-            plots.push(p);
-        }
-        plot_content = JSON.stringify(plots);
-        search = 'this.plots = ';
-        start_idx = copy.indexOf(search);
-        start = copy.substr(0, start_idx + search.length);
-        end = copy.substr(start_idx + search.length + 2);
-        content = start + plot_content + end;
-        file = "data:text/plain;charset=utf-8," + encodeURIComponent(content);
-        window.open(file, 'export');
-    };
+        this.export = function() {
+            var copy, file, html;
+            copy = (' ' + CODE).slice(1); // Makes a deep copy
+            plots = [];
+            for (i=0; i < this.plots.length; i++) { 
+                p = Object.assign({}, this.plots[i]); // Deep copy
+                delete p['$$hashKey']; // Remove angular annotations
+                plots.push(p);
+            }
+            plot_content = JSON.stringify(plots);
+            search = 'this.plots = ';
+            start_idx = copy.indexOf(search);
+            start = copy.substr(0, start_idx + search.length);
+            end = copy.substr(start_idx + search.length + 2);
+            content = start + plot_content + end;
+            file = "data:text/plain;charset=utf-8," + encodeURIComponent(content);
+            window.open(file, 'export');
+        };
 
-    // Enable plugins
+        this.saveState = function() {
+            var copy, file, html;
+            copy = (' ' + CODE).slice(1); // Makes a deep copy
+            plots = [];
+            for (i=0; i < this.plots.length; i++) { 
+                p = Object.assign({}, this.plots[i]); // Deep copy
+                delete p['$$hashKey']; // Remove angular annotations
+                plots.push(p);
+            }
+            plot_content = JSON.stringify(plots);
+            window.localStorage.setItem(window.location.href, plot_content);
+        };
+
+
+        // Enable plugins
     }).directive('plotlyPlot', [function() {
 
         var xrange = function(N) {
@@ -312,54 +366,53 @@ var rovizApp = angular.module('rovizApp', ['ngRoute', 'agGrid'])
         };
 
         var renderPlot = function(scope, element, attrs) {
-                var traces = [];
-                var i, data, trace, xdata, ydata;
-                if (!scope.plot.custom) {
-                    for (i=0; i < scope.plot.summaries.length; i++) {
-                        data = scope.plot.summaries[i];
-                        if (scope.plot.xtitle === 'None') {
-                            xdata = xrange(data[scope.plot.ytitle].length);
-                        } else {
-                            xdata = data[scope.plot.xtitle];
-                        }
-                        if (scope.plot.ytitle === 'None') {
-                            ydata = xrange(data[scope.plot.xtitle].length);
-                        } else {
-                            ydata = data[scope.plot.ytitle];
-                        }
-                        if (!Array.isArray(xdata)) {
-                            xdata = [xdata, ];
-                        }
-                        if (!Array.isArray(ydata)) {
-                            ydata = [ydata, ];
-                        }
-                        trace = {
-                            x: xdata,
-                            y: ydata,
-                            type: 'scatter',
-                            mode: 'lines+markers',
-                            name: data.__name,
-                        
-                        };
-                        traces.push(trace);
+            var traces = [];
+            var i, data, trace, xdata, ydata;
+            if (!scope.plot.custom) {
+                for (i=0; i < scope.plot.summaries.length; i++) {
+                    data = scope.plot.summaries[i];
+                    if (scope.plot.xtitle === 'None') {
+                        xdata = xrange(data[scope.plot.ytitle].length);
+                    } else {
+                        xdata = data[scope.plot.xtitle];
                     }
-                    var layout = {
-                        xaxis: {title: scope.plot.xtitle, showticklabels: true},
-                        yaxis: {title: scope.plot.ytitle, showticklabels: true},
-                        width: element[0].parentElement.clientWidth -10,
-                        height: element[0].parentElement.clientHeight -10,
-                        margin: {l:30, t:0, r:0, b:30},
-                        showlegend: false,
+                    if (scope.plot.ytitle === 'None') {
+                        ydata = xrange(data[scope.plot.xtitle].length);
+                    } else {
+                        ydata = data[scope.plot.ytitle];
+                    }
+                    if (!Array.isArray(xdata)) {
+                        xdata = [xdata, ];
+                    }
+                    if (!Array.isArray(ydata)) {
+                        ydata = [ydata, ];
+                    }
+                    trace = {
+                        x: xdata,
+                        y: ydata,
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        name: data.__name,
+
                     };
-                    scope.plot.layout = layout;
-                    scope.plot.data = traces;
+                    traces.push(trace);
                 }
-                console.log(scope.plot.custom);
-                console.log(scope.plot.data);
-                console.log(scope.plot.layout);
-                Plotly.newPlot(element[0], scope.plot.data, scope.plot.layout);
-                
-            };
+                var layout = {
+                    xaxis: {title: scope.plot.xtitle, showticklabels: true},
+                    yaxis: {title: scope.plot.ytitle, showticklabels: true},
+                    width: element[0].parentElement.clientWidth -10,
+                    height: element[0].parentElement.clientHeight -10,
+                    margin: {l:30, t:0, r:0, b:30},
+                    showlegend: true,
+                    legend: {x: 0.85, y: 0.95, traceorder: 'normal'}
+                };
+                scope.plot.layout = layout;
+                scope.plot.data = traces;
+            }
+            scope.roviz.saveState();
+            Plotly.newPlot(element[0], scope.plot.data, scope.plot.layout);
+
+        };
 
         return {
             restrict: 'EACM',
@@ -381,12 +434,12 @@ var rovizApp = angular.module('rovizApp', ['ngRoute', 'agGrid'])
         };
     }]);
 
-        </script>
-        <script type="text/javascript">
-            var CODE;
-            document.addEventListener("DOMContentLoaded", function(event) {
-                CODE = document.documentElement.outerHTML;
-            });
-        </script>
+                </script>
+                <script type="text/javascript">
+                    var CODE;
+                    document.addEventListener("DOMContentLoaded", function(event) {
+                        CODE = document.documentElement.outerHTML;
+                    });
+                </script>
     </body>
 </html>

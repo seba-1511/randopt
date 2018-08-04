@@ -46,320 +46,399 @@
                 -ms-hyphens: none;
                 hyphens: none;
             }
+
+            .away {
+                position:absolute;
+                left:-9999px;           
+                top: -1000px;
+            }
+
+            .print-page-break { display: none; }
+
+
             .plot-selected {
                 border-color:orange;
             }
+
+            /* Chrome, Safari and Opera syntax */
+            :-webkit-full-screen .header {
+                display:none !important;
+            }
+
+            /* Firefox syntax */
+            :-moz-full-screen .header {
+                display:none !important;
+            }
+
+            /* IE/Edge syntax */
+            :-ms-fullscreen .header {
+                display:none !important;
+            }
+
+            /* Standard syntax */
+            :fullscreen .header {
+                display:none !important;
+            }
+
+
+            @media print {
+
+                @page { size: auto;  margin: 0mm; }
+
+                body {
+                    text-align: center;
+                    margin: 0;
+                    padding: 0 !important;
+                    width: 1024px;
+                }
+
+                .container, .print-plot-width {
+                    text-align: center !important;
+                    width: 926px !important;
+                }
+
+                .print-page-break {
+                    display: block;
+                    width: 500px;
+                    height: 125px;
+                    page-break-after: always;
+                }
+
+                body {
+                    font-size: 12px;
+                }
+
+                .noprint,
+                div.alert,
+                header,
+                .group-media,
+                .btn,
+                .footer,
+                form,
+                #comments,
+                .nav,
+                ul.links.list-inline,
+                ul.action-links {
+                    display:none !important;
+                }
+            }
+
         </style>
     </head>
     <body ng-app="rovizApp">
 
         <div ng-controller="RovizController as roviz">
-        
-        
-        <!-- First line of Header-->
-        <div class="header py-4">
-          <div class="container">
-            <div class="d-flex">
-              <a class="header-brand" href="./index.html">
-                <img src="https://seba-1511.github.io/randopt/assets/images/logo.png" class="header-brand-img" alt="randopt logo">
-              </a>
-
-              <!-- Randopt Link -->
-              <div class="d-flex order-lg-2 ml-auto">
-                <div class="nav-item d-none d-md-flex">
-                  <a href="https://github.com/seba-1511/randopt" class="btn btn-sm btn-outline-info" target="_blank">
-                    <i class="fa fa-github"></i>
-                    GitHub
-                  </a>
-                </div>
-                <div class="nav-item d-none d-md-flex">
-                  <a href="https://randopt.ml" class="btn btn-sm btn-outline-info" target="_blank">
-                    <i class="fe fe-download-cloud"></i>
-                    Get Randopt!
-                  </a>
-                </div>
-              </div>
-
-              <!-- Menu button for mobile -->
-              <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
-                <span class="header-toggler-icon"></span>
-              </a>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- Second line of Header -->
-        <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
-          <div class="container">
-            <div class="row align-items-center">
-
-              <div class="col-lg order-lg-first">
-                <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
-                  <li class="nav-item">
-                    <a ng-click="page = 'home'" class="nav-link" ng-class="{'active': page == 'home'}">
-                        <i class="fe fe-home"></i> 
-                        Home
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a ng-click="page = 'data'" class="nav-link" ng-class="{'active': page == 'data'}">
-                        <i class="fe fe-box"></i> 
-                        Data &nbsp;
-                        <small class="">({{roviz.data.length}})</small>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a ng-click="page = 'plots'" class="nav-link" ng-class="{'active': page == 'plots'}">
-                        <i class="fa fa-line-chart"></i>
-                        Plots &nbsp;
-                        <small class="">({{roviz.plots.length}})</small>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="https://github.com/seba-1511/randopt/wiki" target="_blank" class="nav-link"><i class="fe fe-file-text"></i> Documentation</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-md-3 text-right">
-                  <a class="btn btn-info" style="color:white;" ng-click="roviz.export();">
-                      <i class="fe fe-share-2"></i>
-                      Share this page
-                  </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Home Page -->
-        <div ng-show="page == 'home'" class="container">
-            <br />
-            <h3>Home</h3>
-
-            <div class="offset-md-2 col-md-8 card">
-                <h3 style="margin-top:10px;">Keyboard Shortcuts</h3> 
-
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col">Command</th>
-                      <th scope="col">Mapping</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th>Shift + ?</th>
-                      <td>Go to Home Tab</td>
-                    </tr>
-                    <tr>
-                      <th>Shift + D</th>
-                      <td>Go to Data Tab</td>
-                    </tr>
-                    <tr>
-                      <th>Shift + P</th>
-                      <td>Go to Plots Tab</td>
-                    </tr>
-                    <tr>
-                      <th>Shift + H / L</th>
-                      <td>Go to Previous / Next Tab</td>
-                    </tr>
-                    <tr>
-                      <th>J / K</th>
-                      <td>Scroll Down/Up</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-            </div>
-        </div>
 
 
-        <!-- Data Page -->
-        <div ng-show="page == 'data'" class="container" style="height:100%;">
+            <!-- First line of Header-->
+            <div class="header py-4">
+                <div class="container">
+                    <div class="d-flex">
+                        <a class="header-brand" href="./index.html">
+                            <img src="https://seba-1511.github.io/randopt/assets/images/logo.png" class="header-brand-img" alt="randopt logo">
+                        </a>
 
-            <br />
-            <h3>Data <small>{{roviz.data.length}} summaries</small></h3>
+                        <!-- Randopt Link -->
+                        <div class="d-flex order-lg-2 ml-auto">
+                            <div class="nav-item d-none d-md-flex">
+                                <a href="https://github.com/seba-1511/randopt" class="btn btn-sm btn-outline-info" target="_blank">
+                                    <i class="fa fa-github"></i>
+                                    GitHub
+                                </a>
+                            </div>
+                            <div class="nav-item d-none d-md-flex">
+                                <a href="https://randopt.ml" class="btn btn-sm btn-outline-info" target="_blank">
+                                    <i class="fe fe-download-cloud"></i>
+                                    Get Randopt!
+                                </a>
+                            </div>
+                        </div>
 
-            <div class="col-md-12 card">
-                <div class="row" style="margin:10px;">
-                    <div class="col-md-3">
-                        <form ng-submit="roviz.updateQuickFilter();">
-                            <input type="text" placeholder="Search..." id="dataFilter" class="form-control" />
-                            <input type="submit" style="position:absolute;left:-9999px;width:1px;height:1px;" />
-                        </form>
-                    </div>
-                    <!-- <div class="text-right" style="text-align:right;margin:20px;">-->
-                    <div class="offset-md-4 col-md-5 text-right">
-                        <small class="text-muted">{{roviz.countCurrentPlot()}} results selected &nbsp;</small>
-                        <button class="btn btn-success" ng-click="roviz.addPlot()">
-                            <i class="fe fe-trending-up"></i>
-                            Add Plot
-                        </button> 
-                        <button class="btn btn-light" data-toggle="modal" data-target="#analysisModal">
-                            <i class="fa fa-magic"></i>
-                            Add Analysis
-                        </button> 
+                        <!-- Menu button for mobile -->
+                        <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
+                            <span class="header-toggler-icon"></span>
+                        </a>
+
                     </div>
                 </div>
             </div>
 
-            <div style="display:block; height:100vh;" class="col-md-12 card">
-                <div ag-grid="gridOptions" class="ag-theme-material" style="height:100%;"></div>
-            </div>
+            <!-- Second line of Header -->
+            <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+                <div class="container">
+                    <div class="row align-items-center">
 
-        </div>
-
-            <!-- Analysis Plot Modal -->
-            <div class="modal fade bd-example-modal-lg" id="analysisModal">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-
-                  <!-- Modal Header -->
-                  <div class="modal-header">
-                    <h4 class="modal-title">Automatic Analysis</h4>
-                    <button type="button" class="close" data-dismiss="modal"></button>
-                  </div>
-                  <!-- Modal body -->
-                  <div class="modal-body">
-                      <p>
-                         Unfortunately, this functionality is not available yet.
-                         When it will be, it will allow users to automagically create common predefined --- and in the future custom --- analysis from their data.
-                      </p>
-                      <p>If interested, feel free to <a href="https://github.com/seba-1511/randopt" target="_blank">get in touch</a> !</p>
-                  </div>
-
-                  <!-- Modal footer -->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-error" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Create</button>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-
-            <!-- Edit Plot Modal -->
-            <div class="modal fade bd-example-modal-lg" id="editModal">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-
-                  <!-- Modal Header -->
-                  <div class="modal-header">
-                    <h4 class="modal-title">Edit Plot</h4>
-                    <button type="button" class="close" data-dismiss="modal"></button>
-                  </div>
-                    <div class="selectgroup">
-                      <label class="selectgroup-item">
-                        <input name="editView" value="1" class="selectgroup-input" checked="" type="radio">
-                        <span class="selectgroup-button selectgroup-button-icon"><i class="fe fe-edit"></i></span>
-                      </label>
-                      <label class="selectgroup-item">
-                        <input name="editView" value="6" class="selectgroup-input" type="radio">
-                        <span class="selectgroup-button selectgroup-button-icon"><i class="fe fe-eye"></i></span>
-                      </label>
+                        <div class="col-lg order-lg-first">
+                            <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+                                <li class="nav-item">
+                                    <a ng-click="page = 'home'" class="nav-link" ng-class="{'active': page == 'home'}">
+                                        <i class="fe fe-home"></i> 
+                                        Home
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a ng-click="page = 'data'" class="nav-link" ng-class="{'active': page == 'data'}">
+                                        <i class="fe fe-box"></i> 
+                                        Data &nbsp;
+                                        <small class="">({{roviz.data.length}})</small>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a ng-click="page = 'plots'" class="nav-link" ng-class="{'active': page == 'plots'}">
+                                        <i class="fa fa-line-chart"></i>
+                                        Plots &nbsp;
+                                        <small class="">({{roviz.plots.length}})</small>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://github.com/seba-1511/randopt/wiki" target="_blank" class="nav-link"><i class="fe fe-file-text"></i> Documentation</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <a class="btn btn-info" style="color:white;" ng-click="roviz.export();">
+                                <i class="fe fe-share-2"></i>
+                                Share this page
+                            </a>
+                        </div>
                     </div>
-                  <!-- Modal body -->
-                  <div class="modal-body">
-                      <p>
-                        Here, you can modify the data and layout that we'll use to generate the Plotly plot.
-                      </p>
-                      <p>
-                        For more information, please refer to the <a href="https://plot.ly/javascript/">plotly.js Documentation</a>.
-                      </p>
+                </div>
+            </div>
 
-                      <h4>Plot Data</h4>
-                      <center>
-                        <textarea rows="10" cols="70" class="code" ng-model="plotToEdit.data"></textarea>
-                      </center>
+            <!-- Home Page -->
+            <div ng-show="page == 'home'" class="container">
+                <br />
+                <h3>Home</h3>
 
-                      <h4>Plot Layout</h4>
-                      <center>
-                        <textarea rows="10" cols="70" class="code" ng-model="plotToEdit.layout"></textarea>
-                      </center>
+                <div class="offset-md-2 col-md-8 card">
+                    <h3 style="margin-top:10px;">Keyboard Shortcuts</h3> 
 
-                  </div>
-
-                  <!-- Modal footer -->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-error" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="roviz.savePlot();">Save</button>
-                  </div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Command</th>
+                                <th scope="col">Mapping</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Shift + ?</th>
+                                <td>Go to Home Tab</td>
+                            </tr>
+                            <tr>
+                                <th>Shift + D</th>
+                                <td>Go to Data Tab</td>
+                            </tr>
+                            <tr>
+                                <th>Shift + P</th>
+                                <td>Go to Plots Tab</td>
+                            </tr>
+                            <tr>
+                                <th>Shift + H / L</th>
+                                <td>Go to Previous / Next Tab</td>
+                            </tr>
+                            <tr>
+                                <th>J / K</th>
+                                <td>Scroll Down/Up</td>
+                            </tr>
+                            <tr>
+                                <th>F</th>
+                                <td>Fullscreen</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
                 </div>
-              </div>
             </div>
 
 
+            <!-- Data Page -->
+            <div ng-show="page == 'data'" class="container" style="height:100%;">
 
-        <!-- Plots Page -->
-        <div ng-show="page == 'plots'" class="container">
+                <br />
+                <h3>Data <small>{{roviz.data.length}} summaries</small></h3>
 
-            <br />
-            <div id="plot-container" class="text-left col-md-12">
-                <h3>Plots <small>{{roviz.plots.length}} analyses</small></h3>
-
-
-                <div class="row">
-                    <div class="col-md-10">
-                        <div ng-repeat="plot in roviz.plots" class="card col-md-12" ng-class="{'plot-selected': plot.selected};">
-
-                                <div class="row">
-                                    &nbsp;
-                                    &nbsp;
-                                    <button class="btn btn-sm btn-warning" style="padding:0px;margin-top:5px;margin-bottom:5px;" data-toggle="modal" data-target="#editModal" ng-click="roviz.editPlot(plot.id);">
-                                        <i class="fe fe-code"></i>
-                                    </button>
-                                    <input ng-model="plot.name" class="col-md-11" style="text-align:center;background-color:white;border:none;font-size:20px;" />
-                                    <!--<a href="#" class="col-md-1 btn btn-danger" ng-click="roviz.removePlot(plot.id)">Remove</a> -->
-                                    <button type="button" class="btn btn-sm btn-danger" style="padding:1px;margin-top:5px;margin-bottom:5px;" ng-click="roviz.removePlot(plot.id)">
-                                        <i class="fe fe-x"></i>
-                                    </button>
-                                    &nbsp;
-                                    &nbsp;
-                                </div>
-
-                                <div style="height:450px;border:solid black 2px;">
-                                    <plotly-plot plot="plot" page="page"></plotly-plot>
-                                </div>
-                                <div class="row">
-                                    <div class="offset-md-2 col-sm-4 text-center">
-                                        X-axis: 
-                                        <select class="form-control" style="display:inline;width:100px;height:30px;padding:0px;background-color:white;background:none;border:solid black 0px;overflow:hidden;" ng-model="plot.xtitle">
-                                            <option value="None">List Indices</option>
-                                            <option ng-repeat="head in roviz.headers">{{head}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-4 text-center">
-                                        Y-axis: 
-                                        <select class="form-control" style="display:inline;width:100px;height:30px;padding:0px;background-color:white;background:none;border:solid black 0px;overflow:hidden;" ng-model="plot.ytitle">
-                                            <option value="None">List Indices</option>
-                                            <option ng-repeat="head in roviz.headers">{{head}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-2 text-right" style="padding-top:0px;">
-                                        <input type="checkbox" ng-model="plot.selected"  />
-                                        <a ng-click="plot.selected = !plot.selected" style="text-decoration:none;" class="btn btn-sm btn-default" >Select</a>
-                                    </div>
-                                </div>
+                <div class="col-md-12 card">
+                    <div class="row" style="margin:10px;">
+                        <div class="col-md-3">
+                            <form ng-submit="roviz.updateQuickFilter();">
+                                <input type="text" placeholder="Search..." id="dataFilter" class="form-control" />
+                                <input type="submit" style="position:absolute;left:-9999px;width:1px;height:1px;" />
+                            </form>
+                        </div>
+                        <!-- <div class="text-right" style="text-align:right;margin:20px;">-->
+                        <div class="offset-md-4 col-md-5 text-right">
+                            <small class="text-muted">{{roviz.countCurrentPlot()}} results selected &nbsp;</small>
+                            <button class="btn btn-success" ng-click="roviz.addPlot()">
+                                <i class="fe fe-trending-up"></i>
+                                Add Plot
+                            </button> 
+                            <button class="btn btn-light" data-toggle="modal" data-target="#analysisModal">
+                                <i class="fa fa-magic"></i>
+                                Add Analysis
+                            </button> 
+                        </div>
                         </div>
                     </div>
 
-                    <div class="col-md-2">
-                        <div class="cold-md-12 card" style="position:sticky;top:8rem;">
-                            <center>
-                                <small class="text-muted">{{roviz.countSelectedPlots()}} plots selected &nbsp;</small>
-                            </center>
-                            <button style="margin:10px;" class="btn btn-success" ng-click="roviz.averagePlots();">Plot Averages</button> 
-                            <button style="margin:10px;" class="btn btn-success" ng-click="roviz.mergePlots();">Merge Plots</button> 
+                    <div style="display:block; height:100vh;" class="col-md-12 card">
+                        <div ag-grid="gridOptions" class="ag-theme-material" style="height:100%;"></div>
+                    </div>
+
+                </div>
+
+                <!-- Analysis Plot Modal -->
+                <div class="modal fade bd-example-modal-lg" id="analysisModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Automatic Analysis</h4>
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <p>
+                                Unfortunately, this functionality is not available yet.
+                                When it will be, it will allow users to automagically create common predefined --- and in the future custom --- analysis from their data.
+                                </p>
+                                <p>If interested, feel free to <a href="https://github.com/seba-1511/randopt" target="_blank">get in touch</a> !</p>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-error" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Create</button>
+                            </div>
+
                         </div>
                     </div>
-                
                 </div>
-            </div>
-        
-        </div>
 
-    </div>
 
-        <script type="text/javascript">
+                <!-- Edit Plot Modal -->
+                <div class="modal fade bd-example-modal-lg" id="editModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Edit Plot</h4>
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                            </div>
+                            <div class="selectgroup">
+                                <label class="selectgroup-item">
+                                    <input name="editView" value="1" class="selectgroup-input" checked="" type="radio">
+                                    <span class="selectgroup-button selectgroup-button-icon"><i class="fe fe-edit"></i></span>
+                                </label>
+                                <label class="selectgroup-item">
+                                    <input name="editView" value="6" class="selectgroup-input" type="radio">
+                                    <span class="selectgroup-button selectgroup-button-icon"><i class="fe fe-eye"></i></span>
+                                </label>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <p>
+                                Here, you can modify the data and layout that we'll use to generate the Plotly plot.
+                                </p>
+                                <p>
+                                For more information, please refer to the <a href="https://plot.ly/javascript/">plotly.js Documentation</a>.
+                                </p>
+
+                                <h4>Plot Data</h4>
+                                <center>
+                                    <textarea rows="10" cols="70" class="code" ng-model="plotToEdit.data"></textarea>
+                                </center>
+
+                                <h4>Plot Layout</h4>
+                                <center>
+                                    <textarea rows="10" cols="70" class="code" ng-model="plotToEdit.layout"></textarea>
+                                </center>
+
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-error" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="roviz.savePlot();">Save</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Plots Page -->
+                <!--<div ng-show="page == 'plots'" class="container"> -->
+                <div ng-class="{'away': page != 'plots'}" class="container">
+
+                    <br />
+                    <div id="plot-container" class="text-left col-md-12">
+                        <h3 class="noprint">Plots <small>{{roviz.plots.length}}</small></h3>
+
+
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div ng-repeat="plot in roviz.plots" class="card print-plot-width col-md-12" ng-class="{'plot-selected': plot.selected};">
+                                    <div class="row">
+                                        &nbsp;
+                                        &nbsp;
+                                        <button class="btn btn-sm btn-warning" style="padding:0px;margin-top:5px;margin-bottom:5px;" data-toggle="modal" data-target="#editModal" ng-click="roviz.editPlot(plot.id);">
+                                            <i class="fe fe-code"></i>
+                                        </button>
+                                        <input ng-model="plot.name" class="print-plot-width col-md-11" style="text-align:center;background-color:white;border:none;font-size:20px;" />
+                                        <!--<a href="#" class="col-md-1 btn btn-danger" ng-click="roviz.removePlot(plot.id)">Remove</a> -->
+                                        <button type="button" class="btn btn-sm btn-danger" style="padding:1px;margin-top:5px;margin-bottom:5px;" ng-click="roviz.removePlot(plot.id)">
+                                            <i class="fe fe-x"></i>
+                                        </button>
+                                        &nbsp;
+                                        &nbsp;
+                                    </div>
+                                    <div class="print-plot-frame print-plot-width" style="height:450px;border:solid black 2px;">
+                                        <plotly-plot plot="plot" page="page" roviz="roviz"></plotly-plot>
+                                    </div>
+                                    <div class="row noprint">
+                                        <div class="offset-md-2 col-sm-4 text-center">
+                                            X-axis: 
+                                            <select class="form-control" style="display:inline;width:100px;height:30px;padding:0px;background-color:white;background:none;border:solid black 0px;overflow:hidden;" ng-model="plot.xtitle">
+                                                <option value="None">List Indices</option>
+                                                <option ng-repeat="head in roviz.headers">{{head}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4 text-center">
+                                            Y-axis: 
+                                            <select class="form-control" style="display:inline;width:100px;height:30px;padding:0px;background-color:white;background:none;border:solid black 0px;overflow:hidden;" ng-model="plot.ytitle">
+                                                <option value="None">List Indices</option>
+                                                <option ng-repeat="head in roviz.headers">{{head}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2 text-right" style="padding-top:0px;">
+                                            <input type="checkbox" ng-model="plot.selected"  />
+                                            <a ng-click="plot.selected = !plot.selected" style="text-decoration:none;" class="btn btn-sm btn-default" >Select</a>
+                                        </div>
+                                    </div>
+                                    <div class="print-page-break"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 noprint">
+                                <div class="cold-md-12 card" style="position:sticky;top:8rem;">
+                                    <center>
+                                        <small class="text-muted">{{roviz.countSelectedPlots()}} plots selected &nbsp;</small>
+                                    </center>
+                                    <button style="margin:10px;" class="btn btn-success" ng-click="roviz.averagePlots();">Plot Averages</button> 
+                                    <button style="margin:10px;" class="btn btn-success" ng-click="roviz.mergePlots();">Merge Plots</button> 
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                </div>
+
+                <script type="text/javascript">
+                    // Copy up to this line in header.html
