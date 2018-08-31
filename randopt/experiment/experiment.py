@@ -5,6 +5,8 @@ import random
 import json
 import multiprocessing as mp
 
+jsonload = json.load
+
 try:
     import cPickle as pk
 except ImportError:
@@ -125,7 +127,7 @@ class JSONSummary(dict):
         try:
             assert path[-5:] == '.json'
             with open(path, 'r') as f:
-                result = json.load(f)
+                result = jsonload(f)
                 for key in result.keys():
                     self[key] = result[key]
             self.__summary = result
@@ -337,7 +339,13 @@ class Experiment(object):
 
             e.count()
         '''
-        return len(list(self.all()))
+        file_paths = []
+        for fname in os.listdir(self.experiment_path):
+            base, ext = os.path.splitext(fname)
+            if 'json' in ext:
+                fpath = os.path.join(self.experiment_path, fname)
+                file_paths.append(fpath)
+        return len(file_paths)
 
 
     def seed(self, seed):
