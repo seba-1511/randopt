@@ -4,5 +4,13 @@
 
 import randopt as ro
 
+
 def dict_to_constants(dictionary):
     return {k: ro.Constant(dictionary[k]) for k in dictionary}
+
+
+def dict_to_string(dictionary):
+    result = ''
+    for key in dictionary:
+        result += key + str(dictionary[key]) + '-'
+    return result[:-1]

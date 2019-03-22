@@ -4,8 +4,10 @@ from random import gauss
 import randopt as ro
 import randopt.objectives as obj
 
+
 def converge(curve, mu, sigma):
     return [c + gauss(mu, sigma)**2 for c in curve]
+
 
 if __name__ == '__main__':
     curve = [10 / x for x in range(1, 36)]
