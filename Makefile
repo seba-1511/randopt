@@ -14,9 +14,9 @@ docs:
 	rm -rf wiki/docs
 	mkdir wiki/docs
 	./gendocs.py randopt.samplers > wiki/docs/Samplers-Docs.md
-	./gendocs.py randopt.experiment.experiment Experiment > wiki/docs/Experiment-Docs.md
-	./gendocs.py randopt.experiment.evolutionary Evolutionary > wiki/docs/Evolutionary-Docs.md
-	./gendocs.py randopt.experiment.grid_search GridSearch > wiki/docs/GridSearch-Docs.md
+	./gendocs.py randopt Experiment > wiki/docs/Experiment-Docs.md
+	./gendocs.py randopt Evolutionary > wiki/docs/Evolutionary-Docs.md
+	./gendocs.py randopt GridSearch > wiki/docs/GridSearch-Docs.md
 	cd wiki && git add docs/. && git ci -am 'Docs update' && git push
 	git ci README.md -m 'README update'
 
