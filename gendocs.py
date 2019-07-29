@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 
 """
-Modification of the following gist: 
+Modification of the following gist:
 
 https://gist.github.com/dvirsky/30ffbd3c7d8f37d4831b30671b681c24
 
 Usage:
-    ./gendocs.py my.module 
+    ./gendocs.py my.module
     ./gendocs.py my.module SpecificClassToDocument
 
 """
 
 import pydoc
-import os, sys
+import os
+import sys
 
 module_header = "# {} Documentation\n"
 class_header = "## Class {}"
