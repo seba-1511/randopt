@@ -5,7 +5,7 @@ from setuptools import (
         find_packages,
         )
 
-VERSION = '0.2.3'
+VERSION = '0.2.4'
 
 setup(
         name='randopt',
