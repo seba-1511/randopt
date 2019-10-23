@@ -11,6 +11,6 @@ def dict_to_constants(dictionary):
 
 def dict_to_string(dictionary):
     result = ''
-    for key in dictionary:
+    for key in sorted(dictionary.keys()):
         result += key + str(dictionary[key]) + '-'
     return result[:-1]
