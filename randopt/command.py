@@ -104,7 +104,8 @@ def parse():
     # If not, try to call the function
     global __ARGUMENTS
     if arguments[0] not in __ARGUMENTS:
-        sys.exit('randopt.cli:', arguments[0], 'is not a registered command.')
+        print('randopt.cli:', arguments[0], 'is not a registered command.')
+        sys.exit(-1)
 
     func_def = __ARGUMENTS[arguments[0]]
     parser = argparse.ArgumentParser('Randopt\'s custom argument parser')
