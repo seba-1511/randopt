@@ -206,7 +206,7 @@ class Experiment(object):
         cwd = os.getcwd()
         randopt_folder = os.path.join(cwd, directory)
         if not os.path.exists(randopt_folder):
-            os.mkdir(randopt_folder)
+            os.makedirs(randopt_folder)
         self.experiment_path = os.path.join(randopt_folder, self.name)
         if not os.path.exists(self.experiment_path):
             os.mkdir(self.experiment_path)
