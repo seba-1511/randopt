@@ -121,4 +121,5 @@ def parse():
 
     parsed = parser.parse_args(arguments[1:])
     function = __FUNCTIONS[arguments[0]]
+    ro.args = parsed
     function(**vars(parsed))

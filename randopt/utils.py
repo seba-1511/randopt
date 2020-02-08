@@ -11,7 +11,8 @@ def dict_to_constants(dictionary):
 
 
 def dict_to_list(dictionary):
-    return [str(key) + str(dictionary[key]) for key in sorted(dictionary.keys())]
+    return [str(key) + str(dictionary[key])
+            for key in sorted(dictionary.keys())]
 
 
 def dict_to_path(dictionary):

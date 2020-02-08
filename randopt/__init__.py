@@ -9,6 +9,8 @@ if 'RANDOP_INIT' not in globals():
     RANDOPT_RNG.seed(sys_seed)
     RANDOPT_INIT = True
 
+args = None
+
 from .experiment import Experiment, HyperBand, Evolutionary, GridSearch, SummaryList
 from .samplers import *
 from .command import cli, experiment, parse
