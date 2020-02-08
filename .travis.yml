@@ -6,10 +6,10 @@ os:
 python:
     - 2.7
     - 3.5
-    - "3.5-dev"
     - 3.6
-    - "3.6-dev"
+    - 3.7
     - "3.7-dev"
-    - "nightly"
+    - 3.8
+    # - "nightly"
 
 script: make dev && make test
